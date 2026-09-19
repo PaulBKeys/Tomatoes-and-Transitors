@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tomatoes & Transistors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="page-wrapper">
+    
+    <!-- NAVBAR CONTAINER -->
+    <nav class="navbar">
+      <div class="navbar-links-container">
+        <a href="#home" class="nav-link">HOME</a>
+        <a href="#projects" class="nav-link">PROJECTS</a>
+        <a href="#growth" class="nav-link">GROWTH</a>
+      </div>
+    </nav>
+    
+    <!-- HERO BANNER SECTION -->
+    <header class="hero-section">
+      <img src="images/banner.png" alt="Tomatoes & Transistors Banner" class="banner">
+      <div class="hero-title-overlay">
+        <h1 class="banner-title-top">TOMATOES</h1>
+        <div class="banner-divider-row">
+          <div class="line-left"></div>
+          <span class="divider-amp">&amp;</span>
+          <div class="line-right"></div>
+        </div>
+        <h1 class="banner-title-bottom">TRANSISTORS</h1>
+        <p class="banner-tagline">
+          <span class="text-green">GROWING IDEAS.</span> 
+          <span class="text-red">BUILDING TECHNOLOGY.</span> 
+          SHARING KNOWLEDGE.
+        </p>
+      </div>
+    </header>
+
+    <!-- CONTENT GRID SECTION -->
+    <section class="content-grid-section">
+      <div class="dashboard-main-area planb-grid-container">
+        
+        <!-- LEFT COLUMN -->
+        <div class="planb-left-column">
+          
+          <!-- FEATURED PROJECTS CARD -->
+          <article class="site-card planb-card card-lists card-featured-red" id="featured-projects-card">
+            <div class="unified-card-header">
+              <span class="header-title-wrapper">
+                <span class="card-header-icon"></span>
+                FEATURED PROJECTS
+              </span>
+            </div>
+            <div class="card-inner-content project-carousel-container">
+              
+              <!-- Carousel Slides -->
+              <div class="project-slides-wrapper">
+                
+                <!-- Slide 1 -->
+                <div class="project-slide active" data-index="0">
+                  <div class="project-thumb-wrapper" id="open-project-modal-btn" style="cursor: pointer;" title="Click to expand">
+                    <img src="images/mock1.png" alt="Project 1 Mockup" class="project-thumb-img">
+                  </div>
+                  <div class="carousel-dots-container">
+                    <span class="carousel-dot active" data-index="0"></span>
+                    <span class="carousel-dot" data-index="1"></span>
+                    <span class="carousel-dot" data-index="2"></span>
+                  </div>
+                  <div class="project-text-wrapper">
+                    <h4 class="project-slide-title">TOMATOES &amp; TRANSISTORS</h4>
+                    <p class="project-slide-desc">A retro CRT-styled personal dashboard hub built from scratch using custom CSS grid layouts and vanilla JavaScript.</p>
+                  </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="project-slide" data-index="1">
+                  <div class="project-thumb-wrapper" id="open-project-modal-btn" style="cursor: pointer;" title="Click to expand">
+                    <img src="images/mock2.png" alt="Project 2 Mockup" class="project-thumb-img">
+                  </div>
+                  <div class="carousel-dots-container">
+                    <span class="carousel-dot" data-index="0"></span>
+                    <span class="carousel-dot active" data-index="1"></span>
+                    <span class="carousel-dot" data-index="2"></span>
+                  </div>
+                  <div class="project-text-wrapper">
+                    <h4 class="project-slide-title">LIVING GARDEN MONITOR</h4>
+                    <p class="project-slide-desc">An automated environment tracker logging VPD, temperature curves, and canopy health metrics in real time.</p>
+                  </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="project-slide" data-index="2">
+                  <div class="project-thumb-wrapper" id="open-project-modal-btn" style="cursor: pointer;" title="Click to expand">
+                    <img src="images/mock3.png" alt="Project 3 Mockup" class="project-thumb-img">
+                  </div>
+                  <div class="carousel-dots-container">
+                    <span class="carousel-dot" data-index="0"></span>
+                    <span class="carousel-dot" data-index="1"></span>
+                    <span class="carousel-dot active" data-index="2"></span>
+                  </div>
+                  <div class="project-text-wrapper">
+                    <h4 class="project-slide-title">SYSTEM TERMINAL LOG</h4>
+                    <p class="project-slide-desc">An interactive retro computing fact engine mimicking vintage command-line data output streams.</p>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Navigation Controls -->
+              <button type="button" class="carousel-nav-btn prev-btn" id="carousel-prev">&#10094;</button>
+              <button type="button" class="carousel-nav-btn next-btn" id="carousel-next">&#10095;</button>
+
+            </div>
+          </article>
+
+          <!-- ABOUT ME CARD -->
+          <article class="site-card planb-card card-lists card-about-split" id="about-me-card">
+            <div class="unified-card-header">
+              <span class="header-title-wrapper">
+                <span class="card-header-icon"></span>
+                ABOUT ME
+              </span>
+            </div>
+            <div class="card-inner-content about-split-container">
+              <div class="about-thumb-wrapper">
+                <img src="images/paul.png" alt="Paul Portrait" class="about-thumb-img">
+              </div>
+              <div class="about-text-wrapper">
+                <p class="about-bio-text">Air Force avionics vet, former diesel mechanic, and lifelong tech tinkerer. Today, I'm channeling decades of hands-on troubleshooting into studying Computer and Information Systems at Dyersburg State.</p>
+                <button type="button" class="about-read-more-btn" id="open-about-modal">READ MORE...</button>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="planb-right-column">
+          <div class="unified-right-container" id="unified-right-container">
+            
+            <!-- LIVING GARDEN MONITOR -->
+            <article class="site-card planb-card card-garden card-bg-locked" id="living-garden-card">
+              <div class="garden-viewport-window">
+                <div class="garden-zoom-content feed-layer feed-1 active" id="feed-layer-1"></div>
+                <div class="garden-zoom-content feed-layer feed-2" id="feed-layer-2"></div>
+                <div class="garden-zoom-content feed-layer feed-3" id="feed-layer-3"></div>
+                <div class="garden-zoom-content feed-layer feed-4" id="feed-layer-4"></div>
+
+                <!-- Voltage Fluctuation Room Lighting & Shadow Overlay Layer -->
+                <div class="voltage-room-shadow-overlay"></div>
+
+                <div class="garden-viewport-overlay-header">
+                  <div class="garden-header-left">
+                    <span class="card-header-icon flash-dot"></span>
+                    <span class="garden-viewport-title" id="garden-title-label">LIVING GARDEN</span>
+                    <span id="live-timestamp" class="garden-timestamp">00:00:00</span>
+                  </div>
+                  <button type="button" class="garden-full-view-btn" id="open-garden-modal">[ FULL VIEW ]</button>
+                </div>
+              </div>
+            </article>
+
+            <!-- BOTTOM SPLIT ROW: System Grow Feed & Tech Feed -->
+            <div class="bottom-split-row">
+              
+              <!-- SYSTEM GROW FEED CARD (Green Theme - Hooked to Gardening RSS) -->
+              <article class="site-card planb-card card-lists card-green-sub" id="green-sub-card">
+                <div class="unified-card-header" style="color: #22c55e !important;">
+                  <span class="header-title-wrapper">
+                    <span class="card-header-icon" style="background-color: #22c55e !important; box-shadow: 0 0 8px #22c55e !important;"></span>
+                    SYSTEM TELEMETRY // GROW FEED
+                  </span>
+                </div>
+                
+                <div class="card-inner-content feed-mock-container">
+                  <div class="feed-thumb-wrapper-top">
+                    <a href="#" id="grow-link-img" class="feed-link-wrapper" target="_blank" rel="noopener noreferrer" title="Open Original Grow Post">
+                      <img id="grow-thumb" src="images/livinggarden.png" alt="Grow Canopy Feed Mockup" class="feed-thumb-img-top">
+                    </a>
+                  </div>
+                  
+                  <div class="feed-text-wrapper-bottom">
+                    <h4 class="feed-track-title">
+                      <a href="#" id="grow-link-title" class="feed-title-link green-link" target="_blank" rel="noopener noreferrer">LOADING GROW STREAM...</a>
+                    </h4>
+                    <p class="feed-track-desc">
+                      <a href="#" id="grow-link-desc" class="feed-desc-link" target="_blank" rel="noopener noreferrer">Fetching live botanical telemetry and horticulture feed articles...</a>
+                    </p>
+                  </div>
+                </div>
+              </article>
+
+              <!-- TECH DECK FEED CARD (Blue Theme - Hooked to Tech RSS) -->
+              <article class="site-card planb-card card-lists" id="music-card">
+                <div class="unified-card-header">
+                  <span class="header-title-wrapper" style="color: #38bdf8 !important;">
+                    <span class="card-header-icon" style="background-color: #38bdf8 !important; box-shadow: 0 0 8px #38bdf8 !important;"></span>
+                    TECH DECK // SUB-ROUTINE FEED
+                  </span>
+                </div>
+                
+                <div class="card-inner-content feed-mock-container">
+                  <div class="feed-thumb-wrapper-top blue-border">
+                    <a href="#" id="rss-link-img" class="feed-link-wrapper" target="_blank" rel="noopener noreferrer" title="Open Original Post">
+                      <img id="rss-thumb" src="images/server.png" alt="Tech Sub-Routine Mockup" class="feed-thumb-img-top">
+                    </a>
+                  </div>
+                  
+                  <div class="feed-text-wrapper-bottom">
+                    <h4 class="feed-track-title">
+                      <a href="#" id="rss-link-title" class="feed-title-link blue-link" target="_blank" rel="noopener noreferrer">LOADING SUB-ROUTINE STREAM...</a>
+                    </h4>
+                    <p class="feed-track-desc">
+                      <a href="#" id="rss-link-desc" class="feed-desc-link" target="_blank" rel="noopener noreferrer">Fetching live network diagnostics and telemetry data from remote feed source...</a>
+                    </p>
+                  </div>
+                </div>
+              </article>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- BOTTOM BANNER SECTION -->
+    <div class="bottom-banner-wrapper">
+      <div class="bottom-bar-quote">&gt; SYSTEM ARCHITECTURE VERIFIED // TOMATOES &amp; TRANSISTORS 2026</div>
+    </div>
+
+  </div>
+
+  <!-- ABOUT ME MODAL -->
+  <div id="about-me-modal" class="about-modal-overlay">
+    <div class="about-modal-container">
+      <button class="about-modal-close" id="close-about-modal">&times;</button>
+      <div class="about-modal-grid">
+        <div class="about-modal-image-col">
+          <img src="images/abmethumb.png" alt="Paul Portrait" class="about-modal-img">
+        </div>
+        <div class="about-modal-text-col" id="about-modal-scroll-area">
+          <h3 class="about-modal-heading">ABOUT ME</h3>
+          <p>I spent a good part of my life moving around as a military brat, growing up mostly in Germany and the Philippines. For a long time, I lived a nomadic lifestyle, wandering through different places and jobs because I hadn't found my true direction yet.</p>
+          <p>Before I ever figured out where I was headed, I worked through a lifetime of varied experiences. I served in the U.S. Air Force until 1993, working as an avionics repair technician on LANTIRN systems for F-15 and F-16 aircraft. From there, my path took me through a relentless mix of heavy hands-on work—wiring massive server power distribution racks, mass-flashed software and BIOS updates across complex hardware configurations, and repairing a wide range of technical devices. I spent three years as a sawyer at a sawmill, ran a forklift at a chicken plant, turned wrenches as a diesel mechanic for a decade, and managed a resort in Wyoming with a team of fifteen.</p>
+          <p>My journey with technology started way back in the 1980s. One of my earliest memories is wiring up a mechanical keyboard with my dad to replace the soft-pad keyboard on our Sinclair ZX81. From there, I graduated to cracking small codes on a Commodore 64 using DOS and floppies, and took GW-BASIC and Pascal in high school. I can still remember pushing my school assignments all the way from the Philippines to Japan over a sluggish 9.6k baud modem. In the early 2000s, I dove headfirst into digital art and 3D design—using Terragen, Bryce, Vue 5 Infinite, Photoshop, and Swish just for the love of creating.</p>
+          <p>After that era, I stepped away from tech for a long time, and when I finally looked back, the whole landscape had transformed.</p>
+          <p>Today, I’m finally building my direction. I am a full-time student at Dyersburg State Community College pursuing an Associate of Applied Science in Business with a concentration in Computer and Information Systems, with my sights set on graduating in December 2028.</p>
+          <p>I've always been fascinated by how people communicate and analyze conversations, even though I've never considered myself much of a natural communicator—it's definitely an edge I'm working hard to smooth out. Coming back to school and putting myself out there is about more than just a degree; it's about taking everything I've lived, built, and repaired over the decades and finally channeling it into something permanent.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIVING GARDEN FULL VIEW MODAL -->
+  <div id="living-garden-modal" class="about-modal-overlay">
+    <div class="about-modal-container garden-modal-container-steel" style="max-width: 1050px; padding: 25px;">
+      <button class="about-modal-close garden-modal-close-steel" id="close-garden-modal">&times;</button>
+      <div style="width: 100%; aspect-ratio: 16 / 9; position: relative; border-radius: 8px; overflow: hidden; border: 1px solid rgba(148, 163, 184, 0.4); background: #000;">
+        <div class="garden-zoom-content modal-garden-pane active" id="modal-modal-layer-1" style="width: 100%; height: 100%; background: url('images/livinggarden.png') center/cover no-repeat; position: absolute; top: 0; left: 0; opacity: 1; transition: opacity 0.4s ease-in-out;"></div>
+        <div class="garden-zoom-content modal-garden-pane" id="modal-modal-layer-2" style="width: 100%; height: 100%; background: url('images/livinggarden2.png') center/cover no-repeat; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 0.4s ease-in-out;"></div>
+        <div class="garden-zoom-content modal-garden-pane" id="modal-modal-layer-3" style="width: 100%; height: 100%; background: url('images/server.png') center/cover no-repeat; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 0.4s ease-in-out;"></div>
+        <div class="garden-zoom-content modal-garden-pane" id="modal-modal-layer-4" style="width: 100%; height: 100%; background: url('images/server2.png') center/cover no-repeat; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 0.4s ease-in-out;"></div>
+
+        <!-- Voltage Fluctuation Room Lighting & Shadow Overlay Layer for Modal -->
+        <div class="voltage-room-shadow-overlay"></div>
+
+        <div class="garden-viewport-overlay-header" style="top: 16px; left: 16px; right: 16px;">
+          <div class="garden-header-left">
+            <span class="card-header-icon flash-dot"></span>
+            <span class="garden-viewport-title" id="modal-garden-title-label">LIVING GARDEN // FULL MONITOR FEED</span>
+            <span id="modal-live-timestamp" class="garden-timestamp">00:00:00</span>
+          </div>
+        </div>
+
+        <button type="button" class="carousel-nav-btn garden-nav-btn-steel prev-btn" id="modal-cam-prev" style="left: 20px;">&#10094;</button>
+        <button type="button" class="carousel-nav-btn garden-nav-btn-steel next-btn" id="modal-cam-next" style="right: 20px;">&#10095;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED PROJECT POPUP MODAL -->
+  <div id="featured-project-modal" class="about-modal-overlay">
+    <div class="about-modal-container project-modal-container-red" style="max-width: 1100px;">
+      <button class="about-modal-close project-modal-close-red" id="close-project-modal">&times;</button>
+      <div class="about-modal-grid project-modal-grid-red" style="grid-template-columns: 1fr 340px; gap: 25px;">
+        <div style="display: flex; align-items: center; justify-content: center; background: #000; border: 1px solid rgba(185, 28, 28, 0.4); border-radius: 8px; overflow: hidden; min-height: 420px;">
+          <img id="modal-project-img" src="" alt="Project Expanded View" style="width: 100%; height: auto; max-height: 75vh; object-fit: contain; display: block;">
+        </div>
+        <div class="about-modal-text-col" style="max-height: 75vh; display: flex; flex-direction: column;">
+          <h3 id="modal-project-title" class="about-modal-heading project-modal-heading-red">PROJECT TITLE</h3>
+          <p id="modal-project-desc" style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.5; margin-bottom: 20px;">Project description goes here.</p>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(185, 28, 28, 0.2);">
+            <div class="carousel-dots-container" id="modal-dots-container">
+              <span class="carousel-dot active" data-index="0"></span>
+              <span class="carousel-dot" data-index="1"></span>
+              <span class="carousel-dot" data-index="2"></span>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button type="button" class="carousel-nav-btn" id="modal-prev" style="position: static; transform: none;">&#10094;</button>
+              <button type="button" class="carousel-nav-btn" id="modal-next" style="position: static; transform: none;">&#10095;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
