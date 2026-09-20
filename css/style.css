@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 /* ==========================================================
-   1. GLOBAL RESET & BASE STYLING (Rich Matte Charcoal Dark Theme)
+   1. GLOBAL RESET & BASE STYLING
    ========================================================== */
 html {
   background-color: #0b0f12;
@@ -65,7 +65,7 @@ html, body {
 }
 
 /* ==========================================================
-   2. NAVBAR CONTAINER (Unified Charcoal Theme)
+   2. NAVBAR CONTAINER
    ========================================================== */
 .navbar {
   position: relative;
@@ -881,8 +881,10 @@ html, body {
 }
 
 /* ==========================================================
-   8. MODAL STYLING
+   8. MODAL STYLING (Reorganized for Clean Cascade)
    ========================================================== */
+   
+/* --- BASE MODAL COMPONENTS --- */
 .about-modal-overlay {
   display: none;
   position: fixed;
@@ -937,6 +939,42 @@ html, body {
   color: #000;
 }
 
+/* --- BASE MODAL GRID (Used for About Me) --- */
+.about-modal-grid {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 25px;
+  align-items: start;
+  max-height: calc(85vh - 70px);
+}
+
+.about-modal-img {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.about-modal-text-col {
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  overflow-y: auto;
+  max-height: calc(85vh - 70px);
+  padding-right: 10px;
+}
+
+.about-modal-heading {
+  color: #f59e0b;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  margin-top: 0;
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.3);
+  padding-bottom: 8px;
+}
+
+/* --- LIVING GARDEN MODAL (Steel Theme) --- */
 .garden-modal-container-steel {
   max-width: 1050px;
   padding: 25px;
@@ -989,6 +1027,24 @@ html, body {
   box-shadow: 0 0 14px rgba(148, 163, 184, 0.8) !important;
 }
 
+.modal-garden-pane {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.modal-garden-pane.active {
+  opacity: 1;
+}
+
+/* --- FEATURED PROJECT MODAL (Red Theme Overrides) --- */
 .project-modal-container-red {
   max-width: 1100px;
   background: rgba(12, 14, 18, 0.98) !important;
@@ -996,7 +1052,7 @@ html, body {
 }
 
 .project-modal-grid-red {
-  grid-template-columns: 1fr 340px;
+  grid-template-columns: 1fr 340px !important; /* Force override of the base 260px left column */
   gap: 25px;
 }
 
@@ -1060,57 +1116,6 @@ html, body {
 .project-modal-nav-group {
   display: flex;
   gap: 8px;
-}
-
-.about-modal-grid {
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 25px;
-  align-items: start;
-  max-height: calc(85vh - 70px);
-}
-
-.about-modal-img {
-  width: 100%;
-  border-radius: 8px;
-  border: 1px solid rgba(245, 158, 11, 0.4);
-}
-
-.about-modal-text-col {
-  color: #cbd5e1;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  overflow-y: auto;
-  max-height: calc(85vh - 70px);
-  padding-right: 10px;
-}
-
-.about-modal-heading {
-  color: #f59e0b;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.8rem;
-  letter-spacing: 1px;
-  margin-top: 0;
-  margin-bottom: 15px;
-  border-bottom: 1px solid rgba(245, 158, 11, 0.3);
-  padding-bottom: 8px;
-}
-
-.modal-garden-pane {
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  transition: opacity 0.4s ease-in-out;
-}
-
-.modal-garden-pane.active {
-  opacity: 1;
 }
 
 /* ==========================================================
