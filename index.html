@@ -62,7 +62,7 @@
                 
                 <!-- Slide 1 -->
                 <div class="project-slide active" data-index="0">
-                  <div class="project-thumb-wrapper" id="open-project-modal-btn" style="cursor: pointer;" title="Click to expand">
+                  <div class="project-thumb-wrapper open-project-modal-btn" title="Click to expand">
                     <img src="images/mock1.png" alt="Project 1 Mockup" class="project-thumb-img">
                   </div>
                   <div class="carousel-dots-container">
@@ -78,7 +78,7 @@
 
                 <!-- Slide 2 -->
                 <div class="project-slide" data-index="1">
-                  <div class="project-thumb-wrapper" id="open-project-modal-btn" style="cursor: pointer;" title="Click to expand">
+                  <div class="project-thumb-wrapper open-project-modal-btn" title="Click to expand">
                     <img src="images/mock2.png" alt="Project 2 Mockup" class="project-thumb-img">
                   </div>
                   <div class="carousel-dots-container">
@@ -94,7 +94,7 @@
 
                 <!-- Slide 3 -->
                 <div class="project-slide" data-index="2">
-                  <div class="project-thumb-wrapper" id="open-project-modal-btn" style="cursor: pointer;" title="Click to expand">
+                  <div class="project-thumb-wrapper open-project-modal-btn" title="Click to expand">
                     <img src="images/mock3.png" alt="Project 3 Mockup" class="project-thumb-img">
                   </div>
                   <div class="carousel-dots-container">
@@ -167,11 +167,11 @@
             <!-- BOTTOM SPLIT ROW: System Grow Feed & Tech Feed -->
             <div class="bottom-split-row">
               
-              <!-- SYSTEM GROW FEED CARD (Green Theme - Hooked to Gardening RSS) -->
+              <!-- SYSTEM GROW FEED CARD -->
               <article class="site-card planb-card card-lists card-green-sub" id="green-sub-card">
-                <div class="unified-card-header" style="color: #22c55e !important;">
+                <div class="unified-card-header green-header">
                   <span class="header-title-wrapper">
-                    <span class="card-header-icon" style="background-color: #22c55e !important; box-shadow: 0 0 8px #22c55e !important;"></span>
+                    <span class="card-header-icon green-icon"></span>
                     SYSTEM TELEMETRY // GROW FEED
                   </span>
                 </div>
@@ -194,11 +194,11 @@
                 </div>
               </article>
 
-              <!-- TECH DECK FEED CARD (Blue Theme - Hooked to Tech RSS) -->
+              <!-- TECH DECK FEED CARD -->
               <article class="site-card planb-card card-lists" id="music-card">
-                <div class="unified-card-header">
-                  <span class="header-title-wrapper" style="color: #38bdf8 !important;">
-                    <span class="card-header-icon" style="background-color: #38bdf8 !important; box-shadow: 0 0 8px #38bdf8 !important;"></span>
+                <div class="unified-card-header blue-header">
+                  <span class="header-title-wrapper">
+                    <span class="card-header-icon blue-icon"></span>
                     TECH DECK // SUB-ROUTINE FEED
                   </span>
                 </div>
@@ -259,13 +259,14 @@
 
   <!-- LIVING GARDEN FULL VIEW MODAL -->
   <div id="living-garden-modal" class="about-modal-overlay">
-    <div class="about-modal-container garden-modal-container-steel" style="max-width: 1050px; padding: 25px;">
+    <div class="about-modal-container garden-modal-container-steel">
       <button class="about-modal-close garden-modal-close-steel" id="close-garden-modal">&times;</button>
-      <div style="width: 100%; aspect-ratio: 16 / 9; position: relative; border-radius: 8px; overflow: hidden; border: 1px solid rgba(148, 163, 184, 0.4); background: #000;">
-        <div class="garden-zoom-content modal-garden-pane active" id="modal-modal-layer-1" style="width: 100%; height: 100%; background: url('images/livinggarden.png') center/cover no-repeat; position: absolute; top: 0; left: 0; opacity: 1; transition: opacity 0.4s ease-in-out;"></div>
-        <div class="garden-zoom-content modal-garden-pane" id="modal-modal-layer-2" style="width: 100%; height: 100%; background: url('images/livinggarden2.png') center/cover no-repeat; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 0.4s ease-in-out;"></div>
-        <div class="garden-zoom-content modal-garden-pane" id="modal-modal-layer-3" style="width: 100%; height: 100%; background: url('images/server.png') center/cover no-repeat; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 0.4s ease-in-out;"></div>
-        <div class="garden-zoom-content modal-garden-pane" id="modal-modal-layer-4" style="width: 100%; height: 100%; background: url('images/server2.png') center/cover no-repeat; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 0.4s ease-in-out;"></div>
+      
+      <div class="garden-modal-viewport">
+        <div class="garden-zoom-content modal-garden-pane active" id="modal-modal-layer-1"></div>
+        <div class="garden-zoom-content modal-garden-pane" id="modal-modal-layer-2"></div>
+        <div class="garden-zoom-content modal-garden-pane" id="modal-modal-layer-3"></div>
+        <div class="garden-zoom-content modal-garden-pane" id="modal-modal-layer-4"></div>
 
         <!-- Voltage Fluctuation Room Lighting & Shadow Overlay Layer for Modal -->
         <div class="voltage-room-shadow-overlay"></div>
@@ -286,22 +287,25 @@
 
   <!-- FEATURED PROJECT POPUP MODAL -->
   <div id="featured-project-modal" class="about-modal-overlay">
-    <div class="about-modal-container project-modal-container-red" style="max-width: 1100px;">
+    <div class="about-modal-container project-modal-container-red">
       <button class="about-modal-close project-modal-close-red" id="close-project-modal">&times;</button>
-      <div class="about-modal-grid project-modal-grid-red" style="grid-template-columns: 1fr 340px; gap: 25px;">
-        <div style="display: flex; align-items: center; justify-content: center; background: #000; border: 1px solid rgba(185, 28, 28, 0.4); border-radius: 8px; overflow: hidden; min-height: 420px;">
-          <img id="modal-project-img" src="" alt="Project Expanded View" style="width: 100%; height: auto; max-height: 75vh; object-fit: contain; display: block;">
+      
+      <div class="about-modal-grid project-modal-grid-red">
+        <div class="project-modal-img-wrapper">
+          <img id="modal-project-img" src="" alt="Project Expanded View" class="project-modal-img">
         </div>
-        <div class="about-modal-text-col" style="max-height: 75vh; display: flex; flex-direction: column;">
+        
+        <div class="project-modal-text-col">
           <h3 id="modal-project-title" class="about-modal-heading project-modal-heading-red">PROJECT TITLE</h3>
-          <p id="modal-project-desc" style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.5; margin-bottom: 20px;">Project description goes here.</p>
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(185, 28, 28, 0.2);">
+          <p id="modal-project-desc" class="project-modal-desc">Project description goes here.</p>
+          
+          <div class="project-modal-footer">
             <div class="carousel-dots-container" id="modal-dots-container">
               <span class="carousel-dot active" data-index="0"></span>
               <span class="carousel-dot" data-index="1"></span>
               <span class="carousel-dot" data-index="2"></span>
             </div>
-            <div style="display: flex; gap: 8px;">
+            <div class="project-modal-nav-group">
               <button type="button" class="carousel-nav-btn" id="modal-prev" style="position: static; transform: none;">&#10094;</button>
               <button type="button" class="carousel-nav-btn" id="modal-next" style="position: static; transform: none;">&#10095;</button>
             </div>
