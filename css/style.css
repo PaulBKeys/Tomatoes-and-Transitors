@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 /* ==========================================================
-   1. GLOBAL RESET & BASE STYLING
+   1. GLOBAL RESET & BASE STYLING (Rich Matte Charcoal Dark Theme)
    ========================================================== */
 html {
   background-color: #0b0f12;
@@ -65,7 +65,7 @@ html, body {
 }
 
 /* ==========================================================
-   2. NAVBAR CONTAINER
+   2. NAVBAR CONTAINER (Unified Charcoal Theme)
    ========================================================== */
 .navbar {
   position: relative;
@@ -511,8 +511,9 @@ html, body {
   box-shadow: 0 0 10px rgba(185, 28, 28, 0.8);
 }
 
-.prev-btn { left: -6px !important; }
-.next-btn { right: -6px !important; }
+/* Pulled safely inward from -6px to 8px so they aren't chopped by overflow:hidden */
+.prev-btn { left: 8px !important; }
+.next-btn { right: 8px !important; }
 
 .carousel-dots-container {
   display: flex !important;
@@ -1275,7 +1276,7 @@ html, body {
   }
   
   /* ----------------------------------------------------
-     Card Adjustments & Nav Arrow Fix
+     Card Adjustments
      ---------------------------------------------------- */
   #featured-projects-card {
     height: auto !important;
@@ -1291,14 +1292,6 @@ html, body {
   .project-slide-desc {
     -webkit-line-clamp: unset !important;
     display: block !important;
-  }
-
-  /* Pulls arrows inside so overflow:hidden doesn't chop them */
-  .prev-btn {
-    left: 0 !important;
-  }
-  .next-btn {
-    right: 0 !important;
   }
   
   /* ----------------------------------------------------
