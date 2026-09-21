@@ -902,7 +902,9 @@ html, body {
   position: relative;
   width: 100% !important;
   margin-top: 0.5rem;
-  height: 48px;
+  min-height: 48px; /* Changed from fixed height so it can grow if text wraps */
+  height: auto;
+  padding: 12px 20px; /* Gives the text breathing room on narrow mobile screens */
   border-radius: 12px;
   overflow: hidden;
   background: rgba(12, 14, 18, 0.95);
@@ -918,8 +920,10 @@ html, body {
   font-size: 13px;
   color: #94a3b8;
   letter-spacing: 1px;
+  text-align: center; /* Forces the wrapped second line to stay perfectly centered */
+  line-height: 1.4;
+  margin: 0;
 }
-
 /* ==========================================================
    8. MODAL STYLING
    ========================================================== */
