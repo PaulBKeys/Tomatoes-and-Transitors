@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // --- Live Timestamp Generator ---
+
+  /* ==========================================================================
+     LIVE CLOCK SYNC
+     ========================================================================== */
   const updateTimestamp = () => {
     const now = new Date();
     const hours = String(now.getHours()).padStart(2, '0');
@@ -17,8 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateTimestamp, 1000);
   updateTimestamp();
 
-  // --- Living Garden & Server Room Multi-Feed Camera Cycling Logic ---
+
+  /* ==========================================================================
+     LIVING GARDEN MULTI-FEED CYCLE LOGIC
+     ========================================================================== */
   let activeFeedIndex = 0;
+  
   const feedLayers = [
     document.getElementById('feed-layer-1'),
     document.getElementById('feed-layer-2'),
@@ -45,18 +52,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const updateAllFeeds = (index) => {
     activeFeedIndex = index;
+    
+    // Update dashboard mini-card
     feedLayers.forEach((layer, idx) => {
-      if (layer) {
-        layer.classList.toggle('active', idx === activeFeedIndex);
-      }
+      if (layer) layer.classList.toggle('active', idx === activeFeedIndex);
     });
 
+    // Update modal full-view card
     modalLayers.forEach((layer, idx) => {
       if (layer) {
         const isActive = idx === activeFeedIndex;
         layer.classList.toggle('active', isActive);
-        layer.style.opacity = isActive ? '1' : '0';
         
+        // Handle custom animations per feed type
         layer.classList.remove('garden-rock-anim', 'server-flicker-anim');
         if (isActive) {
           if (idx === 0 || idx === 1) {
@@ -68,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    // Sync titles
     const currentFeed = feedData[activeFeedIndex];
     if (gardenTitleLabel) gardenTitleLabel.textContent = currentFeed.title;
     if (modalGardenTitleLabel) modalGardenTitleLabel.textContent = currentFeed.modalTitle;
@@ -80,46 +89,146 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let feedInterval = setInterval(autoCycleFeeds, 8000);
 
-  // --- About Me Modal Logic ---
-  const aboutModal = document.getElementById('about-me-modal');
-  const openAboutBtn = document.getElementById('open-about-modal');
-  const closeAboutBtn = document.getElementById('close-about-modal');
-
-  if (openAboutBtn && aboutModal) {
-    openAboutBtn.addEventListener('click', () => {
-      aboutModal.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
+  // Voltage Fluctuation Visual Effect
+  const voltageOverlays = document.querySelectorAll('.voltage-room-shadow-overlay');
+  const triggerVoltageDrop = () => {
+    voltageOverlays.forEach(overlay => {
+      overlay.style.animationDuration = (Math.random() * 3 + 4) + 's';
     });
-  }
+    setTimeout(triggerVoltageDrop, Math.random() * 6000 + 4000);
+  };
+  triggerVoltageDrop();
 
-  if (closeAboutBtn && aboutModal) {
-    closeAboutBtn.addEventListener('click', () => {
-      aboutModal.style.display = 'none';
-      document.body.style.overflow = 'auto';
+
+  /* ==========================================================================
+     RSS FEED INTEGRATIONS (TECH DECK & GROW FEED)
+     ========================================================================== */
+     
+  const fetchAndRenderRSS = async (rssUrl, config) => {
+    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) throw new Error('Network response was not ok');
+      const data = await response.json();
+
+      if (data && data.status === 'ok' && data.items.length > 0) {
+        const posts = data.items.slice(0, 6);
+        let currentIndex = 0;
+
+        const renderPost = (post) => {
+          if (config.titleElem) {
+            config.titleElem.textContent = post.title.toUpperCase();
+            config.titleElem.setAttribute('href', post.link);
+          }
+          if (config.descElem) {
+            const cleanDesc = post.description.replace(/<[^>]*>?/gm, '');
+            config.descElem.textContent = cleanDesc;
+            config.descElem.setAttribute('href', post.link);
+          }
+          if (config.thumbElem && config.linkImgElem) {
+            let imageUrl = post.thumbnail || (post.enclosure && post.enclosure.link);
+            if (imageUrl) config.thumbElem.setAttribute('src', imageUrl);
+            config.linkImgElem.setAttribute('href', post.link);
+          }
+        };
+
+        renderPost(posts[currentIndex]);
+
+        setTimeout(() => {
+          setInterval(() => {
+            if (config.cardElem) {
+              config.cardElem.classList.add('feed-flipping-out');
+              setTimeout(() => {
+                currentIndex = (currentIndex + 1) % posts.length;
+                renderPost(posts[currentIndex]);
+                config.cardElem.classList.remove('feed-flipping-out');
+                config.cardElem.classList.add('feed-flipping-in');
+                setTimeout(() => config.cardElem.classList.remove('feed-flipping-in'), 350);
+              }, 350);
+            }
+          }, 12000);
+        }, config.staggerDelay || 0);
+      }
+    } catch (error) {
+      console.error(`Failed to load RSS feed (${rssUrl}):`, error);
+      if (config.titleElem) config.titleElem.textContent = config.errorText;
+    }
+  };
+
+  fetchAndRenderRSS('https://feeds.arstechnica.com/arstechnica/technology-lab', {
+    cardElem: document.getElementById('music-card'),
+    titleElem: document.getElementById('rss-link-title'),
+    descElem: document.getElementById('rss-link-desc'),
+    thumbElem: document.getElementById('rss-thumb'),
+    linkImgElem: document.getElementById('rss-link-img'),
+    errorText: "SUB-ROUTINE // FEED OFFLINE",
+    staggerDelay: 0
+  });
+
+  fetchAndRenderRSS('https://www.planetnatural.com/feed/', {
+    cardElem: document.getElementById('green-sub-card'),
+    titleElem: document.getElementById('grow-link-title'),
+    descElem: document.getElementById('grow-link-desc'),
+    thumbElem: document.getElementById('grow-thumb'),
+    linkImgElem: document.getElementById('grow-link-img'),
+    errorText: "GROW FEED // OFFLINE",
+    staggerDelay: 6000
+  });
+
+
+  /* ==========================================================================
+     MODALS & NAVIGATION LOGIC
+     ========================================================================== */
+     
+  const setupModal = (openBtns, modal, closeBtn, onOpen = null) => {
+    if (!modal) return;
+    
+    const triggers = (openBtns instanceof NodeList || Array.isArray(openBtns)) ? openBtns : [openBtns];
+    
+    triggers.forEach(btn => {
+      if (btn) {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          modal.style.display = 'flex';
+          document.body.style.overflow = 'hidden';
+          if (onOpen) onOpen();
+        });
+      }
     });
-  }
 
-  // --- Living Garden Full View Modal Logic with Manual Arrows ---
-  const gardenModal = document.getElementById('living-garden-modal');
-  const openGardenBtn = document.getElementById('open-garden-modal');
-  const closeGardenBtn = document.getElementById('close-garden-modal');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      });
+    }
+
+    window.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    });
+  };
+
+  // Init About Me Modal
+  setupModal(
+    document.getElementById('open-about-modal'), 
+    document.getElementById('about-me-modal'), 
+    document.getElementById('close-about-modal')
+  );
+
+  // Init Living Garden Full View Modal (Linked to navbar GROWTH)
+  setupModal(
+    [document.getElementById('open-garden-modal'), document.getElementById('nav-growth')], 
+    document.getElementById('living-garden-modal'), 
+    document.getElementById('close-garden-modal'),
+    () => updateAllFeeds(activeFeedIndex)
+  );
+
   const modalCamPrev = document.getElementById('modal-cam-prev');
   const modalCamNext = document.getElementById('modal-cam-next');
-
-  if (openGardenBtn && gardenModal) {
-    openGardenBtn.addEventListener('click', () => {
-      gardenModal.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-      updateAllFeeds(activeFeedIndex);
-    });
-  }
-
-  if (closeGardenBtn && gardenModal) {
-    closeGardenBtn.addEventListener('click', () => {
-      gardenModal.style.display = 'none';
-      document.body.style.overflow = 'auto';
-    });
-  }
 
   if (modalCamPrev && modalCamNext) {
     modalCamPrev.addEventListener('click', () => {
@@ -137,6 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- Featured Projects Carousel Logic ---
   const slides = document.querySelectorAll('.project-slide');
+  const projectThumbs = document.querySelectorAll('.open-project-modal-btn');
   const prevBtn = document.getElementById('carousel-prev');
   const nextBtn = document.getElementById('carousel-next');
   let currentSlide = 0;
@@ -144,9 +254,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const showSlide = (index) => {
     slides.forEach((slide, i) => {
       slide.classList.toggle('active', i === index);
-      
       const slideDots = slide.querySelectorAll('.carousel-dot');
-      slideDots.forEach((dot) => {
+      slideDots.forEach(dot => {
         const dotIndex = parseInt(dot.getAttribute('data-index'));
         dot.classList.toggle('active', dotIndex === index);
       });
@@ -169,34 +278,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     slides.forEach((slide) => {
       const slideDots = slide.querySelectorAll('.carousel-dot');
-      slideDots.forEach((dot) => {
+      slideDots.forEach(dot => {
         dot.addEventListener('click', (e) => {
-          const slideIndex = parseInt(e.target.getAttribute('data-index'));
-          showSlide(slideIndex);
+          showSlide(parseInt(e.target.getAttribute('data-index')));
         });
       });
     });
   }
 
-  // --- Featured Project Popup Modal Logic ---
+  // Init Featured Project Popup Modal (Linked to navbar PROJECTS)
   const projectModal = document.getElementById('featured-project-modal');
-  const closeProjectBtn = document.getElementById('close-project-modal');
   const modalImg = document.getElementById('modal-project-img');
   const modalTitle = document.getElementById('modal-project-title');
   const modalDesc = document.getElementById('modal-project-desc');
-  const modalPrevBtn = document.getElementById('modal-prev');
-  const modalNextBtn = document.getElementById('modal-next');
   const modalDots = document.querySelectorAll('#modal-dots-container .carousel-dot');
 
-  const updateModalContent = (index) => {
+  const updateProjectModalContent = (index) => {
     if (slides[index]) {
-      const titleText = slides[index].querySelector('.project-slide-title').textContent;
-      const descText = slides[index].querySelector('.project-slide-desc').textContent;
-      const imgSrc = slides[index].querySelector('.project-thumb-img').getAttribute('src');
-
-      if (modalTitle) modalTitle.textContent = titleText;
-      if (modalDesc) modalDesc.textContent = descText;
-      if (modalImg) modalImg.setAttribute('src', imgSrc);
+      if (modalTitle) modalTitle.textContent = slides[index].querySelector('.project-slide-title').textContent;
+      if (modalDesc) modalDesc.textContent = slides[index].querySelector('.project-slide-desc').textContent;
+      if (modalImg) modalImg.setAttribute('src', slides[index].querySelector('.project-thumb-img').getAttribute('src'));
 
       modalDots.forEach((dot, i) => {
         dot.classList.toggle('active', i === index);
@@ -204,60 +305,207 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  document.addEventListener('click', (e) => {
-    const thumbTrigger = e.target.closest('#open-project-modal-btn');
-    if (thumbTrigger) {
-      if (projectModal) {
-        projectModal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-        updateModalContent(currentSlide);
-      }
-    }
-  });
+  setupModal(
+    [...projectThumbs, document.getElementById('nav-projects')], 
+    projectModal, 
+    document.getElementById('close-project-modal'),
+    () => updateProjectModalContent(currentSlide)
+  );
+
+  const modalPrevBtn = document.getElementById('modal-prev');
+  const modalNextBtn = document.getElementById('modal-next');
 
   if (modalPrevBtn && modalNextBtn) {
     modalPrevBtn.addEventListener('click', () => {
       currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-      updateModalContent(currentSlide);
+      updateProjectModalContent(currentSlide);
       showSlide(currentSlide);
     });
 
     modalNextBtn.addEventListener('click', () => {
       currentSlide = (currentSlide + 1) % slides.length;
-      updateModalContent(currentSlide);
+      updateProjectModalContent(currentSlide);
       showSlide(currentSlide);
     });
   }
 
-  modalDots.forEach((dot) => {
+  modalDots.forEach(dot => {
     dot.addEventListener('click', (e) => {
-      const slideIndex = parseInt(e.target.getAttribute('data-index'));
-      currentSlide = slideIndex;
-      updateModalContent(currentSlide);
+      currentSlide = parseInt(e.target.getAttribute('data-index'));
+      updateProjectModalContent(currentSlide);
       showSlide(currentSlide);
     });
   });
 
-  if (closeProjectBtn && projectModal) {
-    closeProjectBtn.addEventListener('click', () => {
-      projectModal.style.display = 'none';
-      document.body.style.overflow = 'auto';
+
+  /* ==========================================================================
+     ART ARCHIVE AUTO-FADE CYCLER & MODAL ARROWS
+     ========================================================================== */
+  const artImages = [
+    "images/art/angry.jpg",
+    "images/art/bell.jpg",
+    "images/art/cansig5.jpg",
+    "images/art/close1.jpg",
+    "images/art/cross3.gif",
+    "images/art/elkong.jpg",
+    "images/art/eltigre.jpg",
+    "images/art/evel2.jpg",
+    "images/art/Grimstone_by_ashtreyhead.jpg",
+    "images/art/Lanigan_s_Bluff_by_ashtreyhead.jpg",
+    "images/art/limestone-peak1.jpg",
+    "images/art/Lone_Pools_by_ashtreyhead.jpg",
+    "images/art/lusty.gif",
+    "images/art/Messiah_by_ashtreyhead.jpg",
+    "images/art/Mustang_Gulch_by_ashtreyhead.jpg",
+    "images/art/Peewee-1.jpg",
+    "images/art/pray.jpg",
+    "images/art/Revereb_by_ashtreyhead.jpg",
+    "images/art/rogues.jpg",
+    "images/art/seal2.jpg",
+    "images/art/Thievesavitest1.jpg",
+    "images/art/thunder.jpg",
+    "images/art/tiger1eyes.gif",
+    "images/art/trillian_by_ashtreyhead.jpg",
+    "images/art/turningtospring.jpg",
+    "images/art/Valerai_by_ashtreyhead.jpg",
+    "images/art/wally.jpg",
+    "images/art/Xaivier_by_ashtreyhead.jpg"
+  ];
+
+  let currentArtIndex = Math.floor(Math.random() * artImages.length);
+
+  const artCardThumb = document.getElementById('art-card-thumb');
+  const artCardTitle = document.getElementById('art-card-title');
+  const modalArtImg = document.getElementById('modal-art-img');
+  const modalArtDesc = document.getElementById('modal-art-desc');
+  const modalArtPrev = document.getElementById('modal-art-prev');
+  const modalArtNext = document.getElementById('modal-art-next');
+
+  const loadArtImage = (index) => {
+    const imagePath = artImages[index];
+    const filename = imagePath.split('/').pop().split('.')[0];
+    const cleanTitle = filename.replace(/_by_ashtreyhead/gi, '').replace(/[-_]/g, ' ').toUpperCase();
+
+    if (artCardTitle) artCardTitle.textContent = `${cleanTitle} — Early 2000s digital landscape/render.`;
+    if (modalArtImg) modalArtImg.setAttribute('src', imagePath);
+    if (modalArtDesc) {
+      modalArtDesc.innerHTML = `<strong>${cleanTitle}</strong> — Rendered using Bryce/Terragen on a daisy-chained multi-CPU setup. Early 2000s.`;
+    }
+
+    if (artCardThumb) {
+      artCardThumb.classList.add('fade-out');
+      setTimeout(() => {
+        artCardThumb.setAttribute('src', imagePath);
+        artCardThumb.classList.remove('fade-out');
+      }, 500);
+    }
+  };
+
+  // Load initial random art piece on page load
+  loadArtImage(currentArtIndex);
+
+  // Auto-cycle dashboard art thumbnail with fade every 6 seconds
+  let artCycleInterval = setInterval(() => {
+    currentArtIndex = (currentArtIndex + 1) % artImages.length;
+    loadArtImage(currentArtIndex);
+  }, 6000);
+
+  // Wire up External Modal Art Navigation Arrows
+  if (modalArtPrev && modalArtNext) {
+    modalArtPrev.addEventListener('click', () => {
+      clearInterval(artCycleInterval);
+      currentArtIndex = (currentArtIndex - 1 + artImages.length) % artImages.length;
+      loadArtImage(currentArtIndex);
+    });
+
+    modalArtNext.addEventListener('click', () => {
+      clearInterval(artCycleInterval);
+      currentArtIndex = (currentArtIndex + 1) % artImages.length;
+      loadArtImage(currentArtIndex);
     });
   }
 
-  // --- Global Overlay Click-to-Close ---
-  window.addEventListener('click', (event) => {
-    if (event.target === aboutModal) {
-      aboutModal.style.display = 'none';
-      document.body.style.overflow = 'auto';
+  // Init Digital Archives Modal (Linked to navbar ARCHIVES)
+  setupModal(
+    [document.getElementById('open-archive-modal'), document.getElementById('open-archive-modal-img'), document.getElementById('nav-archives')],
+    document.getElementById('digital-archives-modal'),
+    document.getElementById('close-archive-modal'),
+    () => loadArtImage(currentArtIndex)
+  );
+
+
+  /* ==========================================================================
+     UNIVERSAL MOBILE TOUCH SWIPE SUPPORT
+     ========================================================================== */
+  const enableSwipe = (element, onSwipeLeft, onSwipeRight) => {
+    if (!element) return;
+    let startX = 0;
+    let endX = 0;
+
+    element.addEventListener('touchstart', (e) => {
+      startX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    element.addEventListener('touchend', (e) => {
+      endX = e.changedTouches[0].screenX;
+      const threshold = 40;
+      const diff = startX - endX;
+
+      if (Math.abs(diff) > threshold) {
+        if (diff > 0) {
+          if (onSwipeLeft) onSwipeLeft();
+        } else {
+          if (onSwipeRight) onSwipeRight();
+        }
+      }
+    }, { passive: true });
+  };
+
+  // 1. Swipe Featured Projects Carousel
+  enableSwipe(
+    document.querySelector('.project-carousel-container'),
+    () => {
+      let target = currentSlide + 1;
+      if (target >= slides.length) target = 0;
+      showSlide(target);
+      updateProjectModalContent(target);
+    },
+    () => {
+      let target = currentSlide - 1;
+      if (target < 0) target = slides.length - 1;
+      showSlide(target);
+      updateProjectModalContent(target);
     }
-    if (event.target === gardenModal) {
-      gardenModal.style.display = 'none';
-      document.body.style.overflow = 'auto';
+  );
+
+  // 2. Swipe Art Card to Cycle Renders
+  enableSwipe(
+    document.getElementById('art-card'),
+    () => {
+      clearInterval(artCycleInterval);
+      currentArtIndex = (currentArtIndex + 1) % artImages.length;
+      loadArtImage(currentArtIndex);
+    },
+    () => {
+      clearInterval(artCycleInterval);
+      currentArtIndex = (currentArtIndex - 1 + artImages.length) % artImages.length;
+      loadArtImage(currentArtIndex);
     }
-    if (event.target === projectModal) {
-      projectModal.style.display = 'none';
-      document.body.style.overflow = 'auto';
+  );
+
+  // 3. Swipe Living Garden Feed Card
+  enableSwipe(
+    document.getElementById('living-garden-card'),
+    () => {
+      clearInterval(feedInterval);
+      let target = (activeFeedIndex + 1) % feedLayers.length;
+      updateAllFeeds(target);
+    },
+    () => {
+      clearInterval(feedInterval);
+      let target = (activeFeedIndex - 1 + feedLayers.length) % feedLayers.length;
+      updateAllFeeds(target);
     }
-  });
+  );
+
 });

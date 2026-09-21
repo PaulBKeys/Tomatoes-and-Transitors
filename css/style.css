@@ -309,24 +309,26 @@ html, body {
   box-shadow: 0 0 8px #b91c1c !important;
 }
 
-/* ABOUT ME & ART SPLIT CARD (Amber Left, Purple Right Gradient Border) */
-#about-me-card {
+/* BOTTOM SPLIT ROW FOR ABOUT ME & ART CARDS */
+.left-bottom-split-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  align-items: stretch;
   flex: 0 0 auto !important;
+}
+
+/* ABOUT ME CARD (Amber Theme) */
+#about-me-card {
+  flex: 1 1 auto !important;
   height: 165px !important;
   padding-bottom: 0.5rem !important;
-  border: 1px solid transparent !important;
-  background: 
-    linear-gradient(rgba(12, 14, 18, 0.95), rgba(12, 14, 18, 0.95)) padding-box,
-    linear-gradient(to right, rgba(245, 158, 11, 0.4), rgba(168, 85, 247, 0.4)) border-box !important;
+  border: 1px solid rgba(245, 158, 11, 0.4) !important;
 }
 
 #about-me-card:hover {
-  background: 
-    linear-gradient(rgba(12, 14, 18, 0.95), rgba(12, 14, 18, 0.95)) padding-box,
-    linear-gradient(to right, rgba(245, 158, 11, 0.8), rgba(168, 85, 247, 0.8)) border-box !important;
-  box-shadow: 
-    -15px 12px 36px rgba(245, 158, 11, 0.15), 
-     15px 12px 36px rgba(168, 85, 247, 0.15) !important;
+  border-color: rgba(245, 158, 11, 0.8) !important;
+  box-shadow: 0 12px 36px rgba(245, 158, 11, 0.2) !important;
 }
 
 #about-me-card .unified-card-header {
@@ -338,24 +340,13 @@ html, body {
   box-shadow: 0 0 8px #f59e0b !important;
 }
 
-.about-archive-split-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  height: 100%;
-  align-items: center;
-  padding: 0.25rem 0.5rem;
-}
-
-/* Bio Panel (Left Side) - Amber Theme */
-.bio-panel {
+.about-single-container {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 1rem;
-  border-right: 1px solid rgba(245, 158, 11, 0.3);
-  padding-right: 15px;
   height: 100%;
+  padding: 0.25rem 0.5rem;
 }
 
 .about-thumb-wrapper {
@@ -414,14 +405,26 @@ html, body {
   box-shadow: 0 0 10px rgba(245, 158, 11, 0.8);
 }
 
-/* Art Panel (Right Side) - Synthwave Purple Theme */
-.archive-panel {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1rem;
-  height: 100%;
-  padding-left: 5px;
+/* ART CARD (Synthwave Purple Theme with Fade Transition) */
+#art-card {
+  flex: 1 1 auto !important;
+  height: 165px !important;
+  padding-bottom: 0.5rem !important;
+  border: 1px solid rgba(168, 85, 247, 0.4) !important;
+}
+
+#art-card:hover {
+  border-color: rgba(168, 85, 247, 0.8) !important;
+  box-shadow: 0 12px 36px rgba(168, 85, 247, 0.2) !important;
+}
+
+.unified-card-header.art-header {
+  color: #a855f7 !important;
+}
+
+.card-header-icon.art-icon {
+  background-color: #a855f7 !important;
+  box-shadow: 0 0 8px #a855f7 !important;
 }
 
 .archive-thumb-wrapper {
@@ -429,7 +432,7 @@ html, body {
   width: 80px;
   aspect-ratio: 4 / 3;
   border-radius: 8px;
-  border: 1px solid rgba(168, 85, 247, 0.4);
+  border: 1px solid rgba(168, 85, 247, 0.4) !important;
   overflow: hidden;
   cursor: pointer;
   background: #000;
@@ -437,57 +440,37 @@ html, body {
 }
 
 .archive-thumb-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
   display: block;
+  transition: opacity 0.5s ease-in-out, transform 0.3s ease;
+  opacity: 1;
+}
+
+.archive-thumb-img.fade-out {
+  opacity: 0;
 }
 
 .archive-thumb-wrapper:hover {
-  border-color: #a855f7;
-  box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+  border-color: #a855f7 !important;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.4) !important;
 }
 
 .archive-thumb-wrapper:hover .archive-thumb-img {
   transform: scale(1.05);
 }
 
-.archive-text-wrapper {
-  flex: 1 1 0%;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 6px;
-}
-
-.archive-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 15px;
-  color: #a855f7;
-  letter-spacing: 1px;
-  margin: 0;
-}
-
 .archive-btn {
-  background: rgba(168, 85, 247, 0.15);
-  border: 1px solid rgba(168, 85, 247, 0.5);
-  color: #a855f7;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 11px;
-  letter-spacing: 1px;
-  padding: 2px 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  width: max-content;
-  transition: all 0.2s ease;
+  background: rgba(168, 85, 247, 0.15) !important;
+  border: 1px solid rgba(168, 85, 247, 0.5) !important;
+  color: #a855f7 !important;
 }
 
 .archive-btn:hover {
-  background: #a855f7;
-  color: #000;
-  box-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
+  background: #a855f7 !important;
+  color: #000 !important;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.8) !important;
 }
 
 /* FEATURED PROJECTS CAROUSEL */
@@ -650,7 +633,7 @@ html, body {
   height: 100% !important;
 }
 
-/* LIVING GARDEN MONITOR CARD (Swapped back to Hero Banner Gray/Slate) */
+/* LIVING GARDEN MONITOR CARD (Slate Theme) */
 #living-garden-card {
   position: relative !important;
   aspect-ratio: 21 / 9 !important;
@@ -1098,7 +1081,7 @@ html, body {
   margin: 4px 0;
 }
 
-/* --- LIVING GARDEN MODAL (Slate/Gray Theme) --- */
+/* --- LIVING GARDEN MODAL (Slate Theme) --- */
 .garden-modal-container-steel {
   max-width: 1050px;
   padding: 25px;
@@ -1235,20 +1218,88 @@ html, body {
   gap: 8px;
 }
 
-/* --- ARCHIVE MODAL AMBER OVERRIDES --- */
-.archive-modal-container-amber {
-  max-width: 1100px;
+/* --- ARCHIVE MODAL PURPLE OVERRIDES (SHRUNKEN GALLERY FRAME) --- */
+.archive-modal-container-purple {
+  max-width: 580px !important;
   background: rgba(12, 14, 18, 0.98) !important;
-  border: 1px solid rgba(245, 158, 11, 0.5) !important;
+  border: 1px solid rgba(168, 85, 247, 0.5) !important;
+  padding: 20px 24px 24px 24px !important;
 }
 
-.archive-modal-header-amber {
-  border-bottom: 1px solid rgba(245, 158, 11, 0.3) !important;
+.archive-modal-header-purple {
+  border-bottom: 1px solid rgba(168, 85, 247, 0.3) !important;
+  margin-bottom: 14px !important;
+  padding-bottom: 8px !important;
+}
+
+.archive-modal-heading-purple {
+  color: #a855f7 !important;
+  font-size: 1.3rem !important;
+}
+
+.archive-modal-close-purple {
+  background: rgba(168, 85, 247, 0.15) !important;
+  border: 1px solid rgba(168, 85, 247, 0.5) !important;
+  color: #a855f7 !important;
+  width: 26px !important;
+  height: 26px !important;
+  font-size: 15px !important;
+}
+
+.archive-modal-close-purple:hover {
+  background: #a855f7 !important;
+  color: #000 !important;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
+}
+
+.archive-gallery-flex-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
 .archive-modal-img-wrapper {
-  border: 1px solid rgba(245, 158, 11, 0.4) !important;
-  min-height: 55vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  border: 1px solid rgba(168, 85, 247, 0.4) !important;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 440px;
+  height: 280px; /* Constrained gallery frame box */
+}
+
+.archive-modal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain !important; /* Preserves crispness without stretching pixels */
+  display: block;
+}
+
+.archive-external-nav-btn {
+  background: rgba(12, 14, 18, 0.9);
+  border: 1px solid rgba(168, 85, 247, 0.6);
+  color: #a855f7;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.archive-external-nav-btn:hover {
+  background: #a855f7;
+  color: #000;
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.8);
 }
 
 /* ==========================================================
@@ -1329,6 +1380,9 @@ html, body {
 
   /* Grid and Layout */
   .planb-grid-container {
+    grid-template-columns: 1fr;
+  }
+  .left-bottom-split-row {
     grid-template-columns: 1fr;
   }
   .bottom-split-row {
@@ -1412,38 +1466,9 @@ html, body {
     min-height: 270px !important; 
   }
 
-  /* About Me // Art Split Mobile Logic */
-  .about-archive-split-container {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-  
-  .bio-panel {
-    border-right: none;
-    border-bottom: 1px solid rgba(245, 158, 11, 0.3);
-    padding-right: 0;
-    padding-bottom: 12px;
-  }
-
-  #about-me-card {
-    height: auto !important;
-    min-height: 280px !important;
-    background: 
-      linear-gradient(rgba(12, 14, 18, 0.95), rgba(12, 14, 18, 0.95)) padding-box,
-      linear-gradient(to bottom, rgba(245, 158, 11, 0.4), rgba(168, 85, 247, 0.4)) border-box !important;
-  }
-  
-  #about-me-card:hover {
-    background: 
-      linear-gradient(rgba(12, 14, 18, 0.95), rgba(12, 14, 18, 0.95)) padding-box,
-      linear-gradient(to bottom, rgba(245, 158, 11, 0.8), rgba(168, 85, 247, 0.8)) border-box !important;
-    box-shadow: 
-      0 -15px 36px rgba(245, 158, 11, 0.15),
-      0  15px 36px rgba(168, 85, 247, 0.15) !important;
-  }
-
-  .archive-panel {
-    padding-left: 0;
+  #about-me-card,
+  #art-card {
+    height: 165px !important;
   }
   
   .project-slide-desc {
@@ -1457,7 +1482,7 @@ html, body {
   .about-modal-container,
   .project-modal-container-red,
   .garden-modal-container-steel,
-  .archive-modal-container-amber {
+  .archive-modal-container-purple {
     width: 100%;
     max-width: 92vw; 
     margin: 0 auto;
@@ -1486,7 +1511,7 @@ html, body {
   .about-modal-container img,
   .project-modal-container-red img,
   .garden-modal-container-steel img,
-  .archive-modal-container-amber img {
+  .archive-modal-container-purple img {
     max-width: 100%;
     height: auto;
     object-fit: contain;

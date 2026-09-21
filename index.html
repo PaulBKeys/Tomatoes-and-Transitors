@@ -15,10 +15,10 @@
     <!-- NAVBAR CONTAINER -->
     <nav class="navbar">
       <div class="navbar-links-container">
-        <a href="#home" class="nav-link">HOME</a>
-        <a href="#projects" class="nav-link">PROJECTS</a>
-        <a href="#growth" class="nav-link">GROWTH</a>
-        <a href="#archives" class="nav-link">ARCHIVES</a>
+        <a href="#home" class="nav-link" id="nav-home">HOME</a>
+        <a href="#projects" class="nav-link" id="nav-projects">PROJECTS</a>
+        <a href="#growth" class="nav-link" id="nav-growth">GROWTH</a>
+        <a href="#archives" class="nav-link" id="nav-archives">ARCHIVES</a>
       </div>
     </nav>
     
@@ -118,19 +118,18 @@
             </div>
           </article>
 
-          <!-- ABOUT ME // ART SPLIT CARD -->
-          <article class="site-card planb-card card-lists card-about-split" id="about-me-card">
-            <div class="unified-card-header">
-              <span class="header-title-wrapper">
-                <span class="card-header-icon"></span>
-                ABOUT ME // ART
-              </span>
-            </div>
+          <!-- BOTTOM SPLIT ROW FOR ABOUT ME & ART CARDS -->
+          <div class="left-bottom-split-row">
             
-            <div class="card-inner-content about-archive-split-container">
-              
-              <!-- Left Side: Existing Bio (Amber Theme) -->
-              <div class="bio-panel">
+            <!-- ABOUT ME CARD (Amber Theme) -->
+            <article class="site-card planb-card card-lists" id="about-me-card">
+              <div class="unified-card-header">
+                <span class="header-title-wrapper">
+                  <span class="card-header-icon"></span>
+                  ABOUT ME
+                </span>
+              </div>
+              <div class="card-inner-content about-single-container">
                 <div class="about-thumb-wrapper">
                   <img src="images/ABthumb.png" alt="Paul Portrait" class="about-thumb-img">
                 </div>
@@ -139,21 +138,28 @@
                   <button type="button" class="about-read-more-btn" id="open-about-modal">READ MORE...</button>
                 </div>
               </div>
+            </article>
 
-              <!-- Right Side: New Art Archive (Purple Theme) -->
-              <div class="archive-panel">
-                <div class="archive-thumb-wrapper" id="open-archive-modal-img" title="Click to open gallery">
-                  <!-- Temporary Unsplash placeholder for 3D renders -->
-                  <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop" alt="3D Render Placeholder" class="archive-thumb-img">
+            <!-- ART CARD (Synthwave Purple Theme with Auto-Fade Cycler) -->
+            <article class="site-card planb-card card-lists" id="art-card">
+              <div class="unified-card-header art-header">
+                <span class="header-title-wrapper">
+                  <span class="card-header-icon art-icon"></span>
+                  ART
+                </span>
+              </div>
+              <div class="card-inner-content about-single-container">
+                <div class="about-thumb-wrapper archive-thumb-wrapper" id="open-archive-modal-img" title="Click to open gallery">
+                  <img id="art-card-thumb" src="" alt="3D Art Render" class="about-thumb-img archive-thumb-img">
                 </div>
-                <div class="archive-text-wrapper">
-                  <h4 class="archive-title">ART</h4>
-                  <button type="button" class="archive-btn" id="open-archive-modal">[ INITIALIZE_GALLERY ]</button>
+                <div class="about-text-wrapper">
+                  <p class="about-bio-text" id="art-card-title">Early 2000s digital landscape and 3D render archive.</p>
+                  <button type="button" class="about-read-more-btn archive-btn" id="open-archive-modal">[ INITIALIZE_GALLERY ]</button>
                 </div>
               </div>
+            </article>
 
-            </div>
-          </article>
+          </div>
 
         </div>
 
@@ -358,22 +364,26 @@
 
   <!-- DIGITAL ARCHIVES MODAL -->
   <div id="digital-archives-modal" class="about-modal-overlay">
-    <div class="about-modal-container archive-modal-container-amber">
+    <div class="about-modal-container archive-modal-container-purple">
       
       <!-- Pinned Header -->
-      <div class="about-modal-header archive-modal-header-amber">
-        <h3 class="about-modal-heading">DIGITAL ARCHIVES // ART RENDERS</h3>
-        <button class="about-modal-close" id="close-archive-modal">&times;</button>
+      <div class="about-modal-header archive-modal-header-purple">
+        <h3 class="about-modal-heading archive-modal-heading-purple">DIGITAL ARCHIVES // ART RENDERS</h3>
+        <button class="about-modal-close archive-modal-close-purple" id="close-archive-modal">&times;</button>
       </div>
       
-      <!-- Grid Body -->
-      <div class="about-modal-grid project-modal-grid-red" style="grid-template-columns: 1fr;">
-        <div class="project-modal-img-wrapper archive-modal-img-wrapper">
-          <img src="images/Grimstone_by_ashtreyhead.jpg" alt="Grimstone 3D Render" class="project-modal-img" style="max-height: 55vh;">
+      <!-- Gallery Body -->
+      <div class="archive-modal-body">
+        <div class="archive-gallery-flex-row">
+          <button type="button" class="archive-external-nav-btn" id="modal-art-prev">&#10094;</button>
+          <div class="archive-modal-img-wrapper">
+            <img id="modal-art-img" src="" alt="3D Art Render" class="archive-modal-img">
+          </div>
+          <button type="button" class="archive-external-nav-btn" id="modal-art-next">&#10095;</button>
         </div>
         
-        <div class="project-modal-text-col" style="text-align: center; margin-top: 10px;">
-          <p class="project-modal-desc"><strong>GRIMSTONE</strong> — Rendered using Bryce/Terragen on a daisy-chained multi-CPU setup. Early 2000s.</p>
+        <div class="archive-modal-text-col" style="text-align: center; margin-top: 8px;">
+          <p id="modal-art-desc" class="project-modal-desc" style="margin: 0;"><strong>ARCHIVE RENDER</strong> — Early 2000s 3D digital landscape & render work.</p>
         </div>
       </div>
 

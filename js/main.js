@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateAllFeeds(nextIndex);
   };
 
-  setInterval(autoCycleFeeds, 8000);
+  let feedInterval = setInterval(autoCycleFeeds, 8000);
 
   // Voltage Fluctuation Visual Effect
   const voltageOverlays = document.querySelectorAll('.voltage-room-shadow-overlay');
@@ -104,7 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
      RSS FEED INTEGRATIONS (TECH DECK & GROW FEED)
      ========================================================================== */
      
-  // Generic fetch and render logic to dry up code
   const fetchAndRenderRSS = async (rssUrl, config) => {
     const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
 
@@ -136,7 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         renderPost(posts[currentIndex]);
 
-        // Start the flip cycle (with optional stagger delay)
         setTimeout(() => {
           setInterval(() => {
             if (config.cardElem) {
@@ -158,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Init Tech Deck Feed (Blue)
   fetchAndRenderRSS('https://feeds.arstechnica.com/arstechnica/technology-lab', {
     cardElem: document.getElementById('music-card'),
     titleElem: document.getElementById('rss-link-title'),
@@ -169,7 +166,6 @@ document.addEventListener('DOMContentLoaded', () => {
     staggerDelay: 0
   });
 
-  // Init Grow System Feed (Green)
   fetchAndRenderRSS('https://www.planetnatural.com/feed/', {
     cardElem: document.getElementById('green-sub-card'),
     titleElem: document.getElementById('grow-link-title'),
@@ -177,24 +173,23 @@ document.addEventListener('DOMContentLoaded', () => {
     thumbElem: document.getElementById('grow-thumb'),
     linkImgElem: document.getElementById('grow-link-img'),
     errorText: "GROW FEED // OFFLINE",
-    staggerDelay: 6000 // Alternates with the tech feed
+    staggerDelay: 6000
   });
 
 
   /* ==========================================================================
-     MODALS & CAROUSEL NAVIGATION LOGIC
+     MODALS & NAVIGATION LOGIC
      ========================================================================== */
      
-  // Generic Modal Opener
   const setupModal = (openBtns, modal, closeBtn, onOpen = null) => {
     if (!modal) return;
     
-    // Handle single element or NodeList
     const triggers = (openBtns instanceof NodeList || Array.isArray(openBtns)) ? openBtns : [openBtns];
     
     triggers.forEach(btn => {
       if (btn) {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
           modal.style.display = 'flex';
           document.body.style.overflow = 'hidden';
           if (onOpen) onOpen();
@@ -209,7 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Global background click logic
     window.addEventListener('click', (event) => {
       if (event.target === modal) {
         modal.style.display = 'none';
@@ -225,19 +219,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('close-about-modal')
   );
 
-  // Init Living Garden Full View Modal
+  // Init Living Garden Full View Modal (Linked to navbar GROWTH)
   setupModal(
-    document.getElementById('open-garden-modal'), 
+    [document.getElementById('open-garden-modal'), document.getElementById('nav-growth')], 
     document.getElementById('living-garden-modal'), 
     document.getElementById('close-garden-modal'),
     () => updateAllFeeds(activeFeedIndex)
-  );
-
-  // Init Digital Archives Modal
-  setupModal(
-    [document.getElementById('open-archive-modal'), document.getElementById('open-archive-modal-img')],
-    document.getElementById('digital-archives-modal'),
-    document.getElementById('close-archive-modal')
   );
 
   const modalCamPrev = document.getElementById('modal-cam-prev');
@@ -257,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- Featured Projects Carousel Sync Logic ---
+  // --- Featured Projects Carousel Logic ---
   const slides = document.querySelectorAll('.project-slide');
   const projectThumbs = document.querySelectorAll('.open-project-modal-btn');
   const prevBtn = document.getElementById('carousel-prev');
@@ -289,7 +276,6 @@ document.addEventListener('DOMContentLoaded', () => {
       showSlide(target);
     });
 
-    // Bind dots for mini-carousel
     slides.forEach((slide) => {
       const slideDots = slide.querySelectorAll('.carousel-dot');
       slideDots.forEach(dot => {
@@ -300,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Init Featured Project Popup Modal
+  // Init Featured Project Popup Modal (Linked to navbar PROJECTS)
   const projectModal = document.getElementById('featured-project-modal');
   const modalImg = document.getElementById('modal-project-img');
   const modalTitle = document.getElementById('modal-project-title');
@@ -320,13 +306,12 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   setupModal(
-    projectThumbs, 
+    [...projectThumbs, document.getElementById('nav-projects')], 
     projectModal, 
     document.getElementById('close-project-modal'),
     () => updateProjectModalContent(currentSlide)
   );
 
-  // Sync Project Modal inner-navigation with Dashboard Carousel
   const modalPrevBtn = document.getElementById('modal-prev');
   const modalNextBtn = document.getElementById('modal-next');
 
@@ -351,5 +336,176 @@ document.addEventListener('DOMContentLoaded', () => {
       showSlide(currentSlide);
     });
   });
+
+
+  /* ==========================================================================
+     ART ARCHIVE AUTO-FADE CYCLER & MODAL ARROWS
+     ========================================================================== */
+  const artImages = [
+    "images/art/angry.jpg",
+    "images/art/bell.jpg",
+    "images/art/cansig5.jpg",
+    "images/art/close1.jpg",
+    "images/art/cross3.gif",
+    "images/art/elkong.jpg",
+    "images/art/eltigre.jpg",
+    "images/art/evel2.jpg",
+    "images/art/Grimstone_by_ashtreyhead.jpg",
+    "images/art/Lanigan_s_Bluff_by_ashtreyhead.jpg",
+    "images/art/limestone-peak1.jpg",
+    "images/art/Lone_Pools_by_ashtreyhead.jpg",
+    "images/art/lusty.gif",
+    "images/art/Messiah_by_ashtreyhead.jpg",
+    "images/art/Mustang_Gulch_by_ashtreyhead.jpg",
+    "images/art/Peewee-1.jpg",
+    "images/art/pray.jpg",
+    "images/art/Revereb_by_ashtreyhead.jpg",
+    "images/art/rogues.jpg",
+    "images/art/seal2.jpg",
+    "images/art/Thievesavitest1.jpg",
+    "images/art/thunder.jpg",
+    "images/art/tiger1eyes.gif",
+    "images/art/trillian_by_ashtreyhead.jpg",
+    "images/art/turningtospring.jpg",
+    "images/art/Valerai_by_ashtreyhead.jpg",
+    "images/art/wally.jpg",
+    "images/art/Xaivier_by_ashtreyhead.jpg"
+  ];
+
+  let currentArtIndex = Math.floor(Math.random() * artImages.length);
+
+  const artCardThumb = document.getElementById('art-card-thumb');
+  const artCardTitle = document.getElementById('art-card-title');
+  const modalArtImg = document.getElementById('modal-art-img');
+  const modalArtDesc = document.getElementById('modal-art-desc');
+  const modalArtPrev = document.getElementById('modal-art-prev');
+  const modalArtNext = document.getElementById('modal-art-next');
+
+  const loadArtImage = (index) => {
+    const imagePath = artImages[index];
+    const filename = imagePath.split('/').pop().split('.')[0];
+    const cleanTitle = filename.replace(/_by_ashtreyhead/gi, '').replace(/[-_]/g, ' ').toUpperCase();
+
+    if (artCardTitle) artCardTitle.textContent = `${cleanTitle} — Early 2000s digital landscape/render.`;
+    if (modalArtImg) modalArtImg.setAttribute('src', imagePath);
+    if (modalArtDesc) {
+      modalArtDesc.innerHTML = `<strong>${cleanTitle}</strong> — Rendered using Bryce/Terragen on a daisy-chained multi-CPU setup. Early 2000s.`;
+    }
+
+    if (artCardThumb) {
+      artCardThumb.classList.add('fade-out');
+      setTimeout(() => {
+        artCardThumb.setAttribute('src', imagePath);
+        artCardThumb.classList.remove('fade-out');
+      }, 500);
+    }
+  };
+
+  // Load initial random art piece on page load
+  loadArtImage(currentArtIndex);
+
+  // Auto-cycle dashboard art thumbnail with fade every 6 seconds
+  let artCycleInterval = setInterval(() => {
+    currentArtIndex = (currentArtIndex + 1) % artImages.length;
+    loadArtImage(currentArtIndex);
+  }, 6000);
+
+  // Wire up External Modal Art Navigation Arrows
+  if (modalArtPrev && modalArtNext) {
+    modalArtPrev.addEventListener('click', () => {
+      clearInterval(artCycleInterval);
+      currentArtIndex = (currentArtIndex - 1 + artImages.length) % artImages.length;
+      loadArtImage(currentArtIndex);
+    });
+
+    modalArtNext.addEventListener('click', () => {
+      clearInterval(artCycleInterval);
+      currentArtIndex = (currentArtIndex + 1) % artImages.length;
+      loadArtImage(currentArtIndex);
+    });
+  }
+
+  // Init Digital Archives Modal (Linked to navbar ARCHIVES)
+  setupModal(
+    [document.getElementById('open-archive-modal'), document.getElementById('open-archive-modal-img'), document.getElementById('nav-archives')],
+    document.getElementById('digital-archives-modal'),
+    document.getElementById('close-archive-modal'),
+    () => loadArtImage(currentArtIndex)
+  );
+
+
+  /* ==========================================================================
+     UNIVERSAL MOBILE TOUCH SWIPE SUPPORT
+     ========================================================================== */
+  const enableSwipe = (element, onSwipeLeft, onSwipeRight) => {
+    if (!element) return;
+    let startX = 0;
+    let endX = 0;
+
+    element.addEventListener('touchstart', (e) => {
+      startX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    element.addEventListener('touchend', (e) => {
+      endX = e.changedTouches[0].screenX;
+      const threshold = 40;
+      const diff = startX - endX;
+
+      if (Math.abs(diff) > threshold) {
+        if (diff > 0) {
+          if (onSwipeLeft) onSwipeLeft();
+        } else {
+          if (onSwipeRight) onSwipeRight();
+        }
+      }
+    }, { passive: true });
+  };
+
+  // 1. Swipe Featured Projects Carousel
+  enableSwipe(
+    document.querySelector('.project-carousel-container'),
+    () => {
+      let target = currentSlide + 1;
+      if (target >= slides.length) target = 0;
+      showSlide(target);
+      updateProjectModalContent(target);
+    },
+    () => {
+      let target = currentSlide - 1;
+      if (target < 0) target = slides.length - 1;
+      showSlide(target);
+      updateProjectModalContent(target);
+    }
+  );
+
+  // 2. Swipe Art Card to Cycle Renders
+  enableSwipe(
+    document.getElementById('art-card'),
+    () => {
+      clearInterval(artCycleInterval);
+      currentArtIndex = (currentArtIndex + 1) % artImages.length;
+      loadArtImage(currentArtIndex);
+    },
+    () => {
+      clearInterval(artCycleInterval);
+      currentArtIndex = (currentArtIndex - 1 + artImages.length) % artImages.length;
+      loadArtImage(currentArtIndex);
+    }
+  );
+
+  // 3. Swipe Living Garden Feed Card
+  enableSwipe(
+    document.getElementById('living-garden-card'),
+    () => {
+      clearInterval(feedInterval);
+      let target = (activeFeedIndex + 1) % feedLayers.length;
+      updateAllFeeds(target);
+    },
+    () => {
+      clearInterval(feedInterval);
+      let target = (activeFeedIndex - 1 + feedLayers.length) % feedLayers.length;
+      updateAllFeeds(target);
+    }
+  );
 
 });
