@@ -244,7 +244,68 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- Featured Projects Carousel Logic ---
+  // ==========================================================
+  // DYNAMIC FEATURED PROJECTS DATABASE
+  // ==========================================================
+  const projectsDatabase = [
+    {
+      title: "TECHNOLOGY &amp; INNOVATION",
+      desc: "Exploring cloud, AI, networking, and the technologies shaping tomorrow.",
+      img: "images/mock1.png"
+    },
+    {
+      title: "LEARNING &amp; REINVENTION",
+      desc: "A CIS student's journey of lifelong learning and starting over at 53.",
+      img: "images/mock2.png"
+    },
+    {
+      title: "BUILDING &amp; EXPERIMENTATION",
+      desc: "Hands-on projects, labs, and experiments in my workshop and home lab.",
+      img: "images/mock3.png"
+    },
+    {
+      title: "GARDENING &amp; GROWING THINGS",
+      desc: "Growing food, plants, and a more sustainable tomorrow.",
+      img: "images/mock4.png"
+    },
+    {
+      title: "MUSIC &amp; COFFEE",
+      desc: "The soundtrack to my days and the fuel for my ideas.",
+      img: "images/mock5.png"
+    },
+    {
+      title: "STORY &amp; JOURNEY",
+      desc: "Veteran. Reinventor. Documenting the journey and sharing along the way.",
+      img: "images/banner.png"
+    }
+  ];
+
+  const renderFeaturedProjects = () => {
+    const wrapper = document.getElementById('dynamic-project-slides');
+    if (!wrapper) return;
+    wrapper.innerHTML = '';
+    
+    projectsDatabase.forEach((proj, index) => {
+      const isActive = index === 0 ? 'active' : '';
+      const slideHTML = `
+        <div class="project-slide ${isActive}" data-index="${index}">
+          <div class="project-thumb-wrapper open-project-modal-btn" title="Click to expand">
+            <img src="${proj.img}" alt="${proj.title.replace('&amp;', '&')}" class="project-thumb-img">
+          </div>
+          <div class="project-text-wrapper">
+            <h4 class="project-slide-title">${proj.title}</h4>
+            <p class="project-slide-desc">${proj.desc}</p>
+          </div>
+        </div>
+      `;
+      wrapper.innerHTML += slideHTML;
+    });
+  };
+
+  // Run the injection first!
+  renderFeaturedProjects();
+
+  // --- Featured Projects Carousel Logic (Updated to select rendered DOM elements) ---
   const slides = document.querySelectorAll('.project-slide');
   const projectThumbs = document.querySelectorAll('.open-project-modal-btn');
   const prevBtn = document.getElementById('carousel-prev');

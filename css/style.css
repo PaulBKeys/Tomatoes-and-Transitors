@@ -31,29 +31,13 @@ html, body {
   overflow-y: auto;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 /* Custom Industrial Scrollbars */
-*::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-*::-webkit-scrollbar-track {
-  background: rgba(12, 14, 18, 0.95);
-  border-radius: 3px;
-}
-
-*::-webkit-scrollbar-thumb {
-  background: rgba(185, 28, 28, 0.4);
-  border-radius: 3px;
-}
-
-*::-webkit-scrollbar-thumb:hover {
-  background: rgba(185, 28, 28, 0.7);
-}
+*::-webkit-scrollbar { width: 6px; height: 6px; }
+*::-webkit-scrollbar-track { background: rgba(12, 14, 18, 0.95); border-radius: 3px; }
+*::-webkit-scrollbar-thumb { background: rgba(185, 28, 28, 0.4); border-radius: 3px; }
+*::-webkit-scrollbar-thumb:hover { background: rgba(185, 28, 28, 0.7); }
 
 .page-wrapper {
   width: 100%;
@@ -94,9 +78,6 @@ html, body {
   justify-content: center;
   gap: clamp(1.5rem, 4vw, 4rem);
   width: 100%;
-  background: none;
-  border: none;
-  box-shadow: none;
 }
 
 .navbar-links-container .nav-link {
@@ -127,9 +108,7 @@ html, body {
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
 }
 
-.navbar-links-container .nav-link:hover::after {
-  width: 100%;
-}
+.navbar-links-container .nav-link:hover::after { width: 100%; }
 
 /* ==========================================================
    3. HERO BANNER SECTION
@@ -155,9 +134,7 @@ html, body {
   transition: transform 0.5s ease;
 }
 
-.hero-section:hover .banner {
-  transform: scale(1.02);
-}
+.hero-section:hover .banner { transform: scale(1.02); }
 
 .hero-title-overlay {
   position: absolute;
@@ -232,13 +209,8 @@ html, body {
   justify-content: space-between;
 }
 
-.hero-title-overlay .text-green {
-  color: #22c55e;
-}
-
-.hero-title-overlay .text-red {
-  color: #dc2626;
-}
+.hero-title-overlay .text-green { color: #22c55e; }
+.hero-title-overlay .text-red { color: #dc2626; }
 
 /* ==========================================================
    4. CONTENT GRID & CARD LAYOUTS
@@ -298,10 +270,7 @@ html, body {
   border: 1px solid rgba(185, 28, 28, 0.45) !important;
 }
 
-#featured-projects-card .unified-card-header {
-  color: #b91c1c !important;
-}
-
+#featured-projects-card .unified-card-header { color: #b91c1c !important; }
 #featured-projects-card .card-header-icon {
   background-color: #b91c1c !important;
   box-shadow: 0 0 8px #b91c1c !important;
@@ -316,7 +285,7 @@ html, body {
   flex: 0 0 auto !important;
 }
 
-/* --- ABOUT ME CARD (ID Badge Layout - Calibrated for Zero Clipping) --- */
+/* --- ABOUT ME CARD --- */
 #about-me-card {
   flex: 1 1 auto !important;
   height: 165px !important;
@@ -331,14 +300,10 @@ html, body {
 }
 
 #about-me-card .unified-card-header,
-#art-card .unified-card-header {
-  display: none !important;
-}
+#art-card .unified-card-header { display: none !important; }
 
 .about-read-more-btn,
-.archive-btn {
-  display: none !important;
-}
+.archive-btn { display: none !important; }
 
 #about-me-card .about-single-container {
   flex-direction: row;
@@ -397,7 +362,7 @@ html, body {
 
 #art-card .archive-desc-text,
 #art-card p {
-  font-size: 0.7rem; /* Adjust this size smaller or larger to your liking */
+  font-size: 0.7rem; 
   line-height: 1.3;
 }
 
@@ -427,9 +392,7 @@ html, body {
   opacity: 1;
 }
 
-.archive-thumb-img.fade-out {
-  opacity: 0;
-}
+.archive-thumb-img.fade-out { opacity: 0; }
 
 .archive-thumb-wrapper:hover {
   border-color: #a855f7 !important;
@@ -600,29 +563,13 @@ html, body {
   height: 100% !important;
 }
 
-/* --- LIVING GARDEN MONITOR CARD (Stationary & Bright Border) --- */
-#living-garden-card {
-  position: relative !important;
-  aspect-ratio: 21 / 9 !important;
-  overflow: hidden !important;
-  border-radius: 14px !important;
-  padding: 0 !important;
-  flex: 0 0 auto !important;
-  border: 1px solid rgba(148, 163, 184, 0.7) !important; 
-}
-
-#living-garden-card:hover {
-  transform: none !important; 
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important; 
-  border-color: rgba(148, 163, 184, 0.7) !important; 
-}
-
-.bottom-split-row {
+/* --- TOP ROW: SPLIT FEEDS --- */
+.top-split-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.25rem;
   align-items: stretch;
-  flex: 1 1 auto;
+  flex: 0 0 auto;
 }
 
 #green-sub-card {
@@ -645,22 +592,80 @@ html, body {
   box-shadow: 0 12px 36px rgba(56, 189, 248, 0.15);
 }
 
-.unified-card-header.green-header {
-  color: #22c55e !important;
+.unified-card-header.green-header { color: #22c55e !important; }
+.card-header-icon.green-icon { background-color: #22c55e !important; box-shadow: 0 0 8px #22c55e !important; }
+
+.unified-card-header.blue-header { color: #38bdf8 !important; }
+.card-header-icon.blue-icon { background-color: #38bdf8 !important; box-shadow: 0 0 8px #38bdf8 !important; }
+
+/* --- BOTTOM ROW: 4:3 GARDEN & STACKED CARDS --- */
+.bottom-garden-split-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  align-items: stretch;
+  flex: 1 1 auto;
 }
 
-.card-header-icon.green-icon {
-  background-color: #22c55e !important;
-  box-shadow: 0 0 8px #22c55e !important;
+/* LIVING GARDEN MONITOR CARD (4:3 Aspect Ratio) */
+#living-garden-card {
+  position: relative !important;
+  aspect-ratio: 4 / 3 !important;
+  overflow: hidden !important;
+  border-radius: 14px !important;
+  padding: 0 !important;
+  flex: 1 1 auto !important;
+  border: 1px solid rgba(148, 163, 184, 0.7) !important; 
 }
 
-.unified-card-header.blue-header {
-  color: #38bdf8 !important;
+#living-garden-card:hover {
+  transform: none !important; 
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important; 
+  border-color: rgba(148, 163, 184, 0.7) !important; 
 }
 
-.card-header-icon.blue-icon {
-  background-color: #38bdf8 !important;
-  box-shadow: 0 0 8px #38bdf8 !important;
+/* RIGHT STACKED COLUMN (Changelog & YouTube) */
+.right-stacked-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  height: 100%;
+}
+
+#changelog-card {
+  flex: 1 1 auto !important; 
+  border: 1px solid rgba(148, 163, 184, 0.4) !important;
+}
+
+#changelog-card:hover {
+  border-color: rgba(148, 163, 184, 0.8) !important;
+  box-shadow: 0 12px 36px rgba(148, 163, 184, 0.15);
+}
+
+.grey-header { color: #94a3b8 !important; }
+.grey-icon { background-color: #94a3b8 !important; box-shadow: 0 0 8px #94a3b8 !important; }
+
+#youtube-card {
+  flex: 0 0 auto !important;
+  padding: 0 !important; 
+  aspect-ratio: 16 / 9 !important;
+  border: 1px solid rgba(220, 38, 38, 0.4) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000 !important;
+}
+
+#youtube-card:hover {
+  border-color: rgba(220, 38, 38, 0.8) !important;
+  box-shadow: 0 12px 36px rgba(220, 38, 38, 0.2);
+}
+
+.youtube-placeholder-text {
+  color: #dc2626;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1.5px;
+  font-size: 1.1rem;
 }
 
 /* ==========================================================
@@ -685,9 +690,7 @@ html, body {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.feed-thumb-wrapper-top.blue-border {
-  border: 1px solid rgba(56, 189, 248, 0.4);
-}
+.feed-thumb-wrapper-top.blue-border { border: 1px solid rgba(56, 189, 248, 0.4); }
 
 .feed-thumb-wrapper-top:hover {
   border-color: #22c55e;
@@ -713,9 +716,7 @@ html, body {
   transition: transform 0.3s ease;
 }
 
-.feed-thumb-wrapper-top:hover .feed-thumb-img-top {
-  transform: scale(1.03);
-}
+.feed-thumb-wrapper-top:hover .feed-thumb-img-top { transform: scale(1.03); }
 
 .feed-text-wrapper-bottom {
   width: 100% !important;
@@ -776,9 +777,7 @@ html, body {
   transition: color 0.2s ease;
 }
 
-.feed-desc-link:hover {
-  color: #cbd5e1;
-}
+.feed-desc-link:hover { color: #cbd5e1; }
 
 .unified-card-header {
   font-family: 'Bebas Neue', sans-serif !important;
@@ -852,9 +851,7 @@ html, body {
   color: #e2e8f0;
 }
 
-.garden-timestamp {
-  color: #94a3b8;
-}
+.garden-timestamp { color: #94a3b8; }
 
 .garden-full-view-btn {
   background: rgba(148, 163, 184, 0.1);
@@ -1047,10 +1044,7 @@ html, body {
   padding-right: 15px;
 }
 
-.project-modal-text-col {
-  display: flex;
-  flex-direction: column;
-}
+.project-modal-text-col { display: flex; flex-direction: column; }
 
 .about-modal-text-col::-webkit-scrollbar-track,
 .project-modal-text-col::-webkit-scrollbar-track {
@@ -1122,9 +1116,7 @@ html, body {
   transition: opacity 0.4s ease-in-out;
 }
 
-.modal-garden-pane.active {
-  opacity: 1;
-}
+.modal-garden-pane.active { opacity: 1; }
 
 .project-modal-container-red {
   max-width: 1100px;
@@ -1167,9 +1159,7 @@ html, body {
   color: #fff !important;
 }
 
-.project-modal-heading-red {
-  color: #b91c1c !important;
-}
+.project-modal-heading-red { color: #b91c1c !important; }
 
 .project-modal-desc {
   color: #cbd5e1;
@@ -1284,17 +1274,10 @@ html, body {
   animation: greenDotFlash 1s ease-in-out infinite;
 }
 
-.feed-1.active, .feed-2.active {
-  animation: gardenSideRock 12s ease-in-out infinite;
-}
+.feed-1.active, .feed-2.active { animation: gardenSideRock 12s ease-in-out infinite; }
+.modal-garden-pane.active.garden-rock-anim { animation: gardenSideRock 12s ease-in-out infinite; }
 
-.modal-garden-pane.active.garden-rock-anim {
-  animation: gardenSideRock 12s ease-in-out infinite;
-}
-
-.card-lists {
-  perspective: 1000px;
-}
+.card-lists { perspective: 1000px; }
 
 .feed-flipping-out {
   animation: cardFlipOutHorizontal 0.35s ease-in forwards;
@@ -1343,18 +1326,14 @@ html, body {
    10. MOBILE RESPONSIVE BREAKPOINTS
    ========================================================== */
 @media (max-width: 900px) {
-  html {
-    overscroll-behavior-y: auto; 
-  }
+  html { overscroll-behavior-y: auto; }
 
   .project-carousel-container,
   #art-card,
   #living-garden-card,
   #featured-project-modal,
   #digital-archives-modal,
-  #living-garden-modal {
-    touch-action: pan-y;
-  }
+  #living-garden-modal { touch-action: pan-y; }
 
   .navbar-links-container {
     justify-content: center;
@@ -1362,29 +1341,15 @@ html, body {
     overflow-x: visible;
   }
 
-  .planb-grid-container {
-    grid-template-columns: 1fr;
-  }
-  .left-bottom-split-row {
-    grid-template-columns: 1fr;
-  }
-  .bottom-split-row {
-    grid-template-columns: 1fr;
-  }
+  .planb-grid-container,
+  .left-bottom-split-row,
+  .top-split-row,
+  .bottom-garden-split-row { grid-template-columns: 1fr; }
 
-  .carousel-nav-btn {
-    top: 22vw !important; 
-  }
+  .carousel-nav-btn { top: 22vw !important; }
 
-  .project-slide-title {
-    font-size: 1.05rem; 
-    padding: 0 10px;    
-  }
-
-  .project-text-wrapper {
-    align-items: center !important; 
-    text-align: center;
-  }
+  .project-slide-title { font-size: 1.05rem; padding: 0 10px; }
+  .project-text-wrapper { align-items: center !important; text-align: center; }
   
   .hero-section {
     position: relative; 
@@ -1426,24 +1391,11 @@ html, body {
     line-height: 0.9;
   }
 
-  .hero-title-overlay .banner-tagline {
-    display: none; 
-  }
+  .hero-title-overlay .banner-tagline { display: none; }
+  .hero-title-overlay .banner-divider-row { width: 80%; margin: 0.4rem auto; }
   
-  .hero-title-overlay .banner-divider-row {
-    width: 80%;
-    margin: 0.4rem auto;
-  }
-  
-  #featured-projects-card {
-    height: auto !important;
-    min-height: 270px !important; 
-  }
-  
-  .project-slide-desc {
-    -webkit-line-clamp: unset !important;
-    display: block !important;
-  }
+  #featured-projects-card { height: auto !important; min-height: 270px !important; }
+  .project-slide-desc { -webkit-line-clamp: unset !important; display: block !important; }
   
   .about-modal-container,
   .project-modal-container-red,
@@ -1468,11 +1420,7 @@ html, body {
   }
 
   .about-modal-text-col,
-  .project-modal-text-col {
-    overflow-y: visible;
-    max-height: none;
-    padding-right: 0;
-  }
+  .project-modal-text-col { overflow-y: visible; max-height: none; padding-right: 0; }
 
   .about-modal-container img,
   .project-modal-container-red img,
@@ -1483,14 +1431,36 @@ html, body {
     object-fit: contain;
   }
 
+  /* --- MOBILE LIVING GARDEN OVERLAY (Fixes Header to Top-Left, Button to Bottom-Right) --- */
   .garden-viewport-overlay-header {
-    padding: 6px 10px;
-    gap: 6px;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px; /* Stretch flex container to the bottom edge */
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    flex-direction: column;
+    justify-content: space-between; /* Space out the top box and bottom button */
+    align-items: flex-end; /* Pins button to the right */
+    pointer-events: none; /* Allows swiping through the empty middle space */
   }
+
   .garden-header-left {
+    align-self: flex-start; /* Pins title/time back to the left */
+    background: rgba(12, 14, 18, 0.65) !important;
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 6px 10px;
+    border-radius: 6px;
     gap: 6px;
     min-width: 0;
+    pointer-events: auto; /* Re-enables interaction for this box */
   }
+
   .garden-viewport-title {
     font-size: 10px;
     letter-spacing: 0.5px;
@@ -1498,16 +1468,19 @@ html, body {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .garden-timestamp {
-    font-size: 10px;
-  }
+
+  .garden-timestamp { font-size: 10px; }
+
   .garden-full-view-btn {
     font-size: 10px;
     letter-spacing: 0.8px;
-    padding: 2px 6px;
+    padding: 4px 8px;
     white-space: nowrap;
+    pointer-events: auto; /* Re-enables clicking the button */
+    background: rgba(12, 14, 18, 0.85) !important; /* Re-adds dark background to the standalone button */
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
   }
-  .project-carousel-container {
-    padding: 0.4rem 25px 0.5rem 25px !important;
-  }
+
+  .project-carousel-container { padding: 0.4rem 25px 0.5rem 25px !important; }
 }
