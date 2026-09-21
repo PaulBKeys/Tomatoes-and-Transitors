@@ -10,7 +10,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  overscroll-behavior-y: none;
+  overscroll-behavior-y: none; /* Locks the desktop viewport */
   scroll-behavior: smooth;
   height: auto;
 }
@@ -1371,6 +1371,11 @@ html, body {
    ========================================================== */
 @media (max-width: 900px) {
   
+  /* Add this to enable native pull-to-refresh only on mobile */
+  html {
+    overscroll-behavior-y: auto; 
+  }
+
   /* Navbar Centered */
   .navbar-links-container {
     justify-content: center;
