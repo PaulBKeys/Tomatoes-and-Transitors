@@ -508,4 +508,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   );
 
+  // 4. Global Pull-to-Refresh (Swipe Down)
+  let pullStartY = 0;
+
+  document.addEventListener('touchstart', (e) => {
+    // Only initiate the pull if the user is at the very top of the scroll
+    if (window.scrollY === 0) {
+      pullStartY = e.changedTouches[0].screenY;
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchend', (e) => {
+    // Check if we started at the top
+    if (window.scrollY === 0 && pullStartY > 0) {
+      const pullEndY = e.changedTouches[0].screenY;
+      const diffY = pullEndY - pullStartY;
+      
+      // Set a deliberate drag distance (120px) before triggering the refresh
+      const pullThreshold = 120; 
+
+      if (diffY > pullThreshold) {
+        window.location.reload();
+      }
+    }
+    // Reset for the next touch
+    pullStartY = 0;
+  }, { passive: true });
+
 });
