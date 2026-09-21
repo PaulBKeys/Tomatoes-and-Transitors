@@ -1371,9 +1371,22 @@ html, body {
    ========================================================== */
 @media (max-width: 900px) {
   
-  /* Add this to enable native pull-to-refresh only on mobile */
+  /* Enables native pull-to-refresh only on mobile */
   html {
     overscroll-behavior-y: auto; 
+  }
+
+  /* 
+   * Protects custom JS left/right swipe gestures while allowing 
+   * normal up/down vertical scrolling inside cards and pop-up modals
+   */
+  .project-carousel-container,
+  #art-card,
+  #living-garden-card,
+  #featured-project-modal,
+  #digital-archives-modal,
+  #living-garden-modal {
+    touch-action: pan-y;
   }
 
   /* Navbar Centered */
