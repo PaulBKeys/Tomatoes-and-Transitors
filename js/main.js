@@ -655,7 +655,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Plugged in your API Key and ready for your Playlist ID:
-  fetchLatestPlaylistVideo('YOUR_PLAYLIST_ID', 'AIzaSyAGWqPuUte3_q3bHEFvLvGg-mSnQ7DwKx4');
+  // Plugged in your API Key and Playlist ID:
+  fetchLatestPlaylistVideo('PLSebMVy5d6tw', 'AIzaSyAGWqPuUte3_q3bHEFvLvGg-mSnQ7DwKx4');
 
 });
