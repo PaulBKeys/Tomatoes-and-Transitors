@@ -27,7 +27,7 @@ html, body {
   align-items: center;
   color: #e2e8f0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  overflow-x: hidden;
+  overflow-x: clip; /* Changed from hidden to allow position: sticky to work */
   overflow-y: auto;
 }
 
@@ -68,7 +68,9 @@ html, body {
    2. NAVBAR CONTAINER
    ========================================================== */
 .navbar {
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   width: 100%;
   height: 56px;
   background: rgba(12, 14, 18, 0.95);
@@ -342,17 +344,17 @@ html, body {
 
 .about-single-container {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
   height: 100%;
   padding: 0.25rem 0.5rem;
 }
 
 .about-thumb-wrapper {
   flex-shrink: 0;
-  width: 80px;
-  aspect-ratio: 4 / 3;
+  width: 100%;
+  height: 70px;
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid rgba(245, 158, 11, 0.4);
@@ -371,7 +373,7 @@ html, body {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .about-bio-text {
@@ -429,8 +431,8 @@ html, body {
 
 .archive-thumb-wrapper {
   flex-shrink: 0;
-  width: 80px;
-  aspect-ratio: 4 / 3;
+  width: 100%;
+  height: 70px;
   border-radius: 8px;
   border: 1px solid rgba(168, 85, 247, 0.4) !important;
   overflow: hidden;
