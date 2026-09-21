@@ -1501,3 +1501,32 @@ html, body {
     padding: 0.4rem 25px 0.5rem 25px !important;
   }
 }
+
+/* ==========================================================
+   ABOUT ME CARD - ID BADGE LAYOUT OVERRIDE
+   ========================================================== */
+/* 1. Flip the container to side-by-side and vertically center it */
+#about-me-card .about-single-container {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+/* 2. Turn the thumbnail into a rounded square avatar */
+#about-me-card .about-thumb-wrapper {
+  width: 85px;
+  height: 85px;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px; /* Gives it the rounded square look */
+  flex-shrink: 0;
+}
+
+/* 3. Center the text block vertically next to the avatar */
+#about-me-card .about-text-wrapper {
+  justify-content: center;
+}
+
+/* 4. Allow an extra line of text since the column is narrower now */
+#about-me-card .about-bio-text {
+  -webkit-line-clamp: 4;
+}
