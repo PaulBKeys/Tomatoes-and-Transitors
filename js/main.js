@@ -233,6 +233,13 @@ document.addEventListener('DOMContentLoaded', () => {
     () => updateAllFeeds(activeFeedIndex)
   );
 
+  // Init Digital Archives Modal
+  setupModal(
+    [document.getElementById('open-archive-modal'), document.getElementById('open-archive-modal-img')],
+    document.getElementById('digital-archives-modal'),
+    document.getElementById('close-archive-modal')
+  );
+
   const modalCamPrev = document.getElementById('modal-cam-prev');
   const modalCamNext = document.getElementById('modal-cam-next');
 

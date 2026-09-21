@@ -18,6 +18,7 @@
         <a href="#home" class="nav-link">HOME</a>
         <a href="#projects" class="nav-link">PROJECTS</a>
         <a href="#growth" class="nav-link">GROWTH</a>
+        <a href="#archives" class="nav-link">ARCHIVES</a>
       </div>
     </nav>
     
@@ -117,22 +118,40 @@
             </div>
           </article>
 
-          <!-- ABOUT ME CARD -->
+          <!-- ABOUT ME // ART SPLIT CARD -->
           <article class="site-card planb-card card-lists card-about-split" id="about-me-card">
             <div class="unified-card-header">
               <span class="header-title-wrapper">
                 <span class="card-header-icon"></span>
-                ABOUT ME
+                ABOUT ME // ART
               </span>
             </div>
-            <div class="card-inner-content about-split-container">
-              <div class="about-thumb-wrapper">
-                <img src="images/ABthumb.png" alt="Paul Portrait" class="about-thumb-img">
+            
+            <div class="card-inner-content about-archive-split-container">
+              
+              <!-- Left Side: Existing Bio (Amber Theme) -->
+              <div class="bio-panel">
+                <div class="about-thumb-wrapper">
+                  <img src="images/ABthumb.png" alt="Paul Portrait" class="about-thumb-img">
+                </div>
+                <div class="about-text-wrapper">
+                  <p class="about-bio-text">Air Force avionics vet, former diesel mechanic, and lifelong tech tinkerer. Today, I'm channeling decades of hands-on troubleshooting into studying Computer and Information Systems at Dyersburg State.</p>
+                  <button type="button" class="about-read-more-btn" id="open-about-modal">READ MORE...</button>
+                </div>
               </div>
-              <div class="about-text-wrapper">
-                <p class="about-bio-text">Air Force avionics vet, former diesel mechanic, and lifelong tech tinkerer. Today, I'm channeling decades of hands-on troubleshooting into studying Computer and Information Systems at Dyersburg State.</p>
-                <button type="button" class="about-read-more-btn" id="open-about-modal">READ MORE...</button>
+
+              <!-- Right Side: New Art Archive (Purple Theme) -->
+              <div class="archive-panel">
+                <div class="archive-thumb-wrapper" id="open-archive-modal-img" title="Click to open gallery">
+                  <!-- Temporary Unsplash placeholder for 3D renders -->
+                  <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop" alt="3D Render Placeholder" class="archive-thumb-img">
+                </div>
+                <div class="archive-text-wrapper">
+                  <h4 class="archive-title">ART</h4>
+                  <button type="button" class="archive-btn" id="open-archive-modal">[ INITIALIZE_GALLERY ]</button>
+                </div>
               </div>
+
             </div>
           </article>
 
@@ -236,16 +255,26 @@
 
   </div>
 
+  <!-- ==========================================================
+       MODALS 
+       ========================================================== -->
+
   <!-- ABOUT ME MODAL -->
   <div id="about-me-modal" class="about-modal-overlay">
     <div class="about-modal-container">
-      <button class="about-modal-close" id="close-about-modal">&times;</button>
+      
+      <!-- Pinned Header -->
+      <div class="about-modal-header">
+        <h3 class="about-modal-heading">ABOUT ME</h3>
+        <button class="about-modal-close" id="close-about-modal">&times;</button>
+      </div>
+
+      <!-- Scrollable Grid Body -->
       <div class="about-modal-grid">
         <div class="about-modal-image-col">
           <img src="images/abmethumb.png" alt="Paul Portrait" class="about-modal-img">
         </div>
         <div class="about-modal-text-col" id="about-modal-scroll-area">
-          <h3 class="about-modal-heading">ABOUT ME</h3>
           <p>I spent a good part of my life moving around as a military brat, growing up mostly in Germany and the Philippines. For a long time, I lived a nomadic lifestyle, wandering through different places and jobs because I hadn't found my true direction yet.</p>
           <p>Before I ever figured out where I was headed, I worked through a lifetime of varied experiences. I served in the U.S. Air Force until 1993, working as an avionics repair technician on LANTIRN systems for F-15 and F-16 aircraft. From there, my path took me through a relentless mix of heavy hands-on work—wiring massive server power distribution racks, mass-flashed software and BIOS updates across complex hardware configurations, and repairing a wide range of technical devices. I spent three years as a sawyer at a sawmill, ran a forklift at a chicken plant, turned wrenches as a diesel mechanic for a decade, and managed a resort in Wyoming with a team of fifteen.</p>
           <p>My journey with technology started way back in the 1980s. One of my earliest memories is wiring up a mechanical keyboard with my dad to replace the soft-pad keyboard on our Sinclair ZX81. From there, I graduated to cracking small codes on a Commodore 64 using DOS and floppies, and took GW-BASIC and Pascal in high school. I can still remember pushing my school assignments all the way from the Philippines to Japan over a sluggish 9.6k baud modem. In the early 2000s, I dove headfirst into digital art and 3D design—using Terragen, Bryce, Vue 5 Infinite, Photoshop, and Swish just for the love of creating.</p>
@@ -254,14 +283,20 @@
           <p>I've always been fascinated by how people communicate and analyze conversations, even though I've never considered myself much of a natural communicator—it's definitely an edge I'm working hard to smooth out. Coming back to school and putting myself out there is about more than just a degree; it's about taking everything I've lived, built, and repaired over the decades and finally channeling it into something permanent.</p>
         </div>
       </div>
+
     </div>
   </div>
 
   <!-- LIVING GARDEN FULL VIEW MODAL -->
   <div id="living-garden-modal" class="about-modal-overlay">
     <div class="about-modal-container garden-modal-container-steel">
-      <button class="about-modal-close garden-modal-close-steel" id="close-garden-modal">&times;</button>
       
+      <!-- Pinned Header -->
+      <div class="about-modal-header garden-modal-header-steel">
+        <button class="about-modal-close garden-modal-close-steel" id="close-garden-modal">&times;</button>
+      </div>
+      
+      <!-- Viewport Body -->
       <div class="garden-modal-viewport">
         <div class="garden-zoom-content modal-garden-pane active" id="modal-modal-layer-1"></div>
         <div class="garden-zoom-content modal-garden-pane" id="modal-modal-layer-2"></div>
@@ -288,15 +323,20 @@
   <!-- FEATURED PROJECT POPUP MODAL -->
   <div id="featured-project-modal" class="about-modal-overlay">
     <div class="about-modal-container project-modal-container-red">
-      <button class="about-modal-close project-modal-close-red" id="close-project-modal">&times;</button>
       
+      <!-- Pinned Header -->
+      <div class="about-modal-header project-modal-header-red">
+        <h3 id="modal-project-title" class="about-modal-heading project-modal-heading-red">PROJECT TITLE</h3>
+        <button class="about-modal-close project-modal-close-red" id="close-project-modal">&times;</button>
+      </div>
+      
+      <!-- Scrollable Grid Body -->
       <div class="about-modal-grid project-modal-grid-red">
         <div class="project-modal-img-wrapper">
           <img id="modal-project-img" src="" alt="Project Expanded View" class="project-modal-img">
         </div>
         
         <div class="project-modal-text-col">
-          <h3 id="modal-project-title" class="about-modal-heading project-modal-heading-red">PROJECT TITLE</h3>
           <p id="modal-project-desc" class="project-modal-desc">Project description goes here.</p>
           
           <div class="project-modal-footer">
@@ -312,6 +352,31 @@
           </div>
         </div>
       </div>
+
+    </div>
+  </div>
+
+  <!-- DIGITAL ARCHIVES MODAL -->
+  <div id="digital-archives-modal" class="about-modal-overlay">
+    <div class="about-modal-container archive-modal-container-amber">
+      
+      <!-- Pinned Header -->
+      <div class="about-modal-header archive-modal-header-amber">
+        <h3 class="about-modal-heading">DIGITAL ARCHIVES // ART RENDERS</h3>
+        <button class="about-modal-close" id="close-archive-modal">&times;</button>
+      </div>
+      
+      <!-- Grid Body -->
+      <div class="about-modal-grid project-modal-grid-red" style="grid-template-columns: 1fr;">
+        <div class="project-modal-img-wrapper archive-modal-img-wrapper">
+          <img src="images/Grimstone_by_ashtreyhead.jpg" alt="Grimstone 3D Render" class="project-modal-img" style="max-height: 55vh;">
+        </div>
+        
+        <div class="project-modal-text-col" style="text-align: center; margin-top: 10px;">
+          <p class="project-modal-desc"><strong>GRIMSTONE</strong> — Rendered using Bryce/Terragen on a daisy-chained multi-CPU setup. Early 2000s.</p>
+        </div>
+      </div>
+
     </div>
   </div>
 
