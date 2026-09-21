@@ -27,7 +27,7 @@ html, body {
   align-items: center;
   color: #e2e8f0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  overflow-x: hidden;
+  overflow-x: clip; 
   overflow-y: auto;
 }
 
@@ -68,7 +68,10 @@ html, body {
    2. NAVBAR CONTAINER
    ========================================================== */
 .navbar {
-  position: relative;
+  position: sticky;
+  top: 0; 
+  align-self: flex-start; 
+  z-index: 1000;
   width: 100%;
   height: 56px;
   background: rgba(12, 14, 18, 0.95);
@@ -295,11 +298,6 @@ html, body {
   border: 1px solid rgba(185, 28, 28, 0.45) !important;
 }
 
-#featured-projects-card:hover {
-  border-color: rgba(185, 28, 28, 0.8) !important;
-  box-shadow: 0 12px 36px rgba(185, 28, 28, 0.2);
-}
-
 #featured-projects-card .unified-card-header {
   color: #b91c1c !important;
 }
@@ -321,9 +319,10 @@ html, body {
 /* ABOUT ME CARD (Amber Theme) */
 #about-me-card {
   flex: 1 1 auto !important;
-  height: 165px !important;
-  padding-bottom: 0.5rem !important;
+  height: 165px !important; /* Restored to grid-locking height */
+  padding: 1rem !important; 
   border: 1px solid rgba(245, 158, 11, 0.4) !important;
+  cursor: pointer; 
 }
 
 #about-me-card:hover {
@@ -331,28 +330,31 @@ html, body {
   box-shadow: 0 12px 36px rgba(245, 158, 11, 0.2) !important;
 }
 
-#about-me-card .unified-card-header {
-  color: #f59e0b !important;
+/* Hide headers for About Me and Art Cards */
+#about-me-card .unified-card-header,
+#art-card .unified-card-header {
+  display: none !important;
 }
 
-#about-me-card .card-header-icon {
-  background-color: #f59e0b !important;
-  box-shadow: 0 0 8px #f59e0b !important;
+/* Hide Read More/Gallery buttons */
+.about-read-more-btn,
+.archive-btn {
+  display: none !important;
 }
 
 .about-single-container {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
   height: 100%;
-  padding: 0.25rem 0.5rem;
+  padding: 0; 
 }
 
 .about-thumb-wrapper {
   flex-shrink: 0;
-  width: 80px;
-  aspect-ratio: 4 / 3;
+  width: 100%;
+  height: 70px; /* Small banner size to fit inside 165px limit */
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid rgba(245, 158, 11, 0.4);
@@ -371,46 +373,27 @@ html, body {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .about-bio-text {
   font-size: 0.75rem;
   color: #cbd5e1;
   line-height: 1.35;
-  margin: 0 0 6px 0;
+  margin: 0;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 2; /* Clips neatly within 165px boundary */
   overflow: hidden;
-}
-
-.about-read-more-btn {
-  background: rgba(245, 158, 11, 0.15);
-  border: 1px solid rgba(245, 158, 11, 0.5);
-  color: #f59e0b;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 11px;
-  letter-spacing: 1px;
-  padding: 2px 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  width: max-content;
-  transition: all 0.2s ease;
-}
-
-.about-read-more-btn:hover {
-  background: #f59e0b;
-  color: #000;
-  box-shadow: 0 0 10px rgba(245, 158, 11, 0.8);
 }
 
 /* ART CARD (Synthwave Purple Theme with Fade Transition) */
 #art-card {
   flex: 1 1 auto !important;
-  height: 165px !important;
-  padding-bottom: 0.5rem !important;
+  height: 165px !important; /* Restored to grid-locking height */
+  padding: 1rem !important; 
   border: 1px solid rgba(168, 85, 247, 0.4) !important;
+  cursor: pointer; 
 }
 
 #art-card:hover {
@@ -418,19 +401,10 @@ html, body {
   box-shadow: 0 12px 36px rgba(168, 85, 247, 0.2) !important;
 }
 
-.unified-card-header.art-header {
-  color: #a855f7 !important;
-}
-
-.card-header-icon.art-icon {
-  background-color: #a855f7 !important;
-  box-shadow: 0 0 8px #a855f7 !important;
-}
-
 .archive-thumb-wrapper {
   flex-shrink: 0;
-  width: 80px;
-  aspect-ratio: 4 / 3;
+  width: 100%;
+  height: 70px; /* Small banner size to fit inside 165px limit */
   border-radius: 8px;
   border: 1px solid rgba(168, 85, 247, 0.4) !important;
   overflow: hidden;
@@ -459,18 +433,6 @@ html, body {
 
 .archive-thumb-wrapper:hover .archive-thumb-img {
   transform: scale(1.05);
-}
-
-.archive-btn {
-  background: rgba(168, 85, 247, 0.15) !important;
-  border: 1px solid rgba(168, 85, 247, 0.5) !important;
-  color: #a855f7 !important;
-}
-
-.archive-btn:hover {
-  background: #a855f7 !important;
-  color: #000 !important;
-  box-shadow: 0 0 10px rgba(168, 85, 247, 0.8) !important;
 }
 
 /* FEATURED PROJECTS CAROUSEL */
@@ -1371,14 +1333,25 @@ html, body {
    ========================================================== */
 @media (max-width: 900px) {
   
-  /* Navbar Centered */
+  html {
+    overscroll-behavior-y: auto; 
+  }
+
+  .project-carousel-container,
+  #art-card,
+  #living-garden-card,
+  #featured-project-modal,
+  #digital-archives-modal,
+  #living-garden-modal {
+    touch-action: pan-y;
+  }
+
   .navbar-links-container {
     justify-content: center;
     gap: clamp(1rem, 4vw, 2rem);
     overflow-x: visible;
   }
 
-  /* Grid and Layout */
   .planb-grid-container {
     grid-template-columns: 1fr;
   }
@@ -1389,9 +1362,6 @@ html, body {
     grid-template-columns: 1fr;
   }
 
-  /* ----------------------------------------------------
-     Featured Project Card Mobile Fixes
-     ---------------------------------------------------- */
   .carousel-nav-btn {
     top: 22vw !important; 
   }
@@ -1406,9 +1376,6 @@ html, body {
     text-align: center;
   }
   
-  /* ----------------------------------------------------
-     Hero Banner
-     ---------------------------------------------------- */
   .hero-section {
     position: relative; 
     aspect-ratio: 16 / 8; 
@@ -1458,17 +1425,9 @@ html, body {
     margin: 0.4rem auto;
   }
   
-  /* ----------------------------------------------------
-     Card Adjustments
-     ---------------------------------------------------- */
   #featured-projects-card {
     height: auto !important;
     min-height: 270px !important; 
-  }
-
-  #about-me-card,
-  #art-card {
-    height: 165px !important;
   }
   
   .project-slide-desc {
@@ -1476,9 +1435,6 @@ html, body {
     display: block !important;
   }
   
-  /* ----------------------------------------------------
-     Pinned Modals (Mobile View)
-     ---------------------------------------------------- */
   .about-modal-container,
   .project-modal-container-red,
   .garden-modal-container-steel,
@@ -1517,9 +1473,6 @@ html, body {
     object-fit: contain;
   }
 
-  /* ----------------------------------------------------
-     Viewport Adjustments
-     ---------------------------------------------------- */
   .garden-viewport-overlay-header {
     padding: 6px 10px;
     gap: 6px;

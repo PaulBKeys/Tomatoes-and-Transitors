@@ -212,9 +212,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  // Init About Me Modal
+  // Init About Me Modal (Triggers off whole card)
   setupModal(
-    document.getElementById('open-about-modal'), 
+    document.getElementById('about-me-card'), 
     document.getElementById('about-me-modal'), 
     document.getElementById('close-about-modal')
   );
@@ -425,9 +425,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Init Digital Archives Modal (Linked to navbar ARCHIVES)
+  // Init Digital Archives Modal (Triggers off whole card)
   setupModal(
-    [document.getElementById('open-archive-modal'), document.getElementById('open-archive-modal-img'), document.getElementById('nav-archives')],
+    [document.getElementById('art-card'), document.getElementById('nav-archives')],
     document.getElementById('digital-archives-modal'),
     document.getElementById('close-archive-modal'),
     () => loadArtImage(currentArtIndex)
@@ -496,6 +496,51 @@ document.addEventListener('DOMContentLoaded', () => {
   // 3. Swipe Living Garden Feed Card
   enableSwipe(
     document.getElementById('living-garden-card'),
+    () => {
+      clearInterval(feedInterval);
+      let target = (activeFeedIndex + 1) % feedLayers.length;
+      updateAllFeeds(target);
+    },
+    () => {
+      clearInterval(feedInterval);
+      let target = (activeFeedIndex - 1 + feedLayers.length) % feedLayers.length;
+      updateAllFeeds(target);
+    }
+  );
+
+  // 4. Swipe Featured Project Pop-up Modal
+  enableSwipe(
+    document.getElementById('featured-project-modal'),
+    () => {
+      currentSlide = (currentSlide + 1) % slides.length;
+      updateProjectModalContent(currentSlide);
+      showSlide(currentSlide);
+    },
+    () => {
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      updateProjectModalContent(currentSlide);
+      showSlide(currentSlide);
+    }
+  );
+
+  // 5. Swipe Digital Archives Pop-up Modal
+  enableSwipe(
+    document.getElementById('digital-archives-modal'),
+    () => {
+      clearInterval(artCycleInterval);
+      currentArtIndex = (currentArtIndex + 1) % artImages.length;
+      loadArtImage(currentArtIndex);
+    },
+    () => {
+      clearInterval(artCycleInterval);
+      currentArtIndex = (currentArtIndex - 1 + artImages.length) % artImages.length;
+      loadArtImage(currentArtIndex);
+    }
+  );
+
+  // 6. Swipe Living Garden Full View Pop-up Modal
+  enableSwipe(
+    document.getElementById('living-garden-modal'),
     () => {
       clearInterval(feedInterval);
       let target = (activeFeedIndex + 1) % feedLayers.length;
