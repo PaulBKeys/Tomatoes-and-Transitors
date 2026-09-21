@@ -212,9 +212,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  // Init About Me Modal
+  // Init About Me Modal (Triggers off whole card)
   setupModal(
-    document.getElementById('open-about-modal'), 
+    document.getElementById('about-me-card'), 
     document.getElementById('about-me-modal'), 
     document.getElementById('close-about-modal')
   );
@@ -425,9 +425,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Init Digital Archives Modal (Linked to navbar ARCHIVES)
+  // Init Digital Archives Modal (Triggers off whole card)
   setupModal(
-    [document.getElementById('open-archive-modal'), document.getElementById('open-archive-modal-img'), document.getElementById('nav-archives')],
+    [document.getElementById('art-card'), document.getElementById('nav-archives')],
     document.getElementById('digital-archives-modal'),
     document.getElementById('close-archive-modal'),
     () => loadArtImage(currentArtIndex)
