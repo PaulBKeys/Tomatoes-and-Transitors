@@ -279,7 +279,7 @@ html, body {
 /* BOTTOM SPLIT ROW FOR ABOUT ME & ART CARDS */
 .left-bottom-split-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr; /* Set to stack side-by-side on desktop */
   gap: 1.25rem;
   align-items: stretch;
   flex: 0 0 auto !important;
@@ -288,7 +288,8 @@ html, body {
 /* --- ABOUT ME CARD --- */
 #about-me-card {
   flex: 1 1 auto !important;
-  height: 165px !important;
+  height: auto !important;      /* Removed fixed height to clamp up */
+  min-height: 120px !important; /* Shrunk from 165px to fit 86px image tightly */
   padding: 0.85rem 1rem !important; 
   border: 1px solid rgba(245, 158, 11, 0.4) !important;
   cursor: pointer; 
@@ -305,7 +306,9 @@ html, body {
 .about-read-more-btn,
 .archive-btn { display: none !important; }
 
-#about-me-card .about-single-container {
+/* Unified flex-row layout for BOTH About Me and Art cards */
+#about-me-card .about-single-container,
+#art-card .about-single-container {
   flex-direction: row;
   display: flex;
   align-items: center;
@@ -314,25 +317,35 @@ html, body {
   padding: 0;
 }
 
-#about-me-card .about-thumb-wrapper {
-  width: 76px;
-  height: 76px;
+/* Unified 86x86px thumbnail sizing for BOTH cards */
+#about-me-card .about-thumb-wrapper,
+#art-card .about-thumb-wrapper {
+  width: 86px;
+  height: 86px;
   aspect-ratio: 1 / 1;
   border-radius: 10px;
   flex-shrink: 0;
   overflow: hidden;
-  border: 1px solid rgba(245, 158, 11, 0.4);
   background: #000;
 }
 
+/* Specific border color for About Me */
+#about-me-card .about-thumb-wrapper {
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+/* Controls the About Me portrait (Fills the box, adjusted crop) */
 .about-thumb-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; 
+  object-position: center 20%; 
   display: block;
 }
 
-#about-me-card .about-text-wrapper {
+/* Unified text wrapper block for BOTH cards */
+#about-me-card .about-text-wrapper,
+#art-card .about-text-wrapper {
   flex: 1 1 0%;
   min-width: 0;
   display: flex;
@@ -340,27 +353,29 @@ html, body {
   justify-content: center;
 }
 
-#about-me-card .about-bio-text {
+/* Unified bio/description text styling for BOTH cards */
+#about-me-card .about-bio-text,
+#art-card .about-bio-text {
   font-size: 0.7rem;
   color: #cbd5e1;
   line-height: 1.3;
   margin: 0;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3; 
   overflow: hidden;
 }
 
 /* --- ART CARD (Synthwave Purple Theme) --- */
 #art-card {
   flex: 1 1 auto !important;
-  height: 165px !important;
+  height: auto !important;      /* Removed fixed height to clamp up */
+  min-height: 120px !important; /* Shrunk from 165px to fit 86px image tightly */
   padding: 1rem !important; 
   border: 1px solid rgba(168, 85, 247, 0.4) !important;
   cursor: pointer; 
 }
 
-#art-card .archive-desc-text,
 #art-card p {
   font-size: 0.7rem; 
   line-height: 1.3;
@@ -372,21 +387,16 @@ html, body {
 }
 
 .archive-thumb-wrapper {
-  flex-shrink: 0;
-  width: 100%;
-  height: 60px;
-  border-radius: 8px;
   border: 1px solid rgba(168, 85, 247, 0.4) !important;
-  overflow: hidden;
   cursor: pointer;
-  background: #000;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Controls ONLY the Art Card (Uncropped/Unzoomed) */
 .archive-thumb-img {
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover !important;
+  object-fit: contain !important; 
   display: block;
   transition: opacity 0.5s ease-in-out, transform 0.3s ease;
   opacity: 1;
@@ -645,20 +655,32 @@ html, body {
 .grey-header { color: #94a3b8 !important; }
 .grey-icon { background-color: #94a3b8 !important; box-shadow: 0 0 8px #94a3b8 !important; }
 
+/* YouTube Card Consolidated Styles */
 #youtube-card {
   flex: 0 0 auto !important;
-  padding: 0 !important; 
-  aspect-ratio: 16 / 9 !important;
-  border: 1px solid rgba(220, 38, 38, 0.4) !important;
+  padding: 12px !important;
+  background-color: #0f172a !important;
+  border: 1px solid #334155 !important;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #000 !important;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
 }
 
 #youtube-card:hover {
-  border-color: rgba(220, 38, 38, 0.8) !important;
-  box-shadow: 0 12px 36px rgba(220, 38, 38, 0.2);
+  transform: none !important;
+  transition: none !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3); 
+}
+
+#youtube-card iframe {
+  width: 100%;
+  height: 180px; 
+  border: none;
+  display: block;
+  border-radius: 8px;
 }
 
 .youtube-placeholder-text {
@@ -841,17 +863,27 @@ html, body {
   display: flex;
   align-items: center;
   gap: 8px;
+  min-width: 0; 
 }
 
-.garden-viewport-title, 
-.garden-timestamp {
+.garden-viewport-title {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 13px;
   letter-spacing: 1px;
   color: #e2e8f0;
+  white-space: nowrap;     
+  overflow: hidden;        
+  text-overflow: ellipsis; 
 }
 
-.garden-timestamp { color: #94a3b8; }
+.garden-timestamp {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: #94a3b8;
+  white-space: nowrap;
+  flex-shrink: 0;          
+}
 
 .garden-full-view-btn {
   background: rgba(148, 163, 184, 0.1);
@@ -864,6 +896,8 @@ html, body {
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
+  white-space: nowrap;     
+  flex-shrink: 0;          
 }
 
 .garden-full-view-btn:hover {
@@ -1328,6 +1362,9 @@ html, body {
 @media (max-width: 900px) {
   html { overscroll-behavior-y: auto; }
 
+  /* Specifically force About/Art side-by-side here for tablet view */
+  .left-bottom-split-row { grid-template-columns: 1fr 1fr !important; }
+
   .project-carousel-container,
   #art-card,
   #living-garden-card,
@@ -1342,7 +1379,6 @@ html, body {
   }
 
   .planb-grid-container,
-  .left-bottom-split-row,
   .top-split-row,
   .bottom-garden-split-row { grid-template-columns: 1fr; }
 
@@ -1431,25 +1467,25 @@ html, body {
     object-fit: contain;
   }
 
-  /* --- MOBILE LIVING GARDEN OVERLAY (Fixes Header to Top-Left, Button to Bottom-Right) --- */
+  /* --- MOBILE LIVING GARDEN OVERLAY --- */
   .garden-viewport-overlay-header {
     top: 10px;
     left: 10px;
     right: 10px;
-    bottom: 10px; /* Stretch flex container to the bottom edge */
+    bottom: 10px; 
     padding: 0 !important;
     background: transparent !important;
     border: none !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     flex-direction: column;
-    justify-content: space-between; /* Space out the top box and bottom button */
-    align-items: flex-end; /* Pins button to the right */
-    pointer-events: none; /* Allows swiping through the empty middle space */
+    justify-content: space-between; 
+    align-items: flex-end; 
+    pointer-events: none; /* Let user swipe through empty space */
   }
 
   .garden-header-left {
-    align-self: flex-start; /* Pins title/time back to the left */
+    align-self: flex-start; 
     background: rgba(12, 14, 18, 0.65) !important;
     backdrop-filter: blur(6px) !important;
     -webkit-backdrop-filter: blur(6px) !important;
@@ -1458,29 +1494,29 @@ html, body {
     border-radius: 6px;
     gap: 6px;
     min-width: 0;
-    pointer-events: auto; /* Re-enables interaction for this box */
+    pointer-events: auto; /* Restores clickability for header */
   }
 
   .garden-viewport-title {
     font-size: 10px;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
-  .garden-timestamp { font-size: 10px; }
+  .garden-timestamp { 
+    font-size: 10px; 
+  }
 
   .garden-full-view-btn {
     font-size: 10px;
-    letter-spacing: 0.8px;
-    padding: 4px 8px;
-    white-space: nowrap;
-    pointer-events: auto; /* Re-enables clicking the button */
-    background: rgba(12, 14, 18, 0.85) !important; /* Re-adds dark background to the standalone button */
+    pointer-events: auto; /* Restores clickability for the button */
+    background: rgba(12, 14, 18, 0.85) !important; 
     backdrop-filter: blur(6px) !important;
     -webkit-backdrop-filter: blur(6px) !important;
   }
 
   .project-carousel-container { padding: 0.4rem 25px 0.5rem 25px !important; }
+}
+
+/* Specific breakpoint to single-stack the About/Art cards on smaller mobile screens */
+@media (max-width: 650px) {
+  .left-bottom-split-row { grid-template-columns: 1fr !important; }
 }

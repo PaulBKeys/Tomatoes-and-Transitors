@@ -209,7 +209,8 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
       }
-    });
+    }
+    );
   };
 
   // Init About Me Modal (Triggers off whole card)
@@ -616,46 +617,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* ==========================================================================
-     YOUTUBE PLAYLIST DATA API INTEGRATION
+     YOUTUBE PLAYLIST EMBED INITIALIZER
      ========================================================================== */
-  const fetchLatestPlaylistVideo = async (playlistId, apiKey) => {
+  const initYouTubePlayer = () => {
     const container = document.getElementById('youtube-card');
     if (!container) return;
 
-    const apiUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=1&playlistId=${playlistId}&key=${apiKey}`;
-
-    try {
-      const response = await fetch(apiUrl);
-      if (!response.ok) throw new Error('YouTube API connection failed');
-      const data = await response.json();
-
-      if (data.items && data.items.length > 0) {
-        const latestVideo = data.items[0].snippet;
-        const videoId = latestVideo.resourceId.videoId;
-        
-        container.innerHTML = `
-          <iframe 
-            width="100%" 
-            height="100%" 
-            src="https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0" 
-            title="${latestVideo.title}"
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen
-            style="border-radius: 12px; display: block;"
-          ></iframe>
-        `;
-        container.style.padding = '0';
-      } else {
-        container.innerHTML = `<div class="youtube-placeholder-text">PLAYLIST EMPTY</div>`;
-      }
-    } catch (error) {
-      console.error('Failed to load YouTube feed:', error);
-      container.innerHTML = `<div class="youtube-placeholder-text">YOUTUBE FEED OFFLINE</div>`;
-    }
+    // Direct playlist embedding using your list ID
+    const playlistId = 'PLSebMVy5d6tw';
+    
+    container.innerHTML = `
+      <iframe 
+        width="100%" 
+        height="100%" 
+        src="https://www.youtube.com/embed/videoseries?list=${playlistId}" 
+        title="Tomatoes and Transistors Playlist"
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+      ></iframe>
+    `;
   };
 
-  // Plugged in your API Key and Playlist ID:
-  fetchLatestPlaylistVideo('PLSebMVy5d6tw', 'AIzaSyAGWqPuUte3_q3bHEFvLvGg-mSnQ7DwKx4');
+  initYouTubePlayer();
 
 });
