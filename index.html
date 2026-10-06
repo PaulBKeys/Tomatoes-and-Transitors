@@ -48,19 +48,29 @@
         <!-- LEFT COLUMN -->
         <div class="planb-left-column">
           
-          <!-- FEATURED PROJECTS CARD (Dynamically Loaded by JS) -->
-          <article class="site-card planb-card card-lists card-featured-red" id="featured-projects-card">
+          <!-- FEATURED PROJECTS CARD -->
+          <article class="site-card planb-card card-lists" id="featured-projects-card">
             <div class="unified-card-header">
               <span class="header-title-wrapper">
                 <span class="card-header-icon"></span>
                 FEATURED PROJECTS
               </span>
             </div>
+            
             <div class="card-inner-content project-carousel-container">
               
-              <!-- JS Injects Slides Here -->
+              <!-- Dynamic Slides -->
               <div class="project-slides-wrapper" id="dynamic-project-slides">
                 <!-- Content generated in main.js -->
+              </div>
+
+              <!-- Pinned Carousel Footer -->
+              <div class="featured-card-footer">
+                <button type="button" class="carousel-nav-btn inline-nav" id="card-prev">&#10094;</button>
+                <div class="carousel-dots-container inline-dots" id="card-dots-container">
+                  <!-- Dots generated dynamically -->
+                </div>
+                <button type="button" class="carousel-nav-btn inline-nav" id="card-next">&#10095;</button>
               </div>
 
             </div>
@@ -209,8 +219,20 @@
                   </div>
                 </article>
 
-                <!-- BOTTOM STACK: YOUTUBE PLAYER -->
-                <article class="site-card planb-card card-lists" id="youtube-card" style="padding: 0 !important; overflow: hidden;"></article>
+                <!-- BOTTOM STACK: SPOTIFY PLAYER -->
+                <article class="site-card planb-card card-lists" id="spotify-card">
+                  <iframe 
+                    style="border-radius:12px; background: transparent;"
+                    src="https://open.spotify.com/embed/playlist/02vLeYRWOdh9Nw9fRkVuyZ?utm_source=generator&theme=0" 
+                    width="100%" 
+                    height="152" 
+                    frameBorder="0" 
+                    allowfullscreen="" 
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                    loading="lazy">
+                  </iframe>
+                </article>
+
               </div>
 
             </div>
@@ -235,14 +257,10 @@
   <!-- ABOUT ME MODAL -->
   <div id="about-me-modal" class="about-modal-overlay">
     <div class="about-modal-container">
-      
-      <!-- Pinned Header -->
       <div class="about-modal-header">
         <h3 class="about-modal-heading">ABOUT ME</h3>
         <button class="about-modal-close" id="close-about-modal">&times;</button>
       </div>
-
-      <!-- Scrollable Grid Body -->
       <div class="about-modal-grid">
         <div class="about-modal-image-col">
           <img src="images/abmethumb.png" alt="Paul Portrait" class="about-modal-img">
@@ -256,29 +274,21 @@
           <p>I've always been fascinated by how people communicate and analyze conversations, even though I've never considered myself much of a natural communicator—it's definitely an edge I'm working hard to smooth out. Coming back to school and putting myself out there is about more than just a degree; it's about taking everything I've lived, built, and repaired over the decades and finally channeling it into something permanent.</p>
         </div>
       </div>
-
     </div>
   </div>
 
   <!-- LIVING GARDEN FULL VIEW MODAL -->
   <div id="living-garden-modal" class="about-modal-overlay">
     <div class="about-modal-container garden-modal-container-steel">
-      
-      <!-- Pinned Header -->
       <div class="about-modal-header garden-modal-header-steel">
         <button class="about-modal-close garden-modal-close-steel" id="close-garden-modal">&times;</button>
       </div>
-      
-      <!-- Viewport Body -->
       <div class="garden-modal-viewport">
         <div class="garden-zoom-content modal-garden-pane active" id="modal-modal-layer-1"></div>
         <div class="garden-zoom-content modal-garden-pane" id="modal-modal-layer-2"></div>
         <div class="garden-zoom-content modal-garden-pane" id="modal-modal-layer-3"></div>
         <div class="garden-zoom-content modal-garden-pane" id="modal-modal-layer-4"></div>
-
-        <!-- Voltage Fluctuation Room Lighting & Shadow Overlay Layer for Modal -->
         <div class="voltage-room-shadow-overlay"></div>
-
         <div class="garden-viewport-overlay-header" style="top: 16px; left: 16px; right: 16px;">
           <div class="garden-header-left">
             <span class="card-header-icon flash-dot"></span>
@@ -286,7 +296,6 @@
             <span id="modal-live-timestamp" class="garden-timestamp">00:00:00</span>
           </div>
         </div>
-
         <button type="button" class="carousel-nav-btn garden-nav-btn-steel prev-btn" id="modal-cam-prev" style="left: 20px;">&#10094;</button>
         <button type="button" class="carousel-nav-btn garden-nav-btn-steel next-btn" id="modal-cam-next" style="right: 20px;">&#10095;</button>
       </div>
@@ -296,22 +305,16 @@
   <!-- FEATURED PROJECT POPUP MODAL -->
   <div id="featured-project-modal" class="about-modal-overlay">
     <div class="about-modal-container project-modal-container-red">
-      
-      <!-- Pinned Header -->
       <div class="about-modal-header project-modal-header-red">
         <h3 id="modal-project-title" class="about-modal-heading project-modal-heading-red">PROJECT TITLE</h3>
         <button class="about-modal-close project-modal-close-red" id="close-project-modal">&times;</button>
       </div>
-      
-      <!-- Scrollable Grid Body -->
       <div class="about-modal-grid project-modal-grid-red">
         <div class="project-modal-img-wrapper">
           <img id="modal-project-img" src="" alt="Project Expanded View" class="project-modal-img">
         </div>
-        
         <div class="project-modal-text-col">
           <p id="modal-project-desc" class="project-modal-desc">Project description goes here.</p>
-          
           <div class="project-modal-footer">
             <div class="carousel-dots-container" id="modal-dots-container">
               <span class="carousel-dot active" data-index="0"></span>
@@ -322,27 +325,22 @@
               <span class="carousel-dot" data-index="5"></span>
             </div>
             <div class="project-modal-nav-group">
-              <button type="button" class="carousel-nav-btn" id="modal-prev" style="position: static; transform: none;">&#10094;</button>
-              <button type="button" class="carousel-nav-btn" id="modal-next" style="position: static; transform: none;">&#10095;</button>
+              <button type="button" class="carousel-nav-btn inline-nav" id="modal-prev">&#10094;</button>
+              <button type="button" class="carousel-nav-btn inline-nav" id="modal-next">&#10095;</button>
             </div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 
   <!-- DIGITAL ARCHIVES MODAL -->
   <div id="digital-archives-modal" class="about-modal-overlay">
     <div class="about-modal-container archive-modal-container-purple">
-      
-      <!-- Pinned Header -->
       <div class="about-modal-header archive-modal-header-purple">
         <h3 class="about-modal-heading archive-modal-heading-purple">DIGITAL ARCHIVES // ART RENDERS</h3>
         <button class="about-modal-close archive-modal-close-purple" id="close-archive-modal">&times;</button>
       </div>
-      
-      <!-- Gallery Body -->
       <div class="archive-modal-body">
         <div class="archive-gallery-flex-row">
           <button type="button" class="archive-external-nav-btn" id="modal-art-prev">&#10094;</button>
@@ -351,12 +349,10 @@
           </div>
           <button type="button" class="archive-external-nav-btn" id="modal-art-next">&#10095;</button>
         </div>
-        
         <div class="archive-modal-text-col" style="text-align: center; margin-top: 8px;">
           <p id="modal-art-desc" class="project-modal-desc" style="margin: 0;"><strong>ARCHIVE RENDER</strong> — Early 2000s 3D digital landscape & render work.</p>
         </div>
       </div>
-
     </div>
   </div>
 

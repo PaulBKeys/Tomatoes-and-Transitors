@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateAllFeeds(nextIndex);
   };
 
-  let feedInterval = setInterval(autoCycleFeeds, 8000);
+  let feedInterval = setInterval(autoCycleFeeds, 15000);
 
   // Voltage Fluctuation Visual Effect
   const voltageOverlays = document.querySelectorAll('.voltage-room-shadow-overlay');
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* ==========================================================================
-     RSS FEED INTEGRATIONS (TECH DECK & GROW FEED)
+     API FEEDS (RSS & GITHUB)
      ========================================================================== */
      
   const fetchAndRenderRSS = async (rssUrl, config) => {
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => config.cardElem.classList.remove('feed-flipping-in'), 350);
               }, 350);
             }
-          }, 12000);
+          }, 24000);
         }, config.staggerDelay || 0);
       }
     } catch (error) {
@@ -175,6 +175,74 @@ document.addEventListener('DOMContentLoaded', () => {
     errorText: "GROW FEED // OFFLINE",
     staggerDelay: 6000
   });
+
+  // --- GITHUB CHANGELOG FEED (Once a Day Cache) ---
+  const fetchGitHubChangelog = async () => {
+    const username = 'PaulBKeys';
+    const repo = 'Tomatoes-and-Transitors';
+    const url = `https://api.github.com/repos/${username}/${repo}/commits`;
+    
+    const container = document.querySelector('#changelog-card .card-inner-content');
+    if (!container) return;
+
+    const CACHE_KEY = 'tt_github_commits';
+    const TIME_KEY = 'tt_github_time';
+    const ONE_DAY_MS = 24 * 60 * 60 * 1000; 
+
+    const cachedHtml = localStorage.getItem(CACHE_KEY);
+    const cachedTime = localStorage.getItem(TIME_KEY);
+    const now = Date.now();
+
+    if (cachedHtml && cachedTime && (now - parseInt(cachedTime)) < ONE_DAY_MS) {
+      container.innerHTML = cachedHtml;
+      return; 
+    }
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('GitHub API connection failed');
+      const commits = await response.json();
+
+      const recentCommits = commits.slice(0, 1);
+      let htmlContent = '<ul class="changelog-list" style="list-style: none; padding: 0; margin: 0;">';
+
+      recentCommits.forEach(commitData => {
+        const hash = commitData.sha.substring(0, 7);
+        const message = commitData.commit.message.split('\n')[0]; 
+        const dateObj = new Date(commitData.commit.author.date);
+        const dateStr = dateObj.toISOString().split('T')[0];
+
+        // Terminal Aesthetic Styling applied directly
+        htmlContent += `
+          <li style="margin-bottom: 8px; border-bottom: 1px solid rgba(148, 163, 184, 0.2); padding-bottom: 8px; line-height: 1.4;">
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+              <span style="color: #38bdf8; font-family: monospace; font-size: 0.75rem; background: rgba(56, 189, 248, 0.1); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(56, 189, 248, 0.2);">[${dateStr}]</span> 
+              <span style="color: #f43f5e; font-family: monospace; font-size: 0.85rem; text-shadow: 0 0 8px rgba(244, 63, 94, 0.4);">#${hash}</span>
+            </div>
+            <span style="color: #e2e8f0; display: block; font-size: 0.85rem; padding-left: 8px; border-left: 2px solid #22c55e; margin-left: 2px;">${message}</span>
+          </li>
+        `;
+      });
+
+      htmlContent += '</ul>';
+      
+      container.innerHTML = htmlContent;
+
+      localStorage.setItem(CACHE_KEY, htmlContent);
+      localStorage.setItem(TIME_KEY, now.toString());
+
+    } catch (error) {
+      console.error('Error fetching GitHub commits:', error);
+      
+      if (cachedHtml) {
+        container.innerHTML = cachedHtml;
+      } else {
+        container.innerHTML = '<p style="color: #ef4444; font-size: 0.8rem; margin: 0;">> ERROR: GITHUB FEED OFFLINE</p>';
+      }
+    }
+  };
+
+  fetchGitHubChangelog();
 
 
   /* ==========================================================================
@@ -209,18 +277,17 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
       }
-    }
-    );
+    });
   };
 
-  // Init About Me Modal (Triggers off whole card)
+  // Init About Me Modal
   setupModal(
     document.getElementById('about-me-card'), 
     document.getElementById('about-me-modal'), 
     document.getElementById('close-about-modal')
   );
 
-  // Init Living Garden Full View Modal (Linked to navbar GROWTH)
+  // Init Living Garden Full View Modal
   setupModal(
     [document.getElementById('open-garden-modal'), document.getElementById('nav-growth')], 
     document.getElementById('living-garden-modal'), 
@@ -283,8 +350,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const renderFeaturedProjects = () => {
     const wrapper = document.getElementById('dynamic-project-slides');
+    const cardDotsContainer = document.getElementById('card-dots-container');
     if (!wrapper) return;
     wrapper.innerHTML = '';
+    if (cardDotsContainer) cardDotsContainer.innerHTML = '';
     
     projectsDatabase.forEach((proj, index) => {
       const isActive = index === 0 ? 'active' : '';
@@ -293,111 +362,109 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="project-thumb-wrapper open-project-modal-btn" title="Click to expand">
             <img src="${proj.img}" alt="${proj.title.replace('&amp;', '&')}" class="project-thumb-img">
           </div>
-          <div class="project-text-wrapper">
+          <div class="project-text-wrapper open-project-modal-btn" style="cursor: pointer;" title="Click to expand">
             <h4 class="project-slide-title">${proj.title}</h4>
             <p class="project-slide-desc">${proj.desc}</p>
           </div>
         </div>
       `;
       wrapper.innerHTML += slideHTML;
+
+      if (cardDotsContainer) {
+        cardDotsContainer.innerHTML += `<span class="carousel-dot ${isActive}" data-index="${index}"></span>`;
+      }
     });
   };
 
-  // Run the injection first!
   renderFeaturedProjects();
 
-  // --- Featured Projects Carousel Logic (Updated to select rendered DOM elements) ---
   const slides = document.querySelectorAll('.project-slide');
   const projectThumbs = document.querySelectorAll('.open-project-modal-btn');
-  const prevBtn = document.getElementById('carousel-prev');
-  const nextBtn = document.getElementById('carousel-next');
   let currentSlide = 0;
 
+  // Unified show slide function updates ALL dots on the page
   const showSlide = (index) => {
     slides.forEach((slide, i) => {
       slide.classList.toggle('active', i === index);
-      const slideDots = slide.querySelectorAll('.carousel-dot');
-      slideDots.forEach(dot => {
-        const dotIndex = parseInt(dot.getAttribute('data-index'));
-        dot.classList.toggle('active', dotIndex === index);
-      });
     });
+    
+    const allDots = document.querySelectorAll('.carousel-dot');
+    allDots.forEach(dot => {
+      const dotIndex = parseInt(dot.getAttribute('data-index'));
+      dot.classList.toggle('active', dotIndex === index);
+    });
+    
     currentSlide = index;
   };
 
-  if (prevBtn && nextBtn && slides.length > 0) {
-    prevBtn.addEventListener('click', () => {
+  // Card Controls
+  const cardPrevBtn = document.getElementById('card-prev');
+  const cardNextBtn = document.getElementById('card-next');
+
+  if (cardPrevBtn && cardNextBtn) {
+    cardPrevBtn.addEventListener('click', () => {
       let target = currentSlide - 1;
       if (target < 0) target = slides.length - 1;
       showSlide(target);
     });
 
-    nextBtn.addEventListener('click', () => {
+    cardNextBtn.addEventListener('click', () => {
       let target = currentSlide + 1;
       if (target >= slides.length) target = 0;
       showSlide(target);
     });
+  }
 
-    slides.forEach((slide) => {
-      const slideDots = slide.querySelectorAll('.carousel-dot');
-      slideDots.forEach(dot => {
-        dot.addEventListener('click', (e) => {
-          showSlide(parseInt(e.target.getAttribute('data-index')));
-        });
-      });
+  // Modal Controls
+  const modalPrevBtn = document.getElementById('modal-prev');
+  const modalNextBtn = document.getElementById('modal-next');
+
+  if (modalPrevBtn && modalNextBtn) {
+    modalPrevBtn.addEventListener('click', () => {
+      let target = currentSlide - 1;
+      if (target < 0) target = slides.length - 1;
+      showSlide(target);
+      updateProjectModalContent(target);
+    });
+
+    modalNextBtn.addEventListener('click', () => {
+      let target = currentSlide + 1;
+      if (target >= slides.length) target = 0;
+      showSlide(target);
+      updateProjectModalContent(target);
     });
   }
 
-  // Init Featured Project Popup Modal (Linked to navbar PROJECTS)
+  // Global Dot Clicks
+  document.querySelectorAll('.carousel-dot').forEach(dot => {
+    dot.addEventListener('click', (e) => {
+      const target = parseInt(e.target.getAttribute('data-index'));
+      showSlide(target);
+      updateProjectModalContent(target);
+    });
+  });
+
+  // Init Featured Project Popup Modal Content Logic
   const projectModal = document.getElementById('featured-project-modal');
   const modalImg = document.getElementById('modal-project-img');
   const modalTitle = document.getElementById('modal-project-title');
   const modalDesc = document.getElementById('modal-project-desc');
-  const modalDots = document.querySelectorAll('#modal-dots-container .carousel-dot');
 
   const updateProjectModalContent = (index) => {
     if (slides[index]) {
       if (modalTitle) modalTitle.textContent = slides[index].querySelector('.project-slide-title').textContent;
       if (modalDesc) modalDesc.textContent = slides[index].querySelector('.project-slide-desc').textContent;
       if (modalImg) modalImg.setAttribute('src', slides[index].querySelector('.project-thumb-img').getAttribute('src'));
-
-      modalDots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
-      });
     }
   };
 
+  // Reattach modal open events safely
   setupModal(
     [...projectThumbs, document.getElementById('nav-projects')], 
     projectModal, 
     document.getElementById('close-project-modal'),
     () => updateProjectModalContent(currentSlide)
   );
-
-  const modalPrevBtn = document.getElementById('modal-prev');
-  const modalNextBtn = document.getElementById('modal-next');
-
-  if (modalPrevBtn && modalNextBtn) {
-    modalPrevBtn.addEventListener('click', () => {
-      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-      updateProjectModalContent(currentSlide);
-      showSlide(currentSlide);
-    });
-
-    modalNextBtn.addEventListener('click', () => {
-      currentSlide = (currentSlide + 1) % slides.length;
-      updateProjectModalContent(currentSlide);
-      showSlide(currentSlide);
-    });
-  }
-
-  modalDots.forEach(dot => {
-    dot.addEventListener('click', (e) => {
-      currentSlide = parseInt(e.target.getAttribute('data-index'));
-      updateProjectModalContent(currentSlide);
-      showSlide(currentSlide);
-    });
-  });
 
 
   /* ==========================================================================
@@ -463,16 +530,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Load initial random art piece on page load
   loadArtImage(currentArtIndex);
 
-  // Auto-cycle dashboard art thumbnail with fade every 6 seconds
   let artCycleInterval = setInterval(() => {
     currentArtIndex = (currentArtIndex + 1) % artImages.length;
     loadArtImage(currentArtIndex);
   }, 6000);
 
-  // Wire up External Modal Art Navigation Arrows
   if (modalArtPrev && modalArtNext) {
     modalArtPrev.addEventListener('click', () => {
       clearInterval(artCycleInterval);
@@ -487,7 +551,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Init Digital Archives Modal (Triggers off whole card)
+  // Init Digital Archives Modal
   setupModal(
     [document.getElementById('art-card'), document.getElementById('nav-archives')],
     document.getElementById('digital-archives-modal'),
@@ -574,14 +638,16 @@ document.addEventListener('DOMContentLoaded', () => {
   enableSwipe(
     document.getElementById('featured-project-modal'),
     () => {
-      currentSlide = (currentSlide + 1) % slides.length;
-      updateProjectModalContent(currentSlide);
-      showSlide(currentSlide);
+      let target = currentSlide + 1;
+      if (target >= slides.length) target = 0;
+      showSlide(target);
+      updateProjectModalContent(target);
     },
     () => {
-      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-      updateProjectModalContent(currentSlide);
-      showSlide(currentSlide);
+      let target = currentSlide - 1;
+      if (target < 0) target = slides.length - 1;
+      showSlide(target);
+      updateProjectModalContent(target);
     }
   );
 
@@ -614,31 +680,5 @@ document.addEventListener('DOMContentLoaded', () => {
       updateAllFeeds(target);
     }
   );
-
-
-  /* ==========================================================================
-     YOUTUBE PLAYLIST EMBED INITIALIZER
-     ========================================================================== */
-  const initYouTubePlayer = () => {
-    const container = document.getElementById('youtube-card');
-    if (!container) return;
-
-    // Direct playlist embedding using your list ID
-    const playlistId = 'PLSebMVy5d6tw';
-    
-    container.innerHTML = `
-      <iframe 
-        width="100%" 
-        height="100%" 
-        src="https://www.youtube.com/embed/videoseries?list=${playlistId}" 
-        title="Tomatoes and Transistors Playlist"
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen
-      ></iframe>
-    `;
-  };
-
-  initYouTubePlayer();
 
 });
