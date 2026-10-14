@@ -106,6 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ];
 
+  const projectsCard = document.getElementById('projects');
   const imagesTrack = document.getElementById('dynamic-project-images');
   const dotsContainer = document.getElementById('carousel-dots-container');
   const cardProjTitle = document.getElementById('card-proj-title');
@@ -143,7 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const updateProjectSlide = (index) => {
     currentSlide = (index + projectsData.length) % projectsData.length;
 
-    // Slide the horizontal track smoothly
     if (imagesTrack) {
       imagesTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
     }
@@ -166,6 +166,14 @@ document.addEventListener('DOMContentLoaded', () => {
     clearInterval(projectInterval);
     projectInterval = setInterval(() => updateProjectSlide(currentSlide + 1), 7500);
   };
+
+  // Pause auto-slide while hovering over the Featured Projects card
+  if (projectsCard) {
+    projectsCard.addEventListener('mouseenter', () => clearInterval(projectInterval));
+    projectsCard.addEventListener('mouseleave', () => {
+      if (!activeModals.has(projectModal)) resetProjectInterval();
+    });
+  }
 
   // Bottom Pagination Bar Prev/Next Arrows
   const cardProjPrev = document.getElementById('card-proj-prev');
@@ -226,9 +234,9 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.open-project-modal').forEach(btn => {
     btn.addEventListener('click', (e) => {
       if (
-        e.target.closest('.bento-pagination-bar') ||
+        e.target.closest('.carousel-footer-nav') ||
         e.target.classList.contains('page-dot') ||
-        e.target.classList.contains('pagination-arrow')
+        e.target.classList.contains('carousel-footer-btn')
       ) {
         return;
       }
@@ -291,6 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let currentArtIndex = Math.floor(Math.random() * artFiles.length);
 
+  const archivesCard = document.getElementById('archives');
   const artCardThumb = document.getElementById('art-card-thumb');
   const artCardBackdrop = document.getElementById('art-card-backdrop');
   const artCardTitle = document.getElementById('art-card-title');
@@ -334,6 +343,13 @@ document.addEventListener('DOMContentLoaded', () => {
     clearInterval(artInterval);
     artInterval = setInterval(() => updateArtDisplay(currentArtIndex + 1), 6500);
   };
+
+  if (archivesCard) {
+    archivesCard.addEventListener('mouseenter', () => clearInterval(artInterval));
+    archivesCard.addEventListener('mouseleave', () => {
+      if (!activeModals.has(artModal)) resetArtInterval();
+    });
+  }
 
   document.querySelectorAll('.open-archive-modal').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -412,6 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let currentGardenIndex = 1; // Starts on CAM 02 (livinggarden2.png)
 
+  const growthCard = document.getElementById('growth');
   const cardGardenStage = document.getElementById('card-garden-stage');
   const gardenCardImg = document.getElementById('garden-card-img');
   const gardenFeedNum = document.getElementById('garden-feed-num');
@@ -483,6 +500,13 @@ document.addEventListener('DOMContentLoaded', () => {
     gardenInterval = setInterval(() => updateGardenFeed(currentGardenIndex + 1, true), 9000);
   };
 
+  if (growthCard) {
+    growthCard.addEventListener('mouseenter', () => clearInterval(gardenInterval));
+    growthCard.addEventListener('mouseleave', () => {
+      if (!activeModals.has(gardenModal)) resetGardenInterval();
+    });
+  }
+
   document.querySelectorAll('.open-garden-modal').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -532,7 +556,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (activeModals.size === 0) return;
 
     if (e.key === 'Escape') {
-      activeModals.forEach(modal => closeModal(modal));
+      Array.from(activeModals).forEach(modal => closeModal(modal));
       resetProjectInterval();
       resetArtInterval();
       resetGardenInterval();
@@ -549,8 +573,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ==========================================
-  // 6. REAL-TIME FEEDS (RSS & GITHUB REST API)
+  // 6. REAL-TIME FEEDS (RSS + LIVE OG:IMAGE PREVIEW + GITHUB API)
   // ==========================================
+
+  // Helper: Fetches the Open Graph (og:image) preview image directly from any webpage URL
+  const fetchLivePagePreviewImage = async (pageUrl) => {
+    if (!pageUrl) return null;
+    try {
+      const res = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(pageUrl)}`);
+      if (!res.ok) return null;
+      const json = await res.json();
+      if (json.status === 'success' && json.data) {
+        if (json.data.image && json.data.image.url) return json.data.image.url;
+        if (json.data.logo && json.data.logo.url) return json.data.logo.url;
+      }
+    } catch (err) {
+      // Silently ignore so existing fallback image remains intact
+    }
+    return null;
+  };
+
+  // Safe image setter with automatic fallback if a remote CDN blocks or breaks
+  const applyFeedThumbnail = (imgEl, newSrc) => {
+    if (!imgEl || !newSrc) return;
+    const fallbackSrc = imgEl.getAttribute('data-fallback') || imgEl.src;
+    imgEl.onerror = () => {
+      imgEl.onerror = null;
+      imgEl.src = fallbackSrc;
+    };
+    imgEl.src = newSrc;
+  };
+
   const fetchRSSFeed = async (rssUrl, linkId, titleId, descId, imgId, fallbackMsg) => {
     const linkEl = document.getElementById(linkId);
     const titleEl = document.getElementById(titleId);
@@ -560,29 +613,43 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!titleEl) return;
 
     try {
-      const res = await fetch(`[https://api.rss2json.com/v1/api.json?rss_url=$](https://api.rss2json.com/v1/api.json?rss_url=$){encodeURIComponent(rssUrl)}`);
+      const apiEndpoint = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+      const res = await fetch(apiEndpoint);
+      if (!res.ok) throw new Error('RSS proxy HTTP error');
       const data = await res.json();
 
       if (data.status === 'ok' && data.items && data.items.length > 0) {
         const item = data.items[0];
 
         titleEl.textContent = item.title;
-        if (linkEl && item.link) linkEl.href = item.link;
+        if (linkEl && item.link) {
+          linkEl.href = item.link;
+          linkEl.title = item.title;
+        }
 
         if (descEl) {
           const tempDiv = document.createElement('div');
           tempDiv.innerHTML = item.description || item.content || '';
-          const cleanText = tempDiv.textContent || tempDiv.innerText || '';
-          descEl.textContent = cleanText.length > 120 ? cleanText.substring(0, 120) + '...' : cleanText;
+          const cleanText = (tempDiv.textContent || tempDiv.innerText || '').trim();
+          descEl.textContent = cleanText.length > 120 ? `${cleanText.substring(0, 120)}...` : cleanText;
         }
 
         if (imgEl) {
-          let imgSrc = item.thumbnail || (item.enclosure && item.enclosure.link);
+          // 1. Check RSS payload for thumbnail, enclosure, or inline <img> tag
+          let imgSrc = item.thumbnail || (item.enclosure && (item.enclosure.link || item.enclosure.thumbnail));
           if (!imgSrc) {
-            const imgMatch = (item.content || item.description || '').match(/<img[^>]+src="([^">]+)"/);
-            if (imgMatch) imgSrc = imgMatch[1];
+            const rawHtml = item.content || item.description || '';
+            const imgMatch = rawHtml.match(/<img[^>]+src=["']([^"'>]+)["']/i);
+            if (imgMatch && imgMatch[1]) imgSrc = imgMatch[1];
           }
-          if (imgSrc) imgEl.src = imgSrc;
+
+          if (imgSrc) {
+            applyFeedThumbnail(imgEl, imgSrc);
+          } else if (item.link) {
+            // 2. If RSS feed has no image (e.g. Planet Natural text excerpts), pull live og:image from article URL
+            const ogImg = await fetchLivePagePreviewImage(item.link);
+            if (ogImg) applyFeedThumbnail(imgEl, ogImg);
+          }
         }
       } else {
         titleEl.textContent = fallbackMsg;
@@ -593,7 +660,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   fetchRSSFeed(
-    '[https://www.planetnatural.com/feed/](https://www.planetnatural.com/feed/)',
+    'https://www.planetnatural.com/feed/',
     'grow-feed-link',
     'grow-link-title',
     'grow-link-desc',
@@ -602,7 +669,7 @@ document.addEventListener('DOMContentLoaded', () => {
   );
 
   fetchRSSFeed(
-    '[https://feeds.arstechnica.com/arstechnica/technology-lab](https://feeds.arstechnica.com/arstechnica/technology-lab)',
+    'https://feeds.arstechnica.com/arstechnica/technology-lab',
     'tech-feed-link',
     'rss-link-title',
     'rss-link-desc',
@@ -610,29 +677,59 @@ document.addEventListener('DOMContentLoaded', () => {
     'HARDWARE FEED OFFLINE'
   );
 
-  // GitHub Commit Sync
+  // GitHub Commit Sync (with repo-name fallback & localStorage cache for rate-limit resilience)
+  const renderGitHubCommit = (container, commitData) => {
+    container.innerHTML = `
+      <a href="${commitData.url}" target="_blank" rel="noopener noreferrer" class="github-commit-link" title="View commit on GitHub">
+        <span style="color: #00D2FF;">${commitData.dateStr}</span> <span style="color: #FF2A2A;">#${commitData.hash}</span><br>
+        <span style="color: #fff; word-break: break-word;">${commitData.msg}</span>
+      </a>
+    `;
+  };
+
   const fetchGitHub = async () => {
     const container = document.getElementById('github-feed-content');
     if (!container) return;
 
-    try {
-      const res = await fetch('[https://api.github.com/repos/PaulBKeys/Tomatoes-and-Transitors/commits](https://api.github.com/repos/PaulBKeys/Tomatoes-and-Transitors/commits)');
-      if (!res.ok) throw new Error('Network error');
-      const commits = await res.json();
-      const latest = commits[0];
-      const hash = latest.sha.substring(0, 7);
+    const repoEndpoints = [
+      'https://api.github.com/repos/PaulBKeys/Tomatoes-and-Transitors/commits',
+      'https://api.github.com/repos/PaulBKeys/Tomatoes-and-Transistors/commits'
+    ];
 
-      const d = new Date(latest.commit.author.date);
-      const dateStr = `[${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}]`;
-      const msg = latest.commit.message.split('\n')[0];
+    for (const endpoint of repoEndpoints) {
+      try {
+        const res = await fetch(endpoint);
+        if (!res.ok) continue;
 
-      container.innerHTML = `
-        <span style="color: #00D2FF;">${dateStr}</span> <span style="color: #FF2A2A;">#${hash}</span><br>
-        <span style="color: #fff; word-break: break-word;">${msg}</span>
-      `;
-    } catch (e) {
-      container.innerHTML = `<span style="color: var(--text-muted);">// CHANGELOG SYNCED LOCALLY</span>`;
+        const commits = await res.json();
+        if (!Array.isArray(commits) || commits.length === 0) continue;
+
+        const latest = commits[0];
+        const hash = latest.sha.substring(0, 7);
+        const d = new Date(latest.commit.author.date);
+        const dateStr = `[${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}]`;
+        const msg = latest.commit.message.split('\n')[0];
+        const url = latest.html_url || 'https://github.com/PaulBKeys';
+
+        const commitPayload = { hash, dateStr, msg, url };
+        localStorage.setItem('tt_latest_commit', JSON.stringify(commitPayload));
+        renderGitHubCommit(container, commitPayload);
+        return;
+      } catch (err) {
+        // Try next candidate endpoint
+      }
     }
+
+    // Fallback to last cached commit if GitHub API rate-limits local development refreshes
+    const cached = localStorage.getItem('tt_latest_commit');
+    if (cached) {
+      try {
+        renderGitHubCommit(container, JSON.parse(cached));
+        return;
+      } catch (e) {}
+    }
+
+    container.innerHTML = `<span style="color: var(--text-muted);">// CHANGELOG SYNCED LOCALLY</span>`;
   };
 
   fetchGitHub();
