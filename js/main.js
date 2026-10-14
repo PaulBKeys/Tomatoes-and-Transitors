@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ==========================================
-  // 2. FEATURED PROJECTS CAROUSEL & MODAL (6 PROJECTS)
+  // 2. FEATURED PROJECTS CAROUSEL & MODAL (HORIZONTAL SLIDE)
   // ==========================================
   const projectsData = [
     {
@@ -143,6 +143,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const updateProjectSlide = (index) => {
     currentSlide = (index + projectsData.length) % projectsData.length;
 
+    // Slide the horizontal track smoothly
+    if (imagesTrack) {
+      imagesTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+
     slideImages.forEach((img, i) => img.classList.toggle('active', i === currentSlide));
     navDots.forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
 
@@ -162,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
     projectInterval = setInterval(() => updateProjectSlide(currentSlide + 1), 7500);
   };
 
-  // Card Prev/Next Arrows
+  // Bottom Pagination Bar Prev/Next Arrows
   const cardProjPrev = document.getElementById('card-proj-prev');
   const cardProjNext = document.getElementById('card-proj-next');
   if (cardProjPrev) {
@@ -220,7 +225,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Open/Close Project Modal
   document.querySelectorAll('.open-project-modal').forEach(btn => {
     btn.addEventListener('click', (e) => {
-      if (e.target.classList.contains('page-dot') || e.target.classList.contains('carousel-nav-btn')) return;
+      if (
+        e.target.closest('.bento-pagination-bar') ||
+        e.target.classList.contains('page-dot') ||
+        e.target.classList.contains('pagination-arrow')
+      ) {
+        return;
+      }
       e.preventDefault();
       clearInterval(projectInterval);
       updateProjectSlide(currentSlide);
@@ -294,7 +305,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const w = artCardThumb.naturalWidth || 1;
       const h = artCardThumb.naturalHeight || 1;
       const ratio = w / h;
-      // Standard 4:3 renders (~1.2 to 1.65) fill the box; extreme wide/tall pieces scale cleanly
       if (ratio > 1.72 || ratio < 1.12) {
         artCardThumb.classList.add('art-fit-contain');
       } else {
@@ -550,7 +560,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!titleEl) return;
 
     try {
-      const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
+      const res = await fetch(`[https://api.rss2json.com/v1/api.json?rss_url=$](https://api.rss2json.com/v1/api.json?rss_url=$){encodeURIComponent(rssUrl)}`);
       const data = await res.json();
 
       if (data.status === 'ok' && data.items && data.items.length > 0) {
@@ -583,7 +593,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   fetchRSSFeed(
-    'https://www.planetnatural.com/feed/',
+    '[https://www.planetnatural.com/feed/](https://www.planetnatural.com/feed/)',
     'grow-feed-link',
     'grow-link-title',
     'grow-link-desc',
@@ -592,7 +602,7 @@ document.addEventListener('DOMContentLoaded', () => {
   );
 
   fetchRSSFeed(
-    'https://feeds.arstechnica.com/arstechnica/technology-lab',
+    '[https://feeds.arstechnica.com/arstechnica/technology-lab](https://feeds.arstechnica.com/arstechnica/technology-lab)',
     'tech-feed-link',
     'rss-link-title',
     'rss-link-desc',
@@ -606,7 +616,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!container) return;
 
     try {
-      const res = await fetch('https://api.github.com/repos/PaulBKeys/Tomatoes-and-Transitors/commits');
+      const res = await fetch('[https://api.github.com/repos/PaulBKeys/Tomatoes-and-Transitors/commits](https://api.github.com/repos/PaulBKeys/Tomatoes-and-Transitors/commits)');
       if (!res.ok) throw new Error('Network error');
       const commits = await res.json();
       const latest = commits[0];

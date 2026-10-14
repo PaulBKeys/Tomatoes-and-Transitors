@@ -82,13 +82,11 @@
           </div>
           
           <div class="carousel-wrapper" id="project-carousel-touch">
-            <!-- Fixed-height image stage so arrows NEVER jump -->
+            <!-- Frameless sliding image stage -->
             <div class="project-stage">
-              <button class="carousel-nav-btn prev" id="card-proj-prev" aria-label="Previous Project">&#10094;</button>
               <div id="dynamic-project-images" class="project-images-track">
-                <!-- JS populates locked project images here -->
+                <!-- JS populates horizontal sliding project images here -->
               </div>
-              <button class="carousel-nav-btn next" id="card-proj-next" aria-label="Next Project">&#10095;</button>
             </div>
 
             <!-- Locked-height caption box -->
@@ -98,8 +96,13 @@
             </div>
           </div>
 
-          <div class="bento-pagination" id="carousel-dots-container">
-            <!-- JS dynamically populates the 6 pagination dots here -->
+          <!-- Bottom Inline Navigation: Arrows Flanking Pagination Dots -->
+          <div class="carousel-footer-nav">
+            <button class="carousel-footer-btn prev" id="card-proj-prev" aria-label="Previous Project">&#10094;</button>
+            <div class="bento-pagination" id="carousel-dots-container">
+              <!-- JS dynamically populates the 6 pagination dots here -->
+            </div>
+            <button class="carousel-footer-btn next" id="card-proj-next" aria-label="Next Project">&#10095;</button>
           </div>
         </div>
 
@@ -145,7 +148,7 @@
               <img src="images/art/limestone-peak1.jpg" id="art-card-thumb" alt="Art Render" class="art-main-img">
             </div>
             <div class="art-caption-box">
-              <div class="bento-title" id="art-card-title" style="margin-top: 2px; font-size: 0.75rem; color: #fff;">LIMESTONE PEAK1</div>
+              <div class="bento-title" id="art-card-title" style="margin-top: 2px; font-size: 0.75rem;">LIMESTONE PEAK1</div>
               <div class="bento-desc" style="font-size: 0.7rem;">Early 2000s digital landscape/render.</div>
             </div>
           </div>
@@ -328,4 +331,4 @@
 
   <script src="js/main.js"></script>
 </body>
-</html>F
+</html>
