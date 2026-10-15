@@ -6,7 +6,7 @@
   <title>Tomatoes & Transistors</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -23,14 +23,27 @@
         
         <!-- Top-Left Nav Pill -->
         <nav class="dock-nav" aria-label="Main Navigation">
-          <a href="#home" class="dock-nav-link active">HOME</a>
-          <a href="#projects" class="dock-nav-link open-project-modal">PROJECTS</a>
-          <a href="#growth" class="dock-nav-link open-garden-modal">GROWTH</a>
-          <a href="#archives" class="dock-nav-link open-archive-modal">ARCHIVES</a>
+          <a href="#home" class="dock-nav-link active" data-target="home">HOME</a>
+          <a href="#projects" class="dock-nav-link open-project-modal" data-target="projects">PROJECTS</a>
+          <a href="#growth" class="dock-nav-link open-garden-modal" data-target="growth">GROWTH</a>
+          <a href="#archives" class="dock-nav-link open-archive-modal" data-target="archives">ARCHIVES</a>
           <div class="dock-nav-tools">
-            <button class="nav-tool-btn open-about-modal" title="About Paul" aria-label="About Paul">Q</button>
+            <button class="nav-tool-btn open-about-modal" data-target="about-card" title="About Paul Keys" aria-label="About Paul Keys">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span>ABOUT</span>
+            </button>
             <span class="nav-tool-divider"></span>
-            <button class="nav-tool-btn open-project-modal" title="Quick Projects" aria-label="Quick Projects">:::</button>
+            <a href="https://www.linkedin.com/in/paul-keys-077687a3/" target="_blank" rel="noopener noreferrer" class="nav-tool-btn nav-linkedin-btn" title="Connect on LinkedIn" aria-label="LinkedIn Profile">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect x="2" y="9" width="4" height="12"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+              <span>LINKEDIN</span>
+            </a>
           </div>
         </nav>
 
@@ -48,6 +61,9 @@
             <span class="sub-red">BUILDING TECHNOLOGY.</span>
             <span class="sub-muted">SHARING KNOWLEDGE.</span>
           </div>
+          <div class="plaque-identity-bar">
+            PAUL KEYS // CIS STUDENT &bull; SYSTEMS BUILDER &bull; INDOOR GROWER
+          </div>
         </div>
 
       </div>
@@ -60,12 +76,12 @@
     </header>
   </div>
 
-  <!-- MAIN DASHBOARD (Bento Grid) -->
+  <!-- MAIN DASHBOARD (Bento Grid - Idea A Layout) -->
   <div class="dashboard-wrapper">
     <main class="bento-grid">
       
       <!-- ========================================== -->
-      <!-- COLUMN 1: LEFT -->
+      <!-- COLUMN 1: LEFT (Featured Projects + Un-Crammed About & GitHub) -->
       <!-- ========================================== -->
       <div class="bento-col-left">
         
@@ -82,74 +98,72 @@
           </div>
           
           <div class="carousel-wrapper" id="project-carousel-touch">
-            <!-- Frameless sliding image stage -->
             <div class="project-stage">
               <div id="dynamic-project-images" class="project-images-track">
                 <!-- JS populates horizontal sliding project images here -->
               </div>
             </div>
 
-            <!-- Locked-height caption box -->
             <div class="project-caption-box">
-              <div class="bento-title" id="card-proj-title">TECHNOLOGY &amp; INNOVATION</div>
-              <div class="bento-desc" id="card-proj-desc">Exploring cloud, AI, networking, and the technologies shaping tomorrow.</div>
+              <div class="bento-title" id="card-proj-title">Technology &amp; Innovation</div>
+              <div class="bento-desc" id="card-proj-desc">Exploring cloud, AI, frontend architecture, and the systems shaping tomorrow.</div>
             </div>
           </div>
 
-          <!-- Bottom Inline Navigation: Arrows Flanking Pagination Dots -->
           <div class="carousel-footer-nav">
             <button class="carousel-footer-btn prev" id="card-proj-prev" aria-label="Previous Project">&#10094;</button>
-            <div class="bento-pagination" id="carousel-dots-container">
-              <!-- JS dynamically populates the 6 pagination dots here -->
-            </div>
+            <div class="bento-pagination" id="carousel-dots-container"></div>
             <button class="carousel-footer-btn next" id="card-proj-next" aria-label="Next Project">&#10095;</button>
           </div>
         </div>
 
-        <!-- Split Row: About + GitHub (Left) | Art (Right) -->
+        <!-- Bottom-Left Split: Spacious Side-by-Side About Me (Left) & GitHub (Right) -->
         <div class="bento-split">
           
-          <!-- Left Mini-Column -->
-          <div class="bento-mini-col">
-            <!-- About Me (Amber) -->
-            <div class="bento-card theme-amber bento-horiz open-about-modal" style="cursor: pointer;">
-              <img src="images/ABthumb.png" alt="Paul" class="bento-avatar">
-              <div class="bento-horiz-content">
-                <div class="bento-header"><span class="dot"></span> ABOUT ME</div>
-                <div class="bento-desc clamp-2" style="font-size: 0.75rem; margin-top: 4px;">
-                  Air Force avionics vet and former diesel mechanic. Today, I'm channeling...
-                </div>
-              </div>
-            </div>
-            
-            <!-- GitHub (Red) -->
-            <div class="bento-card theme-red github-compact-card">
-              <div class="bento-header"><span class="dot"></span> SYSTEM CHANGELOG // GITHUB</div>
-              <div class="bento-terminal" id="github-feed-content">
-                Loading API...
-              </div>
-            </div>
-          </div>
-
-          <!-- Right Mini-Column: Art Archive (Purple) -->
-          <div id="archives" class="bento-card theme-purple open-archive-modal stretch-card" style="cursor: pointer;">
+          <!-- About Me (Amber - Full Half Card) -->
+          <div id="about-card" class="bento-card theme-amber open-about-modal stretch-card" style="cursor: pointer;">
             <div class="bento-header header-split">
               <div class="header-title-group">
                 <span class="dot"></span>
-                <span>ART</span>
+                <span>ABOUT ME</span>
               </div>
-              <div class="header-controls-group">
-                <span class="hud-badge">[ FULL VIEW ]</span>
+              <span class="hud-badge">[ BIO ]</span>
+            </div>
+
+            <div class="about-expanded-body">
+              <div class="about-top-row">
+                <img src="images/ABthumb.png" alt="Paul Keys" class="bento-avatar">
+                <div class="about-headline-group">
+                  <div class="bento-title" style="margin-bottom: 2px;">Paul Keys</div>
+                  <div class="about-role-sub">CIS Student &bull; Builder</div>
+                  <div class="about-mini-pills">
+                    <span class="mini-pill">CIS @ DSCC</span>
+                    <span class="mini-pill">Web &amp; AI</span>
+                    <span class="mini-pill">Maker</span>
+                  </div>
+                </div>
+              </div>
+              <div class="bento-desc clamp-3" style="font-size: 0.8rem;">
+                From soldering 1980s Sinclair ZX81 keyboards and spending 15 years as a diesel mechanic to full-time CIS studies, web development, and indoor horticulture.
               </div>
             </div>
-            <div class="card-media-wrap art-stage" id="art-card-touch">
-              <!-- Blurred backdrop fills empty space so wide/tall art is never cropped heavily -->
-              <img src="images/art/limestone-peak1.jpg" id="art-card-backdrop" alt="" aria-hidden="true" class="art-backdrop-img">
-              <img src="images/art/limestone-peak1.jpg" id="art-card-thumb" alt="Art Render" class="art-main-img">
+
+            <div class="about-card-footer">
+              <span class="about-footer-hint">CLICK FOR FULL BIO &rarr;</span>
             </div>
-            <div class="art-caption-box">
-              <div class="bento-title" id="art-card-title" style="margin-top: 2px; font-size: 0.75rem;">LIMESTONE PEAK1</div>
-              <div class="bento-desc" style="font-size: 0.7rem;">Early 2000s digital landscape/render.</div>
+          </div>
+
+          <!-- GitHub Telemetry (Red - Full Half Card) -->
+          <div class="bento-card theme-red github-compact-card stretch-card">
+            <div class="bento-header header-split">
+              <div class="header-title-group">
+                <span class="dot"></span>
+                <span>GITHUB TELEMETRY</span>
+              </div>
+              <a href="https://github.com/PaulBKeys/Tomatoes-and-Transitors" target="_blank" rel="noopener noreferrer" class="hud-badge hud-link-badge" title="Open GitHub Repository">LIVE REPO &#8599;</a>
+            </div>
+            <div class="bento-terminal" id="github-feed-content">
+              Syncing repository telemetry...
             </div>
           </div>
 
@@ -158,28 +172,42 @@
       </div>
 
       <!-- ========================================== -->
-      <!-- COLUMN 2: MIDDLE -->
+      <!-- COLUMN 2: MIDDLE (Combined Daily Feed + Live Feed 02) -->
       <!-- ========================================== -->
       <div class="bento-col-mid">
-        <!-- Grow Feed (Green) -->
-        <a href="https://www.planetnatural.com/" target="_blank" rel="noopener noreferrer" id="grow-feed-link" class="bento-card theme-green sync-top-card card-link">
-          <div class="bento-header"><span class="dot"></span> SYSTEM TELEMETRY // GROW FEED</div>
-          <div class="rss-img-wrap">
-            <img src="images/livinggarden.png" id="grow-link-img" data-fallback="images/livinggarden.png" referrerpolicy="no-referrer" alt="Grow Feed" class="bento-img rss-locked-img">
-          </div>
-          <div class="rss-text-wrap">
-            <div class="bento-title clamp-2" id="grow-link-title">INITIALIZING GROW TELEMETRY...</div>
-            <div class="bento-desc clamp-2" id="grow-link-desc">Fetching latest horticultural feed data...</div>
-          </div>
-        </a>
         
-        <!-- Live Feed (Formerly Living Garden) -->
-        <div id="growth" class="bento-card theme-amber stretch-card open-garden-modal" style="cursor: pointer;">
+        <!-- Combined Daily Feed: Grow & Tech (Green/Cyan) -->
+        <a href="https://www.epicgardening.com/" target="_blank" rel="noopener noreferrer" id="daily-feed-link" class="bento-card theme-green sync-top-card card-link">
           <div class="bento-header header-split">
             <div class="header-title-group">
               <span class="dot"></span>
+              <span id="daily-feed-header-label">DAILY FEED</span>
+            </div>
+            <div class="header-controls-group">
+              <div class="feed-mode-pills" role="group" aria-label="Feed Category Filter">
+                <button type="button" class="feed-filter-btn active" data-feed-mode="all">ALL</button>
+                <button type="button" class="feed-filter-btn" data-feed-mode="grow">GROW</button>
+                <button type="button" class="feed-filter-btn" data-feed-mode="tech">TECH</button>
+              </div>
+              <span class="hud-badge source-badge" id="daily-source-badge">EPIC GARDENING</span>
+            </div>
+          </div>
+          <div class="rss-img-wrap">
+            <img src="images/livinggarden.png" id="daily-link-img" data-fallback="images/livinggarden.png" referrerpolicy="no-referrer" alt="Daily Feed" class="bento-img rss-locked-img">
+          </div>
+          <div class="rss-text-wrap" id="daily-text-wrap">
+            <div class="bento-title clamp-2" id="daily-link-title">Soil Perlite Ratios, Fabric Grow Bags &amp; Root Zone Oxygenation Guide</div>
+            <div class="bento-desc clamp-2" id="daily-link-desc">How breathable fabric containers and proper aeration amendments prevent root-bound stress and boost nutrient uptake.</div>
+          </div>
+        </a>
+        
+        <!-- Live Feed (Amber - Pulsing Live Dot + Loose Cable CRT Flicker) -->
+        <div id="growth" class="bento-card theme-amber stretch-card open-garden-modal" style="cursor: pointer;">
+          <div class="bento-header header-split">
+            <div class="header-title-group">
+              <span class="dot pulse-dot"></span>
               <span>LIVE FEED</span>
-              <span id="garden-feed-num" class="feed-cam-num">01</span>
+              <span id="garden-feed-num" class="feed-cam-num">02</span>
             </div>
             <div class="header-controls-group">
               <span id="garden-clock" class="hud-badge hud-time">00:00:00</span>
@@ -189,29 +217,49 @@
           <div class="card-media-wrap crt-viewport live-feed-stage mode-garden" id="card-garden-stage">
             <img src="images/livinggarden2.png" id="garden-card-img" alt="Live Feed Telemetry" class="locked-stage-img garden-breeze">
             <div class="server-light-overlay"></div>
+            <div class="live-telemetry-hud" id="card-telemetry-hud">
+              <span class="hud-cam-tag" id="card-hud-cam">CAM_02</span>
+              <span class="hud-metrics" id="card-hud-metrics">77.4°F &bull; 56% RH &bull; 1.18 kPa</span>
+            </div>
           </div>
         </div>
+
       </div>
 
       <!-- ========================================== -->
-      <!-- COLUMN 3: RIGHT -->
+      <!-- COLUMN 3: RIGHT (Art Archive + Full-Bleed Spotify Deck) -->
       <!-- ========================================== -->
       <div class="bento-col-right">
-        <!-- Tech Deck (Cyan) -->
-        <a href="https://arstechnica.com/" target="_blank" rel="noopener noreferrer" id="tech-feed-link" class="bento-card theme-cyan sync-top-card card-link">
-          <div class="bento-header"><span class="dot"></span> TECH DECK // SUB-ROUTINE FEED</div>
-          <div class="rss-img-wrap">
-            <img src="images/mock1.png" id="rss-link-img" data-fallback="images/mock1.png" referrerpolicy="no-referrer" alt="Tech Feed" class="bento-img rss-locked-img">
+        
+        <!-- Art Archive (Purple - Top Right Showcase) -->
+        <div id="archives" class="bento-card theme-purple sync-top-card open-archive-modal" style="cursor: pointer;">
+          <div class="bento-header header-split">
+            <div class="header-title-group">
+              <span class="dot"></span>
+              <span>ART ARCHIVE</span>
+            </div>
+            <div class="header-controls-group">
+              <span class="hud-badge" id="card-art-counter">1 / 28</span>
+              <span class="hud-badge">[ FULL VIEW ]</span>
+            </div>
+          </div>
+          <div class="rss-img-wrap art-stage" id="art-card-touch">
+            <img src="images/art/limestone-peak1.jpg" id="art-card-backdrop" alt="" aria-hidden="true" class="art-backdrop-img">
+            <img src="images/art/limestone-peak1.jpg" id="art-card-thumb" alt="Art Render" class="art-main-img">
           </div>
           <div class="rss-text-wrap">
-            <div class="bento-title clamp-2" id="rss-link-title">INITIALIZING TECH SUB-ROUTINE...</div>
-            <div class="bento-desc clamp-2" id="rss-link-desc">Fetching latest hardware &amp; systems telemetry...</div>
+            <div class="art-caption-top">
+              <div class="bento-title clamp-1" id="art-card-title" style="margin-bottom: 2px;">Limestone Peak 1</div>
+              <span class="art-meta-tag">TERRAGEN / VUE</span>
+            </div>
+            <div class="bento-desc clamp-2">Early 2000s 3D terrain &amp; digital landscape render archive. Click to inspect full gallery.</div>
           </div>
-        </a>
+        </div>
         
-        <!-- Spotify Audio Deck (Hero Gray Border) -->
-        <div class="bento-card theme-gray stretch-card spotify-card">
+        <!-- Spotify Audio Deck (Full-Bleed Player Filling 100% of Card) -->
+        <div id="audio-deck-card" class="bento-card theme-gray stretch-card spotify-card">
           <iframe 
+            id="spotify-embed-iframe"
             src="https://open.spotify.com/embed/playlist/02vLeYRWOdh9Nw9fRkVuyZ?utm_source=generator&theme=0" 
             width="100%" 
             height="100%" 
@@ -223,12 +271,13 @@
             class="spotify-iframe">
           </iframe>
         </div>
+
       </div>
 
     </main>
   </div>
 
-  <!-- BOTTOM STATUS BAR -->
+  <!-- BOTTOM STATUS BAR (STEADY, CALM READOUT) -->
   <div class="status-bar-wrapper">
     <footer class="system-footer">
       <span class="status-indicator-dot"></span>
@@ -237,23 +286,38 @@
   </div>
 
   <!-- ========================================== -->
-  <!-- HUD MODALS (HERO GRAY STRUCTURAL BORDERS) -->
+  <!-- HUD MODALS (SYNCED THEMES & TYPOGRAPHY)    -->
   <!-- ========================================== -->
 
-  <!-- 1. ABOUT ME MODAL (EXPANDED FULL-HEIGHT PORTRAIT) -->
+  <!-- 1. ABOUT ME MODAL -->
   <div id="about-me-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="about-modal-title">
-    <div class="hud-modal about-modal-wide theme-gray-modal">
+    <div class="hud-modal about-modal-wide theme-gray-modal modal-accent-amber">
       <div class="modal-header">
-        <span class="title" id="about-modal-title" style="color: var(--accent-amber);">// ABOUT ME</span>
+        <div class="header-title-group">
+          <span class="dot modal-dot-amber"></span>
+          <span class="title" id="about-modal-title" style="color: var(--accent-amber);">// ABOUT PAUL KEYS</span>
+        </div>
         <button class="close-btn" aria-label="Close Modal">&times;</button>
       </div>
       <div class="modal-body profile-layout">
         <div class="profile-img-frame">
-          <img src="images/ABthumb.png" alt="Paul" class="modal-img-full">
+          <img src="images/ABthumb.png" alt="Paul Keys" class="modal-img-full">
         </div>
         <div class="modal-text">
-          <p>I spent a good part of my life moving around as a military brat, including living in Germany and the Philippines. Before I ever figured out where I was headed, I worked through a lifetime of varied hands-on experiences. I served in the U.S. Air Force until 1993 as an avionics repair technician working on LANTIRN navigation and targeting systems for F-15 and F-16 aircraft, followed by 15 years turning wrenches as a diesel mechanic.</p>
-          <p>My journey with technology started way back in the 1980s wiring up mechanical keyboards on a Sinclair ZX81, programming in GW-BASIC and Pascal, and writing MS-DOS batch files. Today, at 53, I’m channeling decades of real-world troubleshooting into full-time study for my Associate of Applied Science in Computer and Information Systems at Dyersburg State.</p>
+          <h3 class="modal-bio-headline">Lifelong Tinkerer, Troubleshooter &amp; Systems Builder</h3>
+          <p>My obsession with how things work started in the 1980s—soldering a mechanical keyboard onto a Sinclair ZX81, writing GW-BASIC and Pascal on early home computers, and scripting MS-DOS batch files in Edlin. Before circling back to tech full-time, I spent decades troubleshooting complex systems in the real world: fifteen years turning wrenches as a diesel mechanic, running sawmills, repairing hardware at Zebra Technologies, and briefly working on fighter jet electronics in the early ’90s.</p>
+          <p>Today, at 53, I’m proof that it’s never too late to start a new chapter. I’m a full-time Computer and Information Systems (CIS) student at Dyersburg State Community College, a remote AI data evaluator, and the builder behind <em>Tomatoes &amp; Transistors</em>. Whether I’m coding frontend interfaces in VS Code, exploring cloud and machine learning on Microsoft Learn, or dialing in VPD, LED spectrums, and canopy airflow in my indoor garden, I love building systems from the ground up.</p>
+          <div class="modal-badge-row">
+            <span class="modal-skill-pill">AAS CIS @ Dyersburg State</span>
+            <span class="modal-skill-pill">HTML / CSS / JS</span>
+            <span class="modal-skill-pill">AI &amp; Cloud Fundamentals</span>
+            <span class="modal-skill-pill">Indoor Horticulture &amp; VPD</span>
+            <span class="modal-skill-pill">Retro Computing &amp; 3D Art</span>
+          </div>
+          <div class="modal-links-row">
+            <a href="https://github.com/PaulBKeys" target="_blank" rel="noopener noreferrer" class="modal-action-link">GitHub Profile &rarr;</a>
+            <a href="https://www.linkedin.com/in/paul-keys-077687a3/" target="_blank" rel="noopener noreferrer" class="modal-action-link modal-linkedin-link">LinkedIn Profile &rarr;</a>
+          </div>
         </div>
       </div>
     </div>
@@ -261,9 +325,12 @@
 
   <!-- 2. FEATURED PROJECTS MODAL -->
   <div id="featured-project-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-project-title">
-    <div class="hud-modal wide-modal theme-gray-modal">
+    <div class="hud-modal wide-modal theme-gray-modal modal-accent-red">
       <div class="modal-header">
-        <span class="title" id="modal-project-title" style="color: var(--accent-red);">// PROJECT VIEWER</span>
+        <div class="header-title-group">
+          <span class="dot modal-dot-red"></span>
+          <span class="title" id="modal-project-title" style="color: var(--accent-red);">// TECHNOLOGY &amp; INNOVATION</span>
+        </div>
         <div class="modal-header-controls">
           <span class="hud-badge" id="modal-project-counter">1 / 6</span>
           <button class="close-btn" aria-label="Close Modal">&times;</button>
@@ -272,11 +339,12 @@
       <div class="modal-body project-layout">
         <div class="media-frame modal-carousel-frame" id="modal-project-touch">
           <button class="modal-nav-btn prev" id="modal-proj-prev" aria-label="Previous Project">&#10094;</button>
-          <img id="modal-project-img" src="images/mock1.png" alt="Project">
+          <img id="modal-project-img" src="images/VS_thumb1.png" alt="Project">
           <button class="modal-nav-btn next" id="modal-proj-next" aria-label="Next Project">&#10095;</button>
         </div>
-        <div class="modal-text text-center">
-          <p id="modal-project-desc" class="terminal-text">System description initialized...</p>
+        <div class="modal-text text-center modal-caption-block">
+          <h3 id="modal-project-heading" class="modal-item-heading">Technology &amp; Innovation</h3>
+          <p id="modal-project-desc" class="modal-clean-desc">Exploring cloud, AI, frontend architecture, and the systems shaping tomorrow.</p>
         </div>
       </div>
     </div>
@@ -284,32 +352,40 @@
 
   <!-- 3. DIGITAL ARCHIVES / ART MODAL -->
   <div id="digital-archives-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="art-modal-title">
-    <div class="hud-modal wide-modal theme-gray-modal">
+    <div class="hud-modal wide-modal theme-gray-modal modal-accent-purple">
       <div class="modal-header">
-        <span class="title" id="art-modal-title" style="color: var(--accent-purple);">// DIGITAL ARCHIVES — EARLY 2000s 3D RENDERS</span>
+        <div class="header-title-group">
+          <span class="dot modal-dot-purple"></span>
+          <span class="title" id="art-modal-title" style="color: var(--accent-purple);">// DIGITAL ARCHIVES — 3D RENDERS</span>
+        </div>
         <div class="modal-header-controls">
           <span class="hud-badge" id="modal-art-counter">1 / 28</span>
           <button class="close-btn" aria-label="Close Modal">&times;</button>
         </div>
       </div>
       <div class="modal-body project-layout">
-        <div class="media-frame modal-carousel-frame" id="modal-art-touch">
+        <div class="media-frame modal-carousel-frame art-modal-stage" id="modal-art-touch">
           <button class="modal-nav-btn prev" id="modal-art-prev" aria-label="Previous Render">&#10094;</button>
-          <img id="modal-art-img" src="images/art/limestone-peak1.jpg" alt="Art Render">
+          <img id="modal-art-backdrop" src="images/art/limestone-peak1.jpg" alt="" aria-hidden="true" class="art-backdrop-img">
+          <img id="modal-art-img" src="images/art/limestone-peak1.jpg" alt="Art Render" class="modal-art-foreground">
           <button class="modal-nav-btn next" id="modal-art-next" aria-label="Next Render">&#10095;</button>
         </div>
-        <div class="modal-text text-center">
-          <p id="modal-art-desc" class="terminal-text">LIMESTONE PEAK1 — Early 2000s digital landscape/render.</p>
+        <div class="modal-text text-center modal-caption-block">
+          <h3 id="modal-art-heading" class="modal-item-heading">Limestone Peak 1</h3>
+          <p id="modal-art-desc" class="modal-clean-desc">Early 2000s digital landscape and atmospheric render created with Terragen &amp; Vue.</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 4. LIVE FEED MODAL (WITH CRT GLITCH, BREEZE & SERVER FLICKER) -->
+  <!-- 4. LIVE FEED MODAL -->
   <div id="living-garden-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-garden-title">
-    <div class="hud-modal wide-modal theme-gray-modal">
+    <div class="hud-modal wide-modal theme-gray-modal modal-accent-amber">
       <div class="modal-header">
-        <span class="title" id="modal-garden-title" style="color: var(--accent-amber);">// LIVE FEED TELEMETRY — CAM 01</span>
+        <div class="header-title-group">
+          <span class="dot modal-dot-amber pulse-dot"></span>
+          <span class="title" id="modal-garden-title" style="color: var(--accent-amber);">// LIVE FEED TELEMETRY — CAM 02</span>
+        </div>
         <div class="modal-header-controls">
           <span class="hud-badge hud-time" id="modal-garden-clock">00:00:00</span>
           <button class="close-btn" aria-label="Close Modal">&times;</button>
@@ -320,10 +396,15 @@
           <button class="modal-nav-btn prev" id="modal-garden-prev" aria-label="Previous Feed">&#10094;</button>
           <img id="modal-garden-img" src="images/livinggarden2.png" alt="Live Feed Telemetry" class="garden-breeze">
           <div class="server-light-overlay"></div>
+          <div class="live-telemetry-hud modal-telemetry-hud" id="modal-telemetry-hud">
+            <span class="hud-cam-tag" id="modal-hud-cam">CAM_02 // CANOPY</span>
+            <span class="hud-metrics" id="modal-hud-metrics">TEMP: 77.4°F &bull; RH: 56% &bull; VPD: 1.18 kPa</span>
+          </div>
           <button class="modal-nav-btn next" id="modal-garden-next" aria-label="Next Feed">&#10095;</button>
         </div>
-        <div class="modal-text text-center">
-          <p id="modal-garden-desc" class="terminal-text">LIVE CANOPY TELEMETRY // OPTIMAL VPD &amp; LIGHTING ACTIVE</p>
+        <div class="modal-text text-center modal-caption-block">
+          <h3 id="modal-garden-heading" class="modal-item-heading">Canopy Feed 02 — Environmental Telemetry Nominal</h3>
+          <p id="modal-garden-desc" class="modal-clean-desc">Active indoor canopy monitoring with automated LED cycle, airflow oscillation, and VPD targets.</p>
         </div>
       </div>
     </div>

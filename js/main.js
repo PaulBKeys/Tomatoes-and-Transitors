@@ -35,7 +35,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  // Helper to attach mobile touch-swipe left/right to any stage or modal
+  document.querySelectorAll('.dock-nav-link').forEach(navEl => {
+    navEl.addEventListener('click', () => {
+      document.querySelectorAll('.dock-nav-link').forEach(l => l.classList.remove('active'));
+      navEl.classList.add('active');
+    });
+  });
+
   const attachTouchSwipe = (element, onSwipeLeft, onSwipeRight) => {
     if (!element) return;
     let startX = 0;
@@ -71,41 +77,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ==========================================
-  // 2. FEATURED PROJECTS CAROUSEL & MODAL (HORIZONTAL SLIDE)
+  // 2. FEATURED PROJECTS CAROUSEL & MODAL (CALM 18s INTERVAL + NO DUPLICATE HERO)
   // ==========================================
   const projectsData = [
     {
-      title: "TECHNOLOGY & INNOVATION",
-      desc: "Exploring cloud, AI, networking, and the technologies shaping tomorrow.",
-      img: "images/mock1.png"
+      title: "Technology & Innovation",
+      desc: "Exploring cloud, AI, frontend architecture, and the systems shaping tomorrow.",
+      img: "images/VS_thumb1.png"
     },
     {
-      title: "LEARNING & REINVENTION",
-      desc: "A CIS student's journey of lifelong learning and starting over at 53.",
+      title: "Learning & Reinvention",
+      desc: "A CIS student's journey of lifelong learning and starting a new chapter at 53.",
       img: "images/mock2.png"
     },
     {
-      title: "BUILDING & EXPERIMENTATION",
-      desc: "Hands-on projects, labs, and experiments in my workshop and home lab.",
+      title: "Building & Experimentation",
+      desc: "Hands-on projects, electronics, and experiments in my workshop and home lab.",
       img: "images/mock3.png"
     },
     {
-      title: "GARDENING & GROWING THINGS",
-      desc: "Growing food, plants, and a more sustainable tomorrow.",
+      title: "Gardening & Growing Things",
+      desc: "Cultivating plants, canopy management, and sustainable indoor horticulture.",
       img: "images/mock4.png"
     },
     {
-      title: "MUSIC & COFFEE",
-      desc: "The soundtrack to my days and the fuel for my ideas.",
+      title: "Music & Coffee",
+      desc: "Punk rock, 90s alt-rock, and the daily fuel behind every coding session.",
       img: "images/mock5.png"
     },
     {
-      title: "STORY & JOURNEY",
-      desc: "Veteran. Reinventor. Documenting the journey and sharing along the way.",
-      img: "images/banner.png"
+      title: "Story & Journey",
+      desc: "From 8-bit keyboards and diesel engines to modern code—documenting the build along the way.",
+      img: "images/server.png"
     }
   ];
 
+  const PROJ_CYCLE_MS = 18000;
   const projectsCard = document.getElementById('projects');
   const imagesTrack = document.getElementById('dynamic-project-images');
   const dotsContainer = document.getElementById('carousel-dots-container');
@@ -114,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const projectModal = document.getElementById('featured-project-modal');
   const modalProjImg = document.getElementById('modal-project-img');
+  const modalProjHeading = document.getElementById('modal-project-heading');
   const modalProjDesc = document.getElementById('modal-project-desc');
   const modalProjTitle = document.getElementById('modal-project-title');
   const modalProjCounter = document.getElementById('modal-project-counter');
@@ -156,18 +164,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (cardProjDesc) cardProjDesc.textContent = activeData.desc;
 
     if (modalProjImg) modalProjImg.src = activeData.img;
-    if (modalProjTitle) modalProjTitle.textContent = `// ${activeData.title}`;
+    if (modalProjTitle) modalProjTitle.textContent = `// ${activeData.title.toUpperCase()}`;
+    if (modalProjHeading) modalProjHeading.textContent = activeData.title;
     if (modalProjDesc) modalProjDesc.textContent = activeData.desc;
     if (modalProjCounter) modalProjCounter.textContent = `${currentSlide + 1} / ${projectsData.length}`;
   };
 
-  let projectInterval = setInterval(() => updateProjectSlide(currentSlide + 1), 7500);
+  let projectInterval = setInterval(() => updateProjectSlide(currentSlide + 1), PROJ_CYCLE_MS);
   const resetProjectInterval = () => {
     clearInterval(projectInterval);
-    projectInterval = setInterval(() => updateProjectSlide(currentSlide + 1), 7500);
+    projectInterval = setInterval(() => updateProjectSlide(currentSlide + 1), PROJ_CYCLE_MS);
   };
 
-  // Pause auto-slide while hovering over the Featured Projects card
   if (projectsCard) {
     projectsCard.addEventListener('mouseenter', () => clearInterval(projectInterval));
     projectsCard.addEventListener('mouseleave', () => {
@@ -175,7 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Bottom Pagination Bar Prev/Next Arrows
   const cardProjPrev = document.getElementById('card-proj-prev');
   const cardProjNext = document.getElementById('card-proj-next');
   if (cardProjPrev) {
@@ -193,7 +200,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Card Pagination Dots
   navDots.forEach(dot => {
     dot.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -202,7 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Modal Prev/Next Arrows
   const modalProjPrev = document.getElementById('modal-proj-prev');
   const modalProjNext = document.getElementById('modal-proj-next');
   if (modalProjPrev) {
@@ -218,7 +223,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Touch Swipe for Projects
   attachTouchSwipe(
     document.getElementById('project-carousel-touch'),
     () => { updateProjectSlide(currentSlide + 1); resetProjectInterval(); },
@@ -230,7 +234,6 @@ document.addEventListener('DOMContentLoaded', () => {
     () => updateProjectSlide(currentSlide - 1)
   );
 
-  // Open/Close Project Modal
   document.querySelectorAll('.open-project-modal').forEach(btn => {
     btn.addEventListener('click', (e) => {
       if (
@@ -254,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ==========================================
-  // 3. DIGITAL ARCHIVES / ART GALLERY (28 RENDERS + SMART FIT)
+  // 3. DIGITAL ARCHIVES / ART GALLERY (TOP-RIGHT SHOWCASE + 14s CYCLE)
   // ==========================================
   const artFiles = [
     "angry.jpg",
@@ -287,14 +290,16 @@ document.addEventListener('DOMContentLoaded', () => {
     "Xaivier_by_ashtreyhead.jpg"
   ];
 
+  const ART_CYCLE_MS = 14000;
+
   const formatArtTitle = (filename) => {
-    return filename
+    const raw = filename
       .replace(/_by_ashtreyhead/gi, '')
       .replace(/\.(jpg|jpeg|png|gif)$/i, '')
       .replace(/__/g, "'")
       .replace(/[_-]+/g, ' ')
-      .trim()
-      .toUpperCase();
+      .trim();
+    return raw.replace(/\b\w/g, c => c.toUpperCase());
   };
 
   let currentArtIndex = Math.floor(Math.random() * artFiles.length);
@@ -303,12 +308,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const artCardThumb = document.getElementById('art-card-thumb');
   const artCardBackdrop = document.getElementById('art-card-backdrop');
   const artCardTitle = document.getElementById('art-card-title');
+  const cardArtCounter = document.getElementById('card-art-counter');
+
   const artModal = document.getElementById('digital-archives-modal');
   const modalArtImg = document.getElementById('modal-art-img');
+  const modalArtBackdrop = document.getElementById('modal-art-backdrop');
+  const modalArtHeading = document.getElementById('modal-art-heading');
   const modalArtDesc = document.getElementById('modal-art-desc');
   const modalArtCounter = document.getElementById('modal-art-counter');
 
-  // Smart aspect-ratio check: scales wide banners or tall portraits so they aren't heavily cropped
   if (artCardThumb) {
     artCardThumb.addEventListener('load', () => {
       const w = artCardThumb.naturalWidth || 1;
@@ -327,21 +335,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const file = artFiles[currentArtIndex];
     const cleanTitle = formatArtTitle(file);
     const fullPath = `images/art/${file}`;
+    const countLabel = `${currentArtIndex + 1} / ${artFiles.length}`;
 
     if (artCardBackdrop) artCardBackdrop.src = fullPath;
     if (artCardThumb) artCardThumb.src = fullPath;
     if (artCardTitle) artCardTitle.textContent = cleanTitle;
+    if (cardArtCounter) cardArtCounter.textContent = countLabel;
+
+    if (modalArtBackdrop) modalArtBackdrop.src = fullPath;
     if (modalArtImg) modalArtImg.src = fullPath;
-    if (modalArtDesc) modalArtDesc.textContent = `${cleanTitle} — Early 2000s digital landscape/render.`;
-    if (modalArtCounter) modalArtCounter.textContent = `${currentArtIndex + 1} / ${artFiles.length}`;
+    if (modalArtHeading) modalArtHeading.textContent = cleanTitle;
+    if (modalArtDesc) modalArtDesc.textContent = `Early 2000s 3D landscape & digital render from the archives (${file}).`;
+    if (modalArtCounter) modalArtCounter.textContent = countLabel;
   };
 
   updateArtDisplay(currentArtIndex);
 
-  let artInterval = setInterval(() => updateArtDisplay(currentArtIndex + 1), 6500);
+  let artInterval = setInterval(() => updateArtDisplay(currentArtIndex + 1), ART_CYCLE_MS);
   const resetArtInterval = () => {
     clearInterval(artInterval);
-    artInterval = setInterval(() => updateArtDisplay(currentArtIndex + 1), 6500);
+    artInterval = setInterval(() => updateArtDisplay(currentArtIndex + 1), ART_CYCLE_MS);
   };
 
   if (archivesCard) {
@@ -393,63 +406,134 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ==========================================
-  // 4. LIVE FEED TELEMETRY (CRT GLITCH, BREEZE & SERVER FLICKER)
+  // 4. LIVE FEED TELEMETRY (LOOSE-CABLE CRT FLICKER + COMPACT HUD)
   // ==========================================
   const gardenFeeds = [
     {
       num: "01",
+      shortCam: "CAM_01",
+      modalCam: "CAM_01 // SCROG BAY",
       title: "// LIVE FEED TELEMETRY — CAM 01",
-      desc: "CANOPY FEED 01 // SCROG TRELLIS & LED ARRAY ACTIVE",
+      heading: "Canopy Feed 01 — SCROG Trellis & LED Array Active",
+      desc: "Primary indoor grow bay running full-spectrum LED lighting and active canopy airflow.",
       img: "images/livinggarden.png",
-      mode: "garden"
+      mode: "garden",
+      baseTemp: 76.8,
+      baseRh: 58,
+      baseVpd: 1.14
     },
     {
       num: "02",
+      shortCam: "CAM_02",
+      modalCam: "CAM_02 // CANOPY",
       title: "// LIVE FEED TELEMETRY — CAM 02",
-      desc: "CANOPY FEED 02 // ENVIRONMENTAL TELEMETRY NOMINAL",
+      heading: "Canopy Feed 02 — Environmental Telemetry Nominal",
+      desc: "Secondary horticultural bay maintaining target VPD, temperature, and root-zone moisture.",
       img: "images/livinggarden2.png",
-      mode: "garden"
+      mode: "garden",
+      baseTemp: 77.4,
+      baseRh: 56,
+      baseVpd: 1.18
     },
     {
       num: "03",
+      shortCam: "NODE_01",
+      modalCam: "NODE_01 // RACK A",
       title: "// LIVE FEED TELEMETRY — SERVER NODE 01",
-      desc: "SERVER RACK 01 // NETWORK & TELEMETRY UPLINK ONLINE",
+      heading: "Server Rack 01 — Network & Telemetry Uplink Online",
+      desc: "Core network routing, local storage array, and automated sensor telemetry aggregation.",
       img: "images/server.png",
-      mode: "server"
+      mode: "server",
+      baseLoad: 14,
+      baseTherm: 38.2,
+      netRate: "1.0 Gbps"
     },
     {
       num: "04",
+      shortCam: "NODE_02",
+      modalCam: "NODE_02 // CLUSTER",
       title: "// LIVE FEED TELEMETRY — SERVER NODE 02",
-      desc: "SERVER RACK 02 // STORAGE & AUTOMATION CLUSTER NOMINAL",
+      heading: "Server Rack 02 — Compute & Automation Cluster",
+      desc: "Redundant lab nodes handling container workloads, backups, and environmental control scripts.",
       img: "images/server2.png",
-      mode: "server"
+      mode: "server",
+      baseLoad: 22,
+      baseTherm: 41.0,
+      netRate: "2.5 Gbps"
     }
   ];
 
-  let currentGardenIndex = 1; // Starts on CAM 02 (livinggarden2.png)
+  const GARDEN_CYCLE_MS = 14000;
+  let currentGardenIndex = 1;
 
   const growthCard = document.getElementById('growth');
   const cardGardenStage = document.getElementById('card-garden-stage');
   const gardenCardImg = document.getElementById('garden-card-img');
   const gardenFeedNum = document.getElementById('garden-feed-num');
   const gardenClock = document.getElementById('garden-clock');
+  const cardHudCam = document.getElementById('card-hud-cam');
+  const cardHudMetrics = document.getElementById('card-hud-metrics');
 
   const gardenModal = document.getElementById('living-garden-modal');
   const modalGardenStage = document.getElementById('modal-garden-stage');
   const modalGardenImg = document.getElementById('modal-garden-img');
   const modalGardenTitle = document.getElementById('modal-garden-title');
+  const modalGardenHeading = document.getElementById('modal-garden-heading');
   const modalGardenDesc = document.getElementById('modal-garden-desc');
   const modalGardenClock = document.getElementById('modal-garden-clock');
+  const modalHudCam = document.getElementById('modal-hud-cam');
+  const modalHudMetrics = document.getElementById('modal-hud-metrics');
+
+  const refreshLiveTelemetryText = () => {
+    const feed = gardenFeeds[currentGardenIndex];
+    const jitter = (Math.random() - 0.5) * 0.4;
+
+    if (feed.mode === 'garden') {
+      const temp = (feed.baseTemp + jitter).toFixed(1);
+      const rh = Math.round(feed.baseRh + jitter * 1.5);
+      const vpd = (feed.baseVpd + jitter * 0.05).toFixed(2);
+      if (cardHudCam) cardHudCam.textContent = feed.shortCam;
+      if (cardHudMetrics) cardHudMetrics.textContent = `${temp}°F \u2022 ${rh}% RH \u2022 ${vpd} kPa`;
+      if (modalHudCam) modalHudCam.textContent = feed.modalCam;
+      if (modalHudMetrics) modalHudMetrics.textContent = `TEMP: ${temp}°F \u2022 RH: ${rh}% \u2022 VPD: ${vpd} kPa`;
+    } else {
+      const load = Math.max(8, Math.round(feed.baseLoad + jitter * 4));
+      const therm = (feed.baseTherm + jitter).toFixed(1);
+      if (cardHudCam) cardHudCam.textContent = feed.shortCam;
+      if (cardHudMetrics) cardHudMetrics.textContent = `CPU: ${load}% \u2022 ${therm}°C \u2022 ${feed.netRate}`;
+      if (modalHudCam) modalHudCam.textContent = feed.modalCam;
+      if (modalHudMetrics) modalHudMetrics.textContent = `LOAD: ${load}% \u2022 THERM: ${therm}°C \u2022 NET: ${feed.netRate}`;
+    }
+  };
 
   const triggerCRTGlitch = (stageEl) => {
     if (!stageEl) return;
     stageEl.classList.remove('crt-glitch-active');
-    void stageEl.offsetWidth; // Force reflow so animation restarts cleanly
+    void stageEl.offsetWidth;
     stageEl.classList.add('crt-glitch-active');
     setTimeout(() => {
       stageEl.classList.remove('crt-glitch-active');
     }, 300);
   };
+
+  // Loose BNC Cable Connection Flicker every 4.5s - 8s
+  const scheduleLooseCableFlicker = () => {
+    const nextDelay = 4500 + Math.floor(Math.random() * 3500);
+    setTimeout(() => {
+      const duration = 200 + Math.floor(Math.random() * 140);
+      if (cardGardenStage) cardGardenStage.classList.add('crt-loose-flicker');
+      if (activeModals.has(gardenModal) && modalGardenStage) {
+        modalGardenStage.classList.add('crt-loose-flicker');
+      }
+
+      setTimeout(() => {
+        if (cardGardenStage) cardGardenStage.classList.remove('crt-loose-flicker');
+        if (modalGardenStage) modalGardenStage.classList.remove('crt-loose-flicker');
+        scheduleLooseCableFlicker();
+      }, duration);
+    }, nextDelay);
+  };
+  scheduleLooseCableFlicker();
 
   const applyFeedMode = (stageEl, imgEl, mode) => {
     if (!stageEl || !imgEl) return;
@@ -477,14 +561,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (modalGardenImg) modalGardenImg.src = feed.img;
     if (modalGardenTitle) modalGardenTitle.textContent = feed.title;
+    if (modalGardenHeading) modalGardenHeading.textContent = feed.heading;
     if (modalGardenDesc) modalGardenDesc.textContent = feed.desc;
     applyFeedMode(modalGardenStage, modalGardenImg, feed.mode);
+
+    refreshLiveTelemetryText();
   };
 
-  // Initialize without glitch on first load
   updateGardenFeed(currentGardenIndex, false);
+  setInterval(refreshLiveTelemetryText, 4000);
 
-  // Real-time 24h Telemetry Clock
   const updateTelemetryClocks = () => {
     const now = new Date();
     const timeStr = now.toTimeString().split(' ')[0];
@@ -494,10 +580,10 @@ document.addEventListener('DOMContentLoaded', () => {
   updateTelemetryClocks();
   setInterval(updateTelemetryClocks, 1000);
 
-  let gardenInterval = setInterval(() => updateGardenFeed(currentGardenIndex + 1, true), 9000);
+  let gardenInterval = setInterval(() => updateGardenFeed(currentGardenIndex + 1, true), GARDEN_CYCLE_MS);
   const resetGardenInterval = () => {
     clearInterval(gardenInterval);
-    gardenInterval = setInterval(() => updateGardenFeed(currentGardenIndex + 1, true), 9000);
+    gardenInterval = setInterval(() => updateGardenFeed(currentGardenIndex + 1, true), GARDEN_CYCLE_MS);
   };
 
   if (growthCard) {
@@ -573,117 +659,362 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ==========================================
-  // 6. REAL-TIME FEEDS (RSS + LIVE OG:IMAGE PREVIEW + GITHUB API)
+  // 6. UNIFIED DAILY FEED (GROW & TECH WITH FILTER PILLS)
   // ==========================================
+  const growFeedSources = [
+    { name: "EPIC GARDENING", url: "https://www.epicgardening.com/feed/", category: "grow" },
+    { name: "HOMESTEAD & CHILL", url: "https://homesteadandchill.com/feed/", category: "grow" },
+    { name: "SAVVY GARDENING", url: "https://savvygardening.com/feed/", category: "grow" },
+    { name: "JOE GARDENER", url: "https://joegardener.com/feed/", category: "grow" },
+    { name: "PLANET NATURAL", url: "https://www.planetnatural.com/feed/", category: "grow" }
+  ];
 
-  // Helper: Fetches the Open Graph (og:image) preview image directly from any webpage URL
-  const fetchLivePagePreviewImage = async (pageUrl) => {
-    if (!pageUrl) return null;
-    try {
-      const res = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(pageUrl)}`);
-      if (!res.ok) return null;
-      const json = await res.json();
-      if (json.status === 'success' && json.data) {
-        if (json.data.image && json.data.image.url) return json.data.image.url;
-        if (json.data.logo && json.data.logo.url) return json.data.logo.url;
-      }
-    } catch (err) {
-      // Silently ignore so existing fallback image remains intact
+  const techFeedSources = [
+    { name: "HACKADAY", url: "https://hackaday.com/blog/feed/", category: "tech" },
+    { name: "ARS TECHNICA", url: "https://feeds.arstechnica.com/arstechnica/index", category: "tech" },
+    { name: "TOM'S HARDWARE", url: "https://www.tomshardware.com/feeds/all", category: "tech" },
+    { name: "SERVETHEHOME", url: "https://www.servethehome.com/feed/", category: "tech" },
+    { name: "JEFF GEERLING", url: "https://www.jeffgeerling.com/blog.xml", category: "tech" }
+  ];
+
+  const growFallbackPool = [
+    {
+      category: "grow",
+      source: "EPIC GARDENING",
+      title: "Soil Perlite Ratios, Fabric Grow Bags & Root Zone Oxygenation Guide",
+      desc: "How breathable fabric containers and proper aeration amendments prevent root-bound stress and boost nutrient uptake.",
+      link: "https://www.epicgardening.com/",
+      img: "images/livinggarden.png"
+    },
+    {
+      category: "grow",
+      source: "HOMESTEAD & CHILL",
+      title: "Organic Canopy Management: Trellis Netting, Pruning & Lollipopping",
+      desc: "Opening up lower canopy airflow and directing plant energy toward top colas and fruiting sites.",
+      link: "https://homesteadandchill.com/",
+      img: "images/livinggarden2.png"
+    },
+    {
+      category: "grow",
+      source: "PLANET NATURAL",
+      title: "Biological Pest Control: Using Predatory Mites in Indoor Grow Tents",
+      desc: "Integrated pest management strategies to keep spider mites and fungus gnats out of your indoor garden.",
+      link: "https://www.planetnatural.com/",
+      img: "images/mock4.png"
+    }
+  ];
+
+  const techFallbackPool = [
+    {
+      category: "tech",
+      source: "HACKADAY",
+      title: "Building Custom Environmental Telemetry Nodes & Retro Hardware Mods",
+      desc: "From 8-bit Sinclair ZX81 keyboard conversions to modern microcontroller sensor arrays and automated relays.",
+      link: "https://hackaday.com/",
+      img: "images/server.png"
+    },
+    {
+      category: "tech",
+      source: "SERVETHEHOME",
+      title: "Quiet Home Lab Server Builds, Wake-on-LAN Automation & Power Efficiency",
+      desc: "Configuring headless nodes, remote packet wake triggers, and low-wattage 24/7 home lab clusters.",
+      link: "https://www.servethehome.com/",
+      img: "images/server2.png"
+    },
+    {
+      category: "tech",
+      source: "ARS TECHNICA",
+      title: "Cloud Infrastructure, AI Workloads & Next-Gen Networking Protocols",
+      desc: "Inside the hardware architectures powering modern distributed computing and local edge servers.",
+      link: "https://arstechnica.com/",
+      img: "images/VS_thumb1.png"
+    }
+  ];
+
+  const stripHtmlToText = (html) => {
+    if (!html) return "";
+    const temp = document.createElement('div');
+    temp.innerHTML = html;
+    const text = (temp.textContent || temp.innerText || "").replace(/\s+/g, ' ').trim();
+    return text.length > 130 ? `${text.substring(0, 130)}...` : text;
+  };
+
+  const extractImageFromHtml = (html) => {
+    if (!html) return null;
+    const match = html.match(/<img[^>]+src=["']([^"'>]+)["']/i);
+    if (match && match[1] && !match[1].includes('1x1') && !match[1].includes('pixel')) {
+      return match[1];
     }
     return null;
   };
 
-  // Safe image setter with automatic fallback if a remote CDN blocks or breaks
-  const applyFeedThumbnail = (imgEl, newSrc) => {
-    if (!imgEl || !newSrc) return;
-    const fallbackSrc = imgEl.getAttribute('data-fallback') || imgEl.src;
-    imgEl.onerror = () => {
-      imgEl.onerror = null;
-      imgEl.src = fallbackSrc;
-    };
-    imgEl.src = newSrc;
+  const fetchViaRss2Json = async (sourceObj, defaultFallbackImg) => {
+    const endpoint = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(sourceObj.url)}`;
+    const res = await fetch(endpoint);
+    if (!res.ok) throw new Error('rss2json HTTP error');
+    const data = await res.json();
+    if (data.status !== 'ok' || !Array.isArray(data.items) || data.items.length === 0) {
+      throw new Error('rss2json empty');
+    }
+    return data.items.slice(0, 2).map(item => {
+      const img =
+        item.thumbnail ||
+        (item.enclosure && (item.enclosure.link || item.enclosure.thumbnail)) ||
+        extractImageFromHtml(item.content || item.description) ||
+        defaultFallbackImg;
+      return {
+        category: sourceObj.category,
+        source: sourceObj.name,
+        title: item.title,
+        desc: stripHtmlToText(item.description || item.content) || `Latest update from ${sourceObj.name}.`,
+        link: item.link,
+        img
+      };
+    });
   };
 
-  const fetchRSSFeed = async (rssUrl, linkId, titleId, descId, imgId, fallbackMsg) => {
-    const linkEl = document.getElementById(linkId);
-    const titleEl = document.getElementById(titleId);
-    const descEl = document.getElementById(descId);
-    const imgEl = document.getElementById(imgId);
+  const fetchViaXmlProxy = async (sourceObj, defaultFallbackImg) => {
+    const proxies = [
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(sourceObj.url)}`,
+      `https://corsproxy.io/?${encodeURIComponent(sourceObj.url)}`
+    ];
 
-    if (!titleEl) return;
+    for (const proxyUrl of proxies) {
+      try {
+        const res = await fetch(proxyUrl);
+        if (!res.ok) continue;
+        const xmlText = await res.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlText, "text/xml");
 
-    try {
-      const apiEndpoint = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
-      const res = await fetch(apiEndpoint);
-      if (!res.ok) throw new Error('RSS proxy HTTP error');
-      const data = await res.json();
+        const items = Array.from(xmlDoc.querySelectorAll("item, entry")).slice(0, 2);
+        if (items.length === 0) continue;
 
-      if (data.status === 'ok' && data.items && data.items.length > 0) {
-        const item = data.items[0];
+        return items.map(node => {
+          const title = (node.querySelector("title")?.textContent || "").trim();
+          const linkNode = node.querySelector("link");
+          const link = (linkNode?.getAttribute("href") || linkNode?.textContent || "").trim();
+          const rawDesc =
+            node.querySelector("description")?.textContent ||
+            node.querySelector("summary")?.textContent ||
+            node.querySelector("content")?.textContent ||
+            "";
+          const encoded = node.getElementsByTagNameNS("*", "encoded")[0]?.textContent || "";
 
-        titleEl.textContent = item.title;
-        if (linkEl && item.link) {
-          linkEl.href = item.link;
-          linkEl.title = item.title;
-        }
+          let img = null;
+          const mediaContent = node.getElementsByTagNameNS("*", "content")[0];
+          const mediaThumb = node.getElementsByTagNameNS("*", "thumbnail")[0];
+          const enclosure = node.querySelector("enclosure");
 
-        if (descEl) {
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = item.description || item.content || '';
-          const cleanText = (tempDiv.textContent || tempDiv.innerText || '').trim();
-          descEl.textContent = cleanText.length > 120 ? `${cleanText.substring(0, 120)}...` : cleanText;
-        }
-
-        if (imgEl) {
-          // 1. Check RSS payload for thumbnail, enclosure, or inline <img> tag
-          let imgSrc = item.thumbnail || (item.enclosure && (item.enclosure.link || item.enclosure.thumbnail));
-          if (!imgSrc) {
-            const rawHtml = item.content || item.description || '';
-            const imgMatch = rawHtml.match(/<img[^>]+src=["']([^"'>]+)["']/i);
-            if (imgMatch && imgMatch[1]) imgSrc = imgMatch[1];
+          if (mediaContent && mediaContent.getAttribute("url")) {
+            img = mediaContent.getAttribute("url");
+          } else if (mediaThumb && mediaThumb.getAttribute("url")) {
+            img = mediaThumb.getAttribute("url");
+          } else if (enclosure && enclosure.getAttribute("url")) {
+            img = enclosure.getAttribute("url");
+          } else {
+            img = extractImageFromHtml(encoded || rawDesc);
           }
 
-          if (imgSrc) {
-            applyFeedThumbnail(imgEl, imgSrc);
-          } else if (item.link) {
-            // 2. If RSS feed has no image (e.g. Planet Natural text excerpts), pull live og:image from article URL
-            const ogImg = await fetchLivePagePreviewImage(item.link);
-            if (ogImg) applyFeedThumbnail(imgEl, ogImg);
-          }
-        }
-      } else {
-        titleEl.textContent = fallbackMsg;
+          return {
+            category: sourceObj.category,
+            source: sourceObj.name,
+            title: title || `Latest from ${sourceObj.name}`,
+            desc: stripHtmlToText(rawDesc || encoded) || `Read the full article on ${sourceObj.name}.`,
+            link: link || "https://github.com/PaulBKeys",
+            img: img || defaultFallbackImg
+          };
+        });
+      } catch (e) {}
+    }
+    throw new Error('All XML proxies failed');
+  };
+
+  const applyFeedThumbnail = (imgEl, newSrc, fallbackSrc) => {
+    if (!imgEl) return;
+    const safeFallback = fallbackSrc || 'images/livinggarden.png';
+    imgEl.onerror = () => {
+      imgEl.onerror = null;
+      imgEl.src = safeFallback;
+    };
+    imgEl.src = newSrc || safeFallback;
+  };
+
+  const initUnifiedDailyFeed = async () => {
+    const DAILY_CYCLE_MS = 15000;
+    const cardEl = document.getElementById('daily-feed-link');
+    const headerLabelEl = document.getElementById('daily-feed-header-label');
+    const badgeEl = document.getElementById('daily-source-badge');
+    const titleEl = document.getElementById('daily-link-title');
+    const descEl = document.getElementById('daily-link-desc');
+    const imgEl = document.getElementById('daily-link-img');
+    const textWrapEl = document.getElementById('daily-text-wrap');
+    const filterBtns = document.querySelectorAll('.feed-filter-btn');
+
+    if (!cardEl || !titleEl) return;
+
+    let masterPool = [
+      growFallbackPool[0],
+      techFallbackPool[0],
+      growFallbackPool[1],
+      techFallbackPool[1],
+      growFallbackPool[2],
+      techFallbackPool[2]
+    ];
+    let activeMode = 'all';
+    let currentIndex = 0;
+
+    const getFilteredPool = () => {
+      if (activeMode === 'all') return masterPool;
+      const filtered = masterPool.filter(item => item.category === activeMode);
+      return filtered.length > 0 ? filtered : masterPool;
+    };
+
+    const renderDailyItem = (item) => {
+      if (!item) return;
+      const isTech = item.category === 'tech';
+      const defaultFallback = isTech ? 'images/server2.png' : 'images/livinggarden.png';
+
+      cardEl.classList.toggle('theme-cyan', isTech);
+      cardEl.classList.toggle('theme-green', !isTech);
+      if (headerLabelEl) {
+        headerLabelEl.textContent = isTech ? 'TECH DECK' : 'GROW FEED';
       }
-    } catch (e) {
-      titleEl.textContent = fallbackMsg;
+
+      if (textWrapEl) textWrapEl.classList.add('feed-fade-transition');
+
+      setTimeout(() => {
+        if (badgeEl) badgeEl.textContent = item.source;
+        titleEl.textContent = item.title;
+        if (descEl) descEl.textContent = item.desc;
+        cardEl.href = item.link;
+        cardEl.title = `[${item.source}] ${item.title}`;
+        applyFeedThumbnail(imgEl, item.img, defaultFallback);
+
+        if (textWrapEl) textWrapEl.classList.remove('feed-fade-transition');
+      }, 160);
+    };
+
+    const stepFeed = () => {
+      const pool = getFilteredPool();
+      currentIndex = (currentIndex + 1) % pool.length;
+      renderDailyItem(pool[currentIndex]);
+    };
+
+    let dailyTimer = setInterval(stepFeed, DAILY_CYCLE_MS);
+    const resetDailyTimer = () => {
+      clearInterval(dailyTimer);
+      dailyTimer = setInterval(stepFeed, DAILY_CYCLE_MS);
+    };
+
+    cardEl.addEventListener('mouseenter', () => clearInterval(dailyTimer));
+    cardEl.addEventListener('mouseleave', resetDailyTimer);
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeMode = btn.getAttribute('data-feed-mode') || 'all';
+        currentIndex = 0;
+        const pool = getFilteredPool();
+        renderDailyItem(pool[0]);
+        resetDailyTimer();
+      });
+    });
+
+    // Load cached pool if fresh
+    try {
+      const cachedRaw = localStorage.getItem('tt_unified_daily_pool_v1');
+      if (cachedRaw) {
+        const cachedObj = JSON.parse(cachedRaw);
+        if (cachedObj && Array.isArray(cachedObj.items) && cachedObj.items.length > 0) {
+          masterPool = cachedObj.items;
+          renderDailyItem(getFilteredPool()[0]);
+          if (Date.now() - cachedObj.timestamp < 30 * 60 * 1000) {
+            return;
+          }
+        }
+      }
+    } catch (e) {}
+
+    renderDailyItem(getFilteredPool()[0]);
+
+    const allSources = [...growFeedSources, ...techFeedSources];
+    const fetchedLists = await Promise.all(
+      allSources.map(async (src) => {
+        const fallbackImg = src.category === 'tech' ? 'images/server2.png' : 'images/livinggarden.png';
+        try {
+          return await fetchViaRss2Json(src, fallbackImg);
+        } catch (e1) {
+          try {
+            return await fetchViaXmlProxy(src, fallbackImg);
+          } catch (e2) {
+            return [];
+          }
+        }
+      })
+    );
+
+    const growLists = fetchedLists.slice(0, growFeedSources.length).flat();
+    const techLists = fetchedLists.slice(growFeedSources.length).flat();
+
+    const interleaved = [];
+    const maxLen = Math.max(growLists.length, techLists.length);
+    for (let i = 0; i < maxLen; i++) {
+      if (growLists[i]) interleaved.push(growLists[i]);
+      if (techLists[i]) interleaved.push(techLists[i]);
+    }
+
+    if (interleaved.length > 0) {
+      masterPool = interleaved;
+      currentIndex = 0;
+      renderDailyItem(getFilteredPool()[0]);
+      try {
+        localStorage.setItem('tt_unified_daily_pool_v1', JSON.stringify({
+          timestamp: Date.now(),
+          items: interleaved
+        }));
+      } catch (e) {}
     }
   };
 
-  fetchRSSFeed(
-    'https://www.planetnatural.com/feed/',
-    'grow-feed-link',
-    'grow-link-title',
-    'grow-link-desc',
-    'grow-link-img',
-    'GROW FEED OFFLINE'
-  );
+  initUnifiedDailyFeed();
 
-  fetchRSSFeed(
-    'https://feeds.arstechnica.com/arstechnica/technology-lab',
-    'tech-feed-link',
-    'rss-link-title',
-    'rss-link-desc',
-    'rss-link-img',
-    'HARDWARE FEED OFFLINE'
-  );
 
-  // GitHub Commit Sync (with repo-name fallback & localStorage cache for rate-limit resilience)
-  const renderGitHubCommit = (container, commitData) => {
-    container.innerHTML = `
-      <a href="${commitData.url}" target="_blank" rel="noopener noreferrer" class="github-commit-link" title="View commit on GitHub">
-        <span style="color: #00D2FF;">${commitData.dateStr}</span> <span style="color: #FF2A2A;">#${commitData.hash}</span><br>
-        <span style="color: #fff; word-break: break-word;">${commitData.msg}</span>
+  // ==========================================
+  // 7. EXPANDED GITHUB TELEMETRY (RECENT COMMITS + LANGUAGE BAR)
+  // ==========================================
+  const defaultLangSplit = { html: 26, css: 43, js: 31 };
+
+  const renderGitHubTelemetry = (container, commitsList, langSplit = defaultLangSplit) => {
+    const commitsHtml = commitsList.slice(0, 2).map(c => `
+      <a href="${c.url}" target="_blank" rel="noopener noreferrer" class="github-commit-link" title="View commit on GitHub: ${c.msg}">
+        <span style="color: #00D2FF;">${c.dateStr}</span> <span style="color: #FF2A2A;">#${c.hash}</span>
+        <span class="github-commit-msg">${c.msg}</span>
       </a>
+    `).join('');
+
+    container.innerHTML = `
+      <div class="gh-commits-list">
+        ${commitsHtml}
+      </div>
+      <div class="gh-telemetry-wrap">
+        <div class="gh-lang-bar" title="Repository Code Composition">
+          <span class="gh-lang-seg gh-seg-html" style="width: ${langSplit.html}%"></span>
+          <span class="gh-lang-seg gh-seg-css" style="width: ${langSplit.css}%"></span>
+          <span class="gh-lang-seg gh-seg-js" style="width: ${langSplit.js}%"></span>
+        </div>
+        <div class="gh-lang-legend">
+          <div class="gh-legend-items">
+            <span class="gh-legend-item"><i class="gh-legend-dot gh-seg-html"></i>HTML ${langSplit.html}%</span>
+            <span class="gh-legend-item"><i class="gh-legend-dot gh-seg-css"></i>CSS ${langSplit.css}%</span>
+            <span class="gh-legend-item"><i class="gh-legend-dot gh-seg-js"></i>JS ${langSplit.js}%</span>
+          </div>
+          <span class="gh-branch-tag">MAIN &#10003;</span>
+        </div>
+      </div>
     `;
   };
 
@@ -691,46 +1022,98 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('github-feed-content');
     if (!container) return;
 
-    const repoEndpoints = [
-      'https://api.github.com/repos/PaulBKeys/Tomatoes-and-Transitors/commits',
-      'https://api.github.com/repos/PaulBKeys/Tomatoes-and-Transistors/commits'
+    let langSplit = { ...defaultLangSplit };
+    try {
+      const cachedLangs = localStorage.getItem('tt_repo_langs');
+      if (cachedLangs) langSplit = JSON.parse(cachedLangs);
+    } catch (e) {}
+
+    const repoBases = [
+      'https://api.github.com/repos/PaulBKeys/Tomatoes-and-Transitors',
+      'https://api.github.com/repos/PaulBKeys/Tomatoes-and-Transistors'
     ];
 
-    for (const endpoint of repoEndpoints) {
+    for (const base of repoBases) {
       try {
-        const res = await fetch(endpoint);
-        if (!res.ok) continue;
+        const [commitsRes, langsRes] = await Promise.all([
+          fetch(`${base}/commits`),
+          fetch(`${base}/languages`)
+        ]);
 
-        const commits = await res.json();
+        if (langsRes.ok) {
+          const langBytes = await langsRes.json();
+          const hBytes = langBytes.HTML || 0;
+          const cBytes = langBytes.CSS || 0;
+          const jBytes = langBytes.JavaScript || 0;
+          const total = hBytes + cBytes + jBytes;
+          if (total > 0) {
+            const htmlPct = Math.max(5, Math.round((hBytes / total) * 100));
+            const cssPct = Math.max(5, Math.round((cBytes / total) * 100));
+            const jsPct = Math.max(5, 100 - htmlPct - cssPct);
+            langSplit = { html: htmlPct, css: cssPct, js: jsPct };
+            localStorage.setItem('tt_repo_langs', JSON.stringify(langSplit));
+          }
+        }
+
+        if (!commitsRes.ok) continue;
+        const commits = await commitsRes.json();
         if (!Array.isArray(commits) || commits.length === 0) continue;
 
-        const latest = commits[0];
-        const hash = latest.sha.substring(0, 7);
-        const d = new Date(latest.commit.author.date);
-        const dateStr = `[${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}]`;
-        const msg = latest.commit.message.split('\n')[0];
-        const url = latest.html_url || 'https://github.com/PaulBKeys';
+        const formattedCommits = commits.slice(0, 2).map(c => {
+          const hash = c.sha.substring(0, 7);
+          const d = new Date(c.commit.author.date);
+          const dateStr = `[${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}]`;
+          const msg = c.commit.message.split('\n')[0];
+          const url = c.html_url || 'https://github.com/PaulBKeys/Tomatoes-and-Transitors';
+          return { hash, dateStr, msg, url };
+        });
 
-        const commitPayload = { hash, dateStr, msg, url };
-        localStorage.setItem('tt_latest_commit', JSON.stringify(commitPayload));
-        renderGitHubCommit(container, commitPayload);
+        localStorage.setItem('tt_latest_commits_v2', JSON.stringify(formattedCommits));
+        renderGitHubTelemetry(container, formattedCommits, langSplit);
         return;
-      } catch (err) {
-        // Try next candidate endpoint
-      }
+      } catch (err) {}
     }
 
-    // Fallback to last cached commit if GitHub API rate-limits local development refreshes
-    const cached = localStorage.getItem('tt_latest_commit');
+    const cached = localStorage.getItem('tt_latest_commits_v2');
     if (cached) {
       try {
-        renderGitHubCommit(container, JSON.parse(cached));
+        renderGitHubTelemetry(container, JSON.parse(cached), langSplit);
         return;
       } catch (e) {}
     }
 
-    container.innerHTML = `<span style="color: var(--text-muted);">// CHANGELOG SYNCED LOCALLY</span>`;
+    renderGitHubTelemetry(container, [
+      {
+        dateStr: '[2026-10-14]',
+        hash: '5316397',
+        msg: 'Change_V4: Bento architecture & telemetry updates',
+        url: 'https://github.com/PaulBKeys/Tomatoes-and-Transitors'
+      },
+      {
+        dateStr: '[2026-10-12]',
+        hash: '8a4b210',
+        msg: 'Responsive viewport & modal carousel refinements',
+        url: 'https://github.com/PaulBKeys/Tomatoes-and-Transitors'
+      }
+    ], langSplit);
   };
 
   fetchGitHub();
+
+
+  // ==========================================
+  // 8. SPOTIFY PLAYBACK BORDER GLOW LISTENER
+  // ==========================================
+  const audioDeckCard = document.getElementById('audio-deck-card');
+
+  window.addEventListener('message', (e) => {
+    if (!e.origin || !e.origin.includes('spotify.com')) return;
+    try {
+      const data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
+      if (data && data.type === 'playback_update' && data.payload && audioDeckCard) {
+        audioDeckCard.classList.toggle('audio-playing', !data.payload.isPaused);
+      }
+    } catch (err) {}
+  });
+
 });
