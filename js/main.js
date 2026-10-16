@@ -423,15 +423,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ==========================================
-  // 4. LIVE FEED VIDEO TELEMETRY (3 KLING CLIPS + 8s CRT CUT)
+  // 4. LIVE FEED VIDEO TELEMETRY (4 KLING CLIPS + 8s CRT CUT)
   // ==========================================
   const gardenFeeds = [
     {
       num: "01",
       title: "// LIVE FEED TELEMETRY — NODE 01",
-      heading: "Canopy Feed 01 — Bio-Hydroponics Bay",
-      desc: "Underground industrial grow sector maintaining automated nutrient flow and UV canopy lighting.",
-      video: "images/growroom_1.mp4"
+      heading: "Canopy Feed 01 — Subterranean Cavern Sector",
+      desc: "Deep-rock vault cultivation array with automated trellis tracking and pressurized atmospheric misting.",
+      video: "images/growroom_2.mp4"
     },
     {
       num: "02",
@@ -443,7 +443,14 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       num: "03",
       title: "// LIVE FEED TELEMETRY — NODE 03",
-      heading: "Reactor Sub-Level 03 — Power & Cooling Sector",
+      heading: "Canopy Feed 03 — Lower Aisle Hydro Array",
+      desc: "Secondary cavern growth chamber monitoring high-density canopy foliage and nutrient irrigation lines.",
+      video: "images/growroom_3.mp4"
+    },
+    {
+      num: "04",
+      title: "// LIVE FEED TELEMETRY — NODE 04",
+      heading: "Reactor Sub-Level 04 — Power & Cooling Sector",
       desc: "Heavy-duty mechanical turbines and high-pressure steam cooling infrastructure.",
       video: "images/steamroom.mp4"
     }
