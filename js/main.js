@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
     activeModals.delete(modal);
     if (activeModals.size === 0) {
       document.body.style.overflow = 'auto';
+      document.querySelectorAll('.dock-nav-link').forEach(l => {
+        l.classList.toggle('active', l.getAttribute('data-target') === 'home');
+      });
     }
   };
 
@@ -293,13 +296,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const ART_CYCLE_MS = 14000;
 
   const formatArtTitle = (filename) => {
+    const customNames = {
+      "turningtospring.jpg": "Turning to Spring",
+      "eltigre.jpg": "El Tigre",
+      "elkong.jpg": "El Kong",
+      "thievesavitest1.jpg": "Thieves AVI Test 1",
+      "tiger1eyes.gif": "Tiger Eyes",
+      "cansig5.jpg": "Cansig 5",
+      "close1.jpg": "Close 1",
+      "cross3.gif": "Cross 3",
+      "evel2.jpg": "Evel 2",
+      "seal2.jpg": "Seal 2"
+    };
+    if (customNames[filename]) return customNames[filename];
+
     const raw = filename
       .replace(/_by_ashtreyhead/gi, '')
       .replace(/\.(jpg|jpeg|png|gif)$/i, '')
       .replace(/__/g, "'")
       .replace(/[_-]+/g, ' ')
       .trim();
-    return raw.replace(/\b\w/g, c => c.toUpperCase());
+    return raw.replace(/(^|\s)\w/g, c => c.toUpperCase());
   };
 
   let currentArtIndex = Math.floor(Math.random() * artFiles.length);
@@ -406,105 +423,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ==========================================
-  // 4. LIVE FEED TELEMETRY (LOOSE-CABLE CRT FLICKER + COMPACT HUD)
+  // 4. LIVE FEED VIDEO TELEMETRY (3 KLING CLIPS + 8s CRT CUT)
   // ==========================================
   const gardenFeeds = [
     {
       num: "01",
-      shortCam: "CAM_01",
-      modalCam: "CAM_01 // SCROG BAY",
-      title: "// LIVE FEED TELEMETRY — CAM 01",
-      heading: "Canopy Feed 01 — SCROG Trellis & LED Array Active",
-      desc: "Primary indoor grow bay running full-spectrum LED lighting and active canopy airflow.",
-      img: "images/livinggarden.png",
-      mode: "garden",
-      baseTemp: 76.8,
-      baseRh: 58,
-      baseVpd: 1.14
+      title: "// LIVE FEED TELEMETRY — NODE 01",
+      heading: "Canopy Feed 01 — Bio-Hydroponics Bay",
+      desc: "Underground industrial grow sector maintaining automated nutrient flow and UV canopy lighting.",
+      video: "images/growroom_1.mp4"
     },
     {
       num: "02",
-      shortCam: "CAM_02",
-      modalCam: "CAM_02 // CANOPY",
-      title: "// LIVE FEED TELEMETRY — CAM 02",
-      heading: "Canopy Feed 02 — Environmental Telemetry Nominal",
-      desc: "Secondary horticultural bay maintaining target VPD, temperature, and root-zone moisture.",
-      img: "images/livinggarden2.png",
-      mode: "garden",
-      baseTemp: 77.4,
-      baseRh: 56,
-      baseVpd: 1.18
+      title: "// LIVE FEED TELEMETRY — NODE 02",
+      heading: "Server Core 02 — Mainframe & Network Uplink",
+      desc: "Subterranean server corridor running routing arrays, sensor logging, and automated telemetry.",
+      video: "images/serverroom_1.mp4"
     },
     {
       num: "03",
-      shortCam: "NODE_01",
-      modalCam: "NODE_01 // RACK A",
-      title: "// LIVE FEED TELEMETRY — SERVER NODE 01",
-      heading: "Server Rack 01 — Network & Telemetry Uplink Online",
-      desc: "Core network routing, local storage array, and automated sensor telemetry aggregation.",
-      img: "images/server.png",
-      mode: "server",
-      baseLoad: 14,
-      baseTherm: 38.2,
-      netRate: "1.0 Gbps"
-    },
-    {
-      num: "04",
-      shortCam: "NODE_02",
-      modalCam: "NODE_02 // CLUSTER",
-      title: "// LIVE FEED TELEMETRY — SERVER NODE 02",
-      heading: "Server Rack 02 — Compute & Automation Cluster",
-      desc: "Redundant lab nodes handling container workloads, backups, and environmental control scripts.",
-      img: "images/server2.png",
-      mode: "server",
-      baseLoad: 22,
-      baseTherm: 41.0,
-      netRate: "2.5 Gbps"
+      title: "// LIVE FEED TELEMETRY — NODE 03",
+      heading: "Reactor Sub-Level 03 — Power & Cooling Sector",
+      desc: "Heavy-duty mechanical turbines and high-pressure steam cooling infrastructure.",
+      video: "images/steamroom.mp4"
     }
   ];
 
-  const GARDEN_CYCLE_MS = 14000;
-  let currentGardenIndex = 1;
+  const GARDEN_CYCLE_MS = 8000;
+  let currentGardenIndex = 0;
 
   const growthCard = document.getElementById('growth');
   const cardGardenStage = document.getElementById('card-garden-stage');
-  const gardenCardImg = document.getElementById('garden-card-img');
+  const cardFeedVideo = document.getElementById('card-feed-video');
   const gardenFeedNum = document.getElementById('garden-feed-num');
   const gardenClock = document.getElementById('garden-clock');
-  const cardHudCam = document.getElementById('card-hud-cam');
-  const cardHudMetrics = document.getElementById('card-hud-metrics');
 
   const gardenModal = document.getElementById('living-garden-modal');
   const modalGardenStage = document.getElementById('modal-garden-stage');
-  const modalGardenImg = document.getElementById('modal-garden-img');
+  const modalFeedVideo = document.getElementById('modal-feed-video');
   const modalGardenTitle = document.getElementById('modal-garden-title');
   const modalGardenHeading = document.getElementById('modal-garden-heading');
   const modalGardenDesc = document.getElementById('modal-garden-desc');
   const modalGardenClock = document.getElementById('modal-garden-clock');
-  const modalHudCam = document.getElementById('modal-hud-cam');
-  const modalHudMetrics = document.getElementById('modal-hud-metrics');
-
-  const refreshLiveTelemetryText = () => {
-    const feed = gardenFeeds[currentGardenIndex];
-    const jitter = (Math.random() - 0.5) * 0.4;
-
-    if (feed.mode === 'garden') {
-      const temp = (feed.baseTemp + jitter).toFixed(1);
-      const rh = Math.round(feed.baseRh + jitter * 1.5);
-      const vpd = (feed.baseVpd + jitter * 0.05).toFixed(2);
-      if (cardHudCam) cardHudCam.textContent = feed.shortCam;
-      if (cardHudMetrics) cardHudMetrics.textContent = `${temp}°F \u2022 ${rh}% RH \u2022 ${vpd} kPa`;
-      if (modalHudCam) modalHudCam.textContent = feed.modalCam;
-      if (modalHudMetrics) modalHudMetrics.textContent = `TEMP: ${temp}°F \u2022 RH: ${rh}% \u2022 VPD: ${vpd} kPa`;
-    } else {
-      const load = Math.max(8, Math.round(feed.baseLoad + jitter * 4));
-      const therm = (feed.baseTherm + jitter).toFixed(1);
-      if (cardHudCam) cardHudCam.textContent = feed.shortCam;
-      if (cardHudMetrics) cardHudMetrics.textContent = `CPU: ${load}% \u2022 ${therm}°C \u2022 ${feed.netRate}`;
-      if (modalHudCam) modalHudCam.textContent = feed.modalCam;
-      if (modalHudMetrics) modalHudMetrics.textContent = `LOAD: ${load}% \u2022 THERM: ${therm}°C \u2022 NET: ${feed.netRate}`;
-    }
-  };
 
   const triggerCRTGlitch = (stageEl) => {
     if (!stageEl) return;
@@ -516,32 +476,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 300);
   };
 
-  // Loose BNC Cable Connection Flicker every 4.5s - 8s
-  const scheduleLooseCableFlicker = () => {
-    const nextDelay = 4500 + Math.floor(Math.random() * 3500);
-    setTimeout(() => {
-      const duration = 200 + Math.floor(Math.random() * 140);
-      if (cardGardenStage) cardGardenStage.classList.add('crt-loose-flicker');
-      if (activeModals.has(gardenModal) && modalGardenStage) {
-        modalGardenStage.classList.add('crt-loose-flicker');
-      }
-
-      setTimeout(() => {
-        if (cardGardenStage) cardGardenStage.classList.remove('crt-loose-flicker');
-        if (modalGardenStage) modalGardenStage.classList.remove('crt-loose-flicker');
-        scheduleLooseCableFlicker();
-      }, duration);
-    }, nextDelay);
-  };
-  scheduleLooseCableFlicker();
-
-  const applyFeedMode = (stageEl, imgEl, mode) => {
-    if (!stageEl || !imgEl) return;
-    stageEl.classList.toggle('mode-garden', mode === 'garden');
-    stageEl.classList.toggle('mode-server', mode === 'server');
-
-    imgEl.classList.toggle('garden-breeze', mode === 'garden');
-    imgEl.classList.toggle('server-static', mode === 'server');
+  const loadAndPlayVideo = (videoEl, src, syncTime = 0) => {
+    if (!videoEl) return;
+    if (videoEl.getAttribute('src') !== src) {
+      videoEl.setAttribute('src', src);
+      videoEl.load();
+    }
+    try {
+      videoEl.currentTime = syncTime;
+    } catch (e) {}
+    const playPromise = videoEl.play();
+    if (playPromise && typeof playPromise.catch === 'function') {
+      playPromise.catch(() => {});
+    }
   };
 
   const updateGardenFeed = (index, withGlitch = true) => {
@@ -556,20 +503,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (gardenFeedNum) gardenFeedNum.textContent = feed.num;
-    if (gardenCardImg) gardenCardImg.src = feed.img;
-    applyFeedMode(cardGardenStage, gardenCardImg, feed.mode);
+    loadAndPlayVideo(cardFeedVideo, feed.video, 0);
 
-    if (modalGardenImg) modalGardenImg.src = feed.img;
     if (modalGardenTitle) modalGardenTitle.textContent = feed.title;
     if (modalGardenHeading) modalGardenHeading.textContent = feed.heading;
     if (modalGardenDesc) modalGardenDesc.textContent = feed.desc;
-    applyFeedMode(modalGardenStage, modalGardenImg, feed.mode);
 
-    refreshLiveTelemetryText();
+    if (activeModals.has(gardenModal)) {
+      loadAndPlayVideo(modalFeedVideo, feed.video, 0);
+    } else if (modalFeedVideo) {
+      modalFeedVideo.setAttribute('src', feed.video);
+    }
   };
 
-  updateGardenFeed(currentGardenIndex, false);
-  setInterval(refreshLiveTelemetryText, 4000);
+  updateGardenFeed(0, false);
 
   const updateTelemetryClocks = () => {
     const now = new Date();
@@ -597,13 +544,21 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       clearInterval(gardenInterval);
-      updateGardenFeed(currentGardenIndex, false);
+      const feed = gardenFeeds[currentGardenIndex];
+      const syncTime = cardFeedVideo ? cardFeedVideo.currentTime || 0 : 0;
+
+      if (modalGardenTitle) modalGardenTitle.textContent = feed.title;
+      if (modalGardenHeading) modalGardenHeading.textContent = feed.heading;
+      if (modalGardenDesc) modalGardenDesc.textContent = feed.desc;
+
       openModal(gardenModal);
+      loadAndPlayVideo(modalFeedVideo, feed.video, syncTime);
       triggerCRTGlitch(modalGardenStage);
     });
   });
 
   bindModalCloseEvents(gardenModal, () => {
+    if (modalFeedVideo) modalFeedVideo.pause();
     closeModal(gardenModal);
     resetGardenInterval();
   });
@@ -642,6 +597,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (activeModals.size === 0) return;
 
     if (e.key === 'Escape') {
+      if (activeModals.has(gardenModal) && modalFeedVideo) {
+        modalFeedVideo.pause();
+      }
       Array.from(activeModals).forEach(modal => closeModal(modal));
       resetProjectInterval();
       resetArtInterval();

@@ -172,16 +172,16 @@
       </div>
 
       <!-- ========================================== -->
-      <!-- COLUMN 2: MIDDLE (Combined Daily Feed + Live Feed 02) -->
+      <!-- COLUMN 2: MIDDLE (Combined Daily Feed + Clean Video Live Feed) -->
       <!-- ========================================== -->
       <div class="bento-col-mid">
         
-        <!-- Combined Daily Feed: Grow & Tech (Green/Cyan) -->
+        <!-- Combined Daily Feed: Grow & Tech (Green/Cyan - Rigid Header Lock) -->
         <a href="https://www.epicgardening.com/" target="_blank" rel="noopener noreferrer" id="daily-feed-link" class="bento-card theme-green sync-top-card card-link">
-          <div class="bento-header header-split">
+          <div class="bento-header header-split daily-feed-header">
             <div class="header-title-group">
               <span class="dot"></span>
-              <span id="daily-feed-header-label">DAILY FEED</span>
+              <span id="daily-feed-header-label" class="daily-header-label">GROW FEED</span>
             </div>
             <div class="header-controls-group">
               <div class="feed-mode-pills" role="group" aria-label="Feed Category Filter">
@@ -201,26 +201,21 @@
           </div>
         </a>
         
-        <!-- Live Feed (Amber - Pulsing Live Dot + Loose Cable CRT Flicker) -->
+        <!-- Live Feed (Amber - Top Bar Intact + Clean Video Window) -->
         <div id="growth" class="bento-card theme-amber stretch-card open-garden-modal" style="cursor: pointer;">
           <div class="bento-header header-split">
             <div class="header-title-group">
               <span class="dot pulse-dot"></span>
               <span>LIVE FEED</span>
-              <span id="garden-feed-num" class="feed-cam-num">02</span>
+              <span id="garden-feed-num" class="feed-cam-num">01</span>
             </div>
             <div class="header-controls-group">
               <span id="garden-clock" class="hud-badge hud-time">00:00:00</span>
               <span class="hud-badge">[ FULL VIEW ]</span>
             </div>
           </div>
-          <div class="card-media-wrap crt-viewport live-feed-stage mode-garden" id="card-garden-stage">
-            <img src="images/livinggarden2.png" id="garden-card-img" alt="Live Feed Telemetry" class="locked-stage-img garden-breeze">
-            <div class="server-light-overlay"></div>
-            <div class="live-telemetry-hud" id="card-telemetry-hud">
-              <span class="hud-cam-tag" id="card-hud-cam">CAM_02</span>
-              <span class="hud-metrics" id="card-hud-metrics">77.4°F &bull; 56% RH &bull; 1.18 kPa</span>
-            </div>
+          <div class="card-media-wrap crt-viewport live-feed-stage" id="card-garden-stage">
+            <video id="card-feed-video" class="live-feed-video" src="images/growroom_1.mp4" autoplay muted loop playsinline preload="auto"></video>
           </div>
         </div>
 
@@ -384,7 +379,7 @@
       <div class="modal-header">
         <div class="header-title-group">
           <span class="dot modal-dot-amber pulse-dot"></span>
-          <span class="title" id="modal-garden-title" style="color: var(--accent-amber);">// LIVE FEED TELEMETRY — CAM 02</span>
+          <span class="title" id="modal-garden-title" style="color: var(--accent-amber);">// LIVE FEED TELEMETRY — NODE 01</span>
         </div>
         <div class="modal-header-controls">
           <span class="hud-badge hud-time" id="modal-garden-clock">00:00:00</span>
@@ -392,19 +387,14 @@
         </div>
       </div>
       <div class="modal-body project-layout">
-        <div class="media-frame modal-carousel-frame crt-viewport live-feed-stage mode-garden" id="modal-garden-stage">
+        <div class="media-frame modal-carousel-frame crt-viewport live-feed-stage" id="modal-garden-stage">
           <button class="modal-nav-btn prev" id="modal-garden-prev" aria-label="Previous Feed">&#10094;</button>
-          <img id="modal-garden-img" src="images/livinggarden2.png" alt="Live Feed Telemetry" class="garden-breeze">
-          <div class="server-light-overlay"></div>
-          <div class="live-telemetry-hud modal-telemetry-hud" id="modal-telemetry-hud">
-            <span class="hud-cam-tag" id="modal-hud-cam">CAM_02 // CANOPY</span>
-            <span class="hud-metrics" id="modal-hud-metrics">TEMP: 77.4°F &bull; RH: 56% &bull; VPD: 1.18 kPa</span>
-          </div>
+          <video id="modal-feed-video" class="live-feed-video" src="images/growroom_1.mp4" autoplay muted loop playsinline preload="auto"></video>
           <button class="modal-nav-btn next" id="modal-garden-next" aria-label="Next Feed">&#10095;</button>
         </div>
         <div class="modal-text text-center modal-caption-block">
-          <h3 id="modal-garden-heading" class="modal-item-heading">Canopy Feed 02 — Environmental Telemetry Nominal</h3>
-          <p id="modal-garden-desc" class="modal-clean-desc">Active indoor canopy monitoring with automated LED cycle, airflow oscillation, and VPD targets.</p>
+          <h3 id="modal-garden-heading" class="modal-item-heading">Canopy Feed 01 — Bio-Hydroponics Bay</h3>
+          <p id="modal-garden-desc" class="modal-clean-desc">Active subterranean industrial growth sector monitoring automated nutrient flow and UV canopy lighting.</p>
         </div>
       </div>
     </div>
