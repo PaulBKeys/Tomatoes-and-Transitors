@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ==========================================
-  // 2. FEATURED PROJECTS CAROUSEL & MODAL (CALM 18s INTERVAL + NO DUPLICATE HERO)
+  // 2. FEATURED PROJECTS CAROUSEL & MODAL (CALM 18s INTERVAL)
   // ==========================================
   const projectsData = [
     {
@@ -138,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const imgEl = document.createElement('img');
       imgEl.src = proj.img;
       imgEl.alt = proj.title;
+      imgEl.loading = idx === 0 ? 'eager' : 'lazy';
       imgEl.className = `project-slide-img ${activeClass}`;
       imgEl.setAttribute('data-index', idx);
       imagesTrack.appendChild(imgEl);
@@ -516,10 +517,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modalGardenHeading) modalGardenHeading.textContent = feed.heading;
     if (modalGardenDesc) modalGardenDesc.textContent = feed.desc;
 
+    // Only load and play the modal video if the modal is actively open
     if (activeModals.has(gardenModal)) {
       loadAndPlayVideo(modalFeedVideo, feed.video, 0);
-    } else if (modalFeedVideo) {
-      modalFeedVideo.setAttribute('src', feed.video);
     }
   };
 
@@ -807,7 +807,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const initUnifiedDailyFeed = async () => {
     const DAILY_CYCLE_MS = 15000;
-    const cardEl = document.getElementById('daily-feed-link');
+    const cardEl = document.getElementById('daily-feed-card') || document.getElementById('daily-feed-link');
+    const linkEl = document.getElementById('daily-feed-link');
     const headerLabelEl = document.getElementById('daily-feed-header-label');
     const badgeEl = document.getElementById('daily-source-badge');
     const titleEl = document.getElementById('daily-link-title');
@@ -816,7 +817,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const textWrapEl = document.getElementById('daily-text-wrap');
     const filterBtns = document.querySelectorAll('.feed-filter-btn');
 
-    if (!cardEl || !titleEl) return;
+    if (!cardEl || !linkEl || !titleEl) return;
 
     let masterPool = [
       growFallbackPool[0],
@@ -852,8 +853,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (badgeEl) badgeEl.textContent = item.source;
         titleEl.textContent = item.title;
         if (descEl) descEl.textContent = item.desc;
-        cardEl.href = item.link;
-        cardEl.title = `[${item.source}] ${item.title}`;
+        linkEl.href = item.link;
+        linkEl.title = `[${item.source}] ${item.title}`;
         applyFeedThumbnail(imgEl, item.img, defaultFallback);
 
         if (textWrapEl) textWrapEl.classList.remove('feed-fade-transition');
@@ -1049,15 +1050,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderGitHubTelemetry(container, [
       {
-        dateStr: '[2026-10-14]',
-        hash: '5316397',
-        msg: 'Change_V4: Bento architecture & telemetry updates',
+        dateStr: '[2026-10-16]',
+        hash: '757754e',
+        msg: 'Change_V8: Live video feeds & Bento polish',
         url: 'https://github.com/PaulBKeys/Tomatoes-and-Transitors'
       },
       {
-        dateStr: '[2026-10-12]',
-        hash: '8a4b210',
-        msg: 'Responsive viewport & modal carousel refinements',
+        dateStr: '[2026-10-16]',
+        hash: 'fff7f2e',
+        msg: 'Change_V7: Unified telemetry & layout refinements',
         url: 'https://github.com/PaulBKeys/Tomatoes-and-Transitors'
       }
     ], langSplit);

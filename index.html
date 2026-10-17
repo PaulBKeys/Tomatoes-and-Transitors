@@ -28,7 +28,7 @@
           <a href="#growth" class="dock-nav-link open-garden-modal" data-target="growth">GROWTH</a>
           <a href="#archives" class="dock-nav-link open-archive-modal" data-target="archives">ARCHIVES</a>
           <div class="dock-nav-tools">
-            <button class="nav-tool-btn open-about-modal" data-target="about-card" title="About Paul Keys" aria-label="About Paul Keys">
+            <button type="button" class="nav-tool-btn open-about-modal" data-target="about-card" title="About Paul Keys" aria-label="About Paul Keys">
               <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
@@ -111,9 +111,9 @@
           </div>
 
           <div class="carousel-footer-nav">
-            <button class="carousel-footer-btn prev" id="card-proj-prev" aria-label="Previous Project">&#10094;</button>
+            <button type="button" class="carousel-footer-btn prev" id="card-proj-prev" aria-label="Previous Project">&#10094;</button>
             <div class="bento-pagination" id="carousel-dots-container"></div>
-            <button class="carousel-footer-btn next" id="card-proj-next" aria-label="Next Project">&#10095;</button>
+            <button type="button" class="carousel-footer-btn next" id="card-proj-next" aria-label="Next Project">&#10095;</button>
           </div>
         </div>
 
@@ -176,8 +176,8 @@
       <!-- ========================================== -->
       <div class="bento-col-mid">
         
-        <!-- Combined Daily Feed: Grow & Tech (Green/Cyan - Rigid Header Lock) -->
-        <a href="https://www.epicgardening.com/" target="_blank" rel="noopener noreferrer" id="daily-feed-link" class="bento-card theme-green sync-top-card card-link">
+        <!-- Combined Daily Feed: Grow & Tech (Valid HTML5 structure with inner link) -->
+        <div id="daily-feed-card" class="bento-card theme-green sync-top-card">
           <div class="bento-header header-split daily-feed-header">
             <div class="header-title-group">
               <span class="dot"></span>
@@ -192,16 +192,19 @@
               <span class="hud-badge source-badge" id="daily-source-badge">EPIC GARDENING</span>
             </div>
           </div>
-          <div class="rss-img-wrap">
-            <img src="images/livinggarden.png" id="daily-link-img" data-fallback="images/livinggarden.png" referrerpolicy="no-referrer" alt="Daily Feed" class="bento-img rss-locked-img">
-          </div>
-          <div class="rss-text-wrap" id="daily-text-wrap">
-            <div class="bento-title clamp-2" id="daily-link-title">Soil Perlite Ratios, Fabric Grow Bags &amp; Root Zone Oxygenation Guide</div>
-            <div class="bento-desc clamp-2" id="daily-link-desc">How breathable fabric containers and proper aeration amendments prevent root-bound stress and boost nutrient uptake.</div>
-          </div>
-        </a>
+
+          <a href="https://www.epicgardening.com/" target="_blank" rel="noopener noreferrer" id="daily-feed-link" class="card-link daily-content-link">
+            <div class="rss-img-wrap">
+              <img src="images/livinggarden.png" id="daily-link-img" data-fallback="images/livinggarden.png" referrerpolicy="no-referrer" alt="Daily Feed" class="bento-img rss-locked-img">
+            </div>
+            <div class="rss-text-wrap" id="daily-text-wrap">
+              <div class="bento-title clamp-2" id="daily-link-title">Soil Perlite Ratios, Fabric Grow Bags &amp; Root Zone Oxygenation Guide</div>
+              <div class="bento-desc clamp-2" id="daily-link-desc">How breathable fabric containers and proper aeration amendments prevent root-bound stress and boost nutrient uptake.</div>
+            </div>
+          </a>
+        </div>
         
-        <!-- Live Feed (Amber - Top Bar Intact + Clean Video Window) -->
+        <!-- Live Feed (Amber - Synced to growroom_2.mp4) -->
         <div id="growth" class="bento-card theme-amber stretch-card open-garden-modal" style="cursor: pointer;">
           <div class="bento-header header-split">
             <div class="header-title-group">
@@ -215,7 +218,7 @@
             </div>
           </div>
           <div class="card-media-wrap crt-viewport live-feed-stage" id="card-garden-stage">
-            <video id="card-feed-video" class="live-feed-video" src="images/growroom_1.mp4" autoplay muted loop playsinline preload="auto"></video>
+            <video id="card-feed-video" class="live-feed-video" src="images/growroom_2.mp4" autoplay muted loop playsinline preload="metadata"></video>
           </div>
         </div>
 
@@ -292,7 +295,7 @@
           <span class="dot modal-dot-amber"></span>
           <span class="title" id="about-modal-title" style="color: var(--accent-amber);">// ABOUT PAUL KEYS</span>
         </div>
-        <button class="close-btn" aria-label="Close Modal">&times;</button>
+        <button type="button" class="close-btn" aria-label="Close Modal">&times;</button>
       </div>
       <div class="modal-body profile-layout">
         <div class="profile-img-frame">
@@ -328,14 +331,14 @@
         </div>
         <div class="modal-header-controls">
           <span class="hud-badge" id="modal-project-counter">1 / 6</span>
-          <button class="close-btn" aria-label="Close Modal">&times;</button>
+          <button type="button" class="close-btn" aria-label="Close Modal">&times;</button>
         </div>
       </div>
       <div class="modal-body project-layout">
         <div class="media-frame modal-carousel-frame" id="modal-project-touch">
-          <button class="modal-nav-btn prev" id="modal-proj-prev" aria-label="Previous Project">&#10094;</button>
+          <button type="button" class="modal-nav-btn prev" id="modal-proj-prev" aria-label="Previous Project">&#10094;</button>
           <img id="modal-project-img" src="images/VS_thumb1.png" alt="Project">
-          <button class="modal-nav-btn next" id="modal-proj-next" aria-label="Next Project">&#10095;</button>
+          <button type="button" class="modal-nav-btn next" id="modal-proj-next" aria-label="Next Project">&#10095;</button>
         </div>
         <div class="modal-text text-center modal-caption-block">
           <h3 id="modal-project-heading" class="modal-item-heading">Technology &amp; Innovation</h3>
@@ -355,15 +358,15 @@
         </div>
         <div class="modal-header-controls">
           <span class="hud-badge" id="modal-art-counter">1 / 28</span>
-          <button class="close-btn" aria-label="Close Modal">&times;</button>
+          <button type="button" class="close-btn" aria-label="Close Modal">&times;</button>
         </div>
       </div>
       <div class="modal-body project-layout">
         <div class="media-frame modal-carousel-frame art-modal-stage" id="modal-art-touch">
-          <button class="modal-nav-btn prev" id="modal-art-prev" aria-label="Previous Render">&#10094;</button>
+          <button type="button" class="modal-nav-btn prev" id="modal-art-prev" aria-label="Previous Render">&#10094;</button>
           <img id="modal-art-backdrop" src="images/art/limestone-peak1.jpg" alt="" aria-hidden="true" class="art-backdrop-img">
           <img id="modal-art-img" src="images/art/limestone-peak1.jpg" alt="Art Render" class="modal-art-foreground">
-          <button class="modal-nav-btn next" id="modal-art-next" aria-label="Next Render">&#10095;</button>
+          <button type="button" class="modal-nav-btn next" id="modal-art-next" aria-label="Next Render">&#10095;</button>
         </div>
         <div class="modal-text text-center modal-caption-block">
           <h3 id="modal-art-heading" class="modal-item-heading">Limestone Peak 1</h3>
@@ -383,18 +386,18 @@
         </div>
         <div class="modal-header-controls">
           <span class="hud-badge hud-time" id="modal-garden-clock">00:00:00</span>
-          <button class="close-btn" aria-label="Close Modal">&times;</button>
+          <button type="button" class="close-btn" aria-label="Close Modal">&times;</button>
         </div>
       </div>
       <div class="modal-body project-layout">
         <div class="media-frame modal-carousel-frame crt-viewport live-feed-stage" id="modal-garden-stage">
-          <button class="modal-nav-btn prev" id="modal-garden-prev" aria-label="Previous Feed">&#10094;</button>
-          <video id="modal-feed-video" class="live-feed-video" src="images/growroom_1.mp4" autoplay muted loop playsinline preload="auto"></video>
-          <button class="modal-nav-btn next" id="modal-garden-next" aria-label="Next Feed">&#10095;</button>
+          <button type="button" class="modal-nav-btn prev" id="modal-garden-prev" aria-label="Previous Feed">&#10094;</button>
+          <video id="modal-feed-video" class="live-feed-video" src="images/growroom_2.mp4" muted loop playsinline preload="none"></video>
+          <button type="button" class="modal-nav-btn next" id="modal-garden-next" aria-label="Next Feed">&#10095;</button>
         </div>
         <div class="modal-text text-center modal-caption-block">
-          <h3 id="modal-garden-heading" class="modal-item-heading">Canopy Feed 01 — Bio-Hydroponics Bay</h3>
-          <p id="modal-garden-desc" class="modal-clean-desc">Active subterranean industrial growth sector monitoring automated nutrient flow and UV canopy lighting.</p>
+          <h3 id="modal-garden-heading" class="modal-item-heading">Canopy Feed 01 — Subterranean Cavern Sector</h3>
+          <p id="modal-garden-desc" class="modal-clean-desc">Deep-rock vault cultivation array with automated trellis tracking and pressurized atmospheric misting.</p>
         </div>
       </div>
     </div>
